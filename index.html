@@ -276,6 +276,9 @@
             transition: var(--transition);
             position: relative;
             cursor: pointer;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
         }
 
         .tool-card:hover {
@@ -320,6 +323,9 @@
 
         .tool-content {
             padding: 1.8rem;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
         }
 
         .tool-content h3 {
@@ -332,6 +338,7 @@
             color: var(--secondary-color);
             margin-bottom: 1.5rem;
             font-size: 0.95rem;
+            flex-grow: 1;
         }
 
         .tool-meta {
@@ -339,6 +346,7 @@
             justify-content: space-between;
             color: var(--secondary-color);
             font-size: 0.9rem;
+            margin-top: auto;
         }
 
         .tool-stats {
@@ -682,223 +690,167 @@
             </div>
 
             <div class="tools-grid">
-                <!-- Image Tools -->
-                <div class="tool-card">
-                    <div class="tool-badge">Popular</div>
-                    <div class="tool-image">
-                        <i class="fas fa-compress-arrows-alt"></i>
-                    </div>
-                    <div class="tool-content">
-                        <a href="image-compress.html" style="text-decoration: none; color: inherit; display: block;">
-    <div class="tool-card">
-        <div class="tool-badge">Popular</div>
-        <div class="tool-image">
-            <i class="fas fa-compress-arrows-alt"></i>
-        </div>
-        <div class="tool-content">
-            <h3>Image Compressor</h3>
-            <p>Reduce image file size without losing quality. Supports JPG, PNG, WebP formats.</p>
-            <div class="tool-meta">
-                <div class="tool-stats">
-                    <span><i class="fas fa-star"></i> 4.9</span>
-                    <span><i class="fas fa-users"></i> 50K+</span>
-                </div>
-                <span>Free</span>
-            </div>
-</a>
+                <!-- Image Compressor Tool -->
+                <a href="image-compress.html" style="text-decoration: none; color: inherit;">
+                    <div class="tool-card">
+                        <div class="tool-badge">Popular</div>
+                        <div class="tool-image">
+                            <i class="fas fa-compress-arrows-alt"></i>
                         </div>
-                    </div>
-                </div>
-
-                <div class="tool-card">
-                    <div class="tool-image">
-                        <i class="fas fa-exchange-alt"></i>
-                    </div>
-                    <div class="tool-content">
-                        <h3>Image Converter</h3>
-                        <p>Convert images between JPG, PNG, WebP, GIF, and more formats with one click.</p>
-                        <div class="tool-meta">
-                            <div class="tool-stats">
-                                <span><i class="fas fa-star"></i> 4.8</span>
-                                <span><i class="fas fa-users"></i> 35K+</span>
+                        <div class="tool-content">
+                            <h3>Image Compressor</h3>
+                            <p>Reduce image file size without losing quality. Supports JPG, PNG, WebP formats.</p>
+                            <div class="tool-meta">
+                                <div class="tool-stats">
+                                    <span><i class="fas fa-star"></i> 4.9</span>
+                                    <span><i class="fas fa-users"></i> 50K+</span>
+                                </div>
+                                <span>Free</span>
                             </div>
-                            <span>Free</span>
                         </div>
                     </div>
-                </div>
+                </a>
 
-                <div class="tool-card">
-                    <div class="tool-image">
-                        <i class="fas fa-crop-alt"></i>
-                    </div>
-                    <div class="tool-content">
-                        <h3>Image Resizer</h3>
-                        <p>Resize images to specific dimensions or percentages while maintaining quality.</p>
-                        <div class="tool-meta">
-                            <div class="tool-stats">
-                                <span><i class="fas fa-star"></i> 4.7</span>
-                                <span><i class="fas fa-users"></i> 28K+</span>
+                <!-- Image Converter Tool -->
+                <a href="#" style="text-decoration: none; color: inherit;">
+                    <div class="tool-card">
+                        <div class="tool-image">
+                            <i class="fas fa-exchange-alt"></i>
+                        </div>
+                        <div class="tool-content">
+                            <h3>Image Converter</h3>
+                            <p>Convert images between JPG, PNG, WebP, GIF, and more formats with one click.</p>
+                            <div class="tool-meta">
+                                <div class="tool-stats">
+                                    <span><i class="fas fa-star"></i> 4.8</span>
+                                    <span><i class="fas fa-users"></i> 35K+</span>
+                                </div>
+                                <span>Free</span>
                             </div>
-                            <span>Free</span>
                         </div>
                     </div>
-                </div>
+                </a>
 
-                <div class="tool-card">
-                    <div class="tool-image">
-                        <i class="fas fa-magic"></i>
-                    </div>
-                    <div class="tool-content">
-                        <h3>Background Remover</h3>
-                        <p>Automatically remove backgrounds from images with AI-powered technology.</p>
-                        <div class="tool-meta">
-                            <div class="tool-stats">
-                                <span><i class="fas fa-star"></i> 4.6</span>
-                                <span><i class="fas fa-users"></i> 42K+</span>
+                <!-- Image Resizer Tool -->
+                <a href="#" style="text-decoration: none; color: inherit;">
+                    <div class="tool-card">
+                        <div class="tool-image">
+                            <i class="fas fa-crop-alt"></i>
+                        </div>
+                        <div class="tool-content">
+                            <h3>Image Resizer</h3>
+                            <p>Resize images to specific dimensions or percentages while maintaining quality.</p>
+                            <div class="tool-meta">
+                                <div class="tool-stats">
+                                    <span><i class="fas fa-star"></i> 4.7</span>
+                                    <span><i class="fas fa-users"></i> 28K+</span>
+                                </div>
+                                <span>Free</span>
                             </div>
-                            <span>Free</span>
                         </div>
                     </div>
-                </div>
+                </a>
 
-                <!-- PDF Tools -->
-                <div class="tool-card">
-                    <div class="tool-badge">Popular</div>
-                    <div class="tool-image">
-                        <i class="fas fa-file-pdf"></i>
-                    </div>
-                    <div class="tool-content">
-                        <h3>PDF Compressor</h3>
-                        <p>Reduce PDF file size while preserving quality. Perfect for email and web use.</p>
-                        <div class="tool-meta">
-                            <div class="tool-stats">
-                                <span><i class="fas fa-star"></i> 4.8</span>
-                                <span><i class="fas fa-users"></i> 38K+</span>
+                <!-- Background Remover Tool -->
+                <a href="#" style="text-decoration: none; color: inherit;">
+                    <div class="tool-card">
+                        <div class="tool-image">
+                            <i class="fas fa-magic"></i>
+                        </div>
+                        <div class="tool-content">
+                            <h3>Background Remover</h3>
+                            <p>Automatically remove backgrounds from images with AI-powered technology.</p>
+                            <div class="tool-meta">
+                                <div class="tool-stats">
+                                    <span><i class="fas fa-star"></i> 4.6</span>
+                                    <span><i class="fas fa-users"></i> 42K+</span>
+                                </div>
+                                <span>Free</span>
                             </div>
-                            <span>Free</span>
                         </div>
                     </div>
-                </div>
+                </a>
 
-                <div class="tool-card">
-                    <div class="tool-image">
-                        <i class="fas fa-object-group"></i>
-                    </div>
-                    <div class="tool-content">
-                        <h3>PDF Merger</h3>
-                        <p>Combine multiple PDF files into one document. Rearrange pages as needed.</p>
-                        <div class="tool-meta">
-                            <div class="tool-stats">
-                                <span><i class="fas fa-star"></i> 4.7</span>
-                                <span><i class="fas fa-users"></i> 32K+</span>
+                <!-- PDF Compressor Tool -->
+                <a href="#" style="text-decoration: none; color: inherit;">
+                    <div class="tool-card">
+                        <div class="tool-badge">Popular</div>
+                        <div class="tool-image">
+                            <i class="fas fa-file-pdf"></i>
+                        </div>
+                        <div class="tool-content">
+                            <h3>PDF Compressor</h3>
+                            <p>Reduce PDF file size while preserving quality. Perfect for email and web use.</p>
+                            <div class="tool-meta">
+                                <div class="tool-stats">
+                                    <span><i class="fas fa-star"></i> 4.8</span>
+                                    <span><i class="fas fa-users"></i> 38K+</span>
+                                </div>
+                                <span>Free</span>
                             </div>
-                            <span>Free</span>
                         </div>
                     </div>
-                </div>
+                </a>
 
-                <div class="tool-card">
-                    <div class="tool-image">
-                        <i class="fas fa-cut"></i>
-                    </div>
-                    <div class="tool-content">
-                        <h3>PDF Splitter</h3>
-                        <p>Split PDF files into multiple documents or extract specific pages.</p>
-                        <div class="tool-meta">
-                            <div class="tool-stats">
-                                <span><i class="fas fa-star"></i> 4.6</span>
-                                <span><i class="fas fa-users"></i> 25K+</span>
+                <!-- PDF Merger Tool -->
+                <a href="#" style="text-decoration: none; color: inherit;">
+                    <div class="tool-card">
+                        <div class="tool-image">
+                            <i class="fas fa-object-group"></i>
+                        </div>
+                        <div class="tool-content">
+                            <h3>PDF Merger</h3>
+                            <p>Combine multiple PDF files into one document. Rearrange pages as needed.</p>
+                            <div class="tool-meta">
+                                <div class="tool-stats">
+                                    <span><i class="fas fa-star"></i> 4.7</span>
+                                    <span><i class="fas fa-users"></i> 32K+</span>
+                                </div>
+                                <span>Free</span>
                             </div>
-                            <span>Free</span>
                         </div>
                     </div>
-                </div>
+                </a>
 
-                <div class="tool-card">
-                    <div class="tool-image">
-                        <i class="fas fa-lock"></i>
-                    </div>
-                    <div class="tool-content">
-                        <h3>PDF Protector</h3>
-                        <p>Add passwords and permissions to your PDF files to secure sensitive data.</p>
-                        <div class="tool-meta">
-                            <div class="tool-stats">
-                                <span><i class="fas fa-star"></i> 4.7</span>
-                                <span><i class="fas fa-users"></i> 22K+</span>
+                <!-- PDF Splitter Tool -->
+                <a href="#" style="text-decoration: none; color: inherit;">
+                    <div class="tool-card">
+                        <div class="tool-image">
+                            <i class="fas fa-cut"></i>
+                        </div>
+                        <div class="tool-content">
+                            <h3>PDF Splitter</h3>
+                            <p>Split PDF files into multiple documents or extract specific pages.</p>
+                            <div class="tool-meta">
+                                <div class="tool-stats">
+                                    <span><i class="fas fa-star"></i> 4.6</span>
+                                    <span><i class="fas fa-users"></i> 25K+</span>
+                                </div>
+                                <span>Free</span>
                             </div>
-                            <span>Free</span>
                         </div>
                     </div>
-                </div>
+                </a>
 
-                <!-- Additional Tools -->
-                <div class="tool-card">
-                    <div class="tool-image">
-                        <i class="fas fa-file-word"></i>
-                    </div>
-                    <div class="tool-content">
-                        <h3>PDF to Word</h3>
-                        <p>Convert PDF files to editable Word documents while preserving formatting.</p>
-                        <div class="tool-meta">
-                            <div class="tool-stats">
-                                <span><i class="fas fa-star"></i> 4.5</span>
-                                <span><i class="fas fa-users"></i> 30K+</span>
+                <!-- PDF Protector Tool -->
+                <a href="#" style="text-decoration: none; color: inherit;">
+                    <div class="tool-card">
+                        <div class="tool-image">
+                            <i class="fas fa-lock"></i>
+                        </div>
+                        <div class="tool-content">
+                            <h3>PDF Protector</h3>
+                            <p>Add passwords and permissions to your PDF files to secure sensitive data.</p>
+                            <div class="tool-meta">
+                                <div class="tool-stats">
+                                    <span><i class="fas fa-star"></i> 4.7</span>
+                                    <span><i class="fas fa-users"></i> 22K+</span>
+                                </div>
+                                <span>Free</span>
                             </div>
-                            <span>Free</span>
                         </div>
                     </div>
-                </div>
-
-                <div class="tool-card">
-                    <div class="tool-image">
-                        <i class="fas fa-file-excel"></i>
-                    </div>
-                    <div class="tool-content">
-                        <h3>PDF to Excel</h3>
-                        <p>Extract tables from PDF files and convert them to editable Excel spreadsheets.</p>
-                        <div class="tool-meta">
-                            <div class="tool-stats">
-                                <span><i class="fas fa-star"></i> 4.4</span>
-                                <span><i class="fas fa-users"></i> 18K+</span>
-                            </div>
-                            <span>Free</span>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="tool-card">
-                    <div class="tool-image">
-                        <i class="fas fa-palette"></i>
-                    </div>
-                    <div class="tool-content">
-                        <h3>Image Editor</h3>
-                        <p>Basic photo editing tools: crop, rotate, adjust brightness, contrast and more.</p>
-                        <div class="tool-meta">
-                            <div class="tool-stats">
-                                <span><i class="fas fa-star"></i> 4.6</span>
-                                <span><i class="fas fa-users"></i> 27K+</span>
-                            </div>
-                            <span>Free</span>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="tool-card">
-                    <div class="tool-image">
-                        <i class="fas fa-water"></i>
-                    </div>
-                    <div class="tool-content">
-                        <h3>Watermark Tool</h3>
-                        <p>Add text or image watermarks to protect your photos and documents.</p>
-                        <div class="tool-meta">
-                            <div class="tool-stats">
-                                <span><i class="fas fa-star"></i> 4.5</span>
-                                <span><i class="fas fa-users"></i> 20K+</span>
-                            </div>
-                            <span>Free</span>
-                        </div>
-                    </div>
-                </div>
+                </a>
             </div>
         </div>
     </section>
@@ -1007,7 +959,7 @@
                 <div class="footer-column">
                     <h3>Image Tools</h3>
                     <ul>
-                        <li><a href="#">Image Compressor</a></li>
+                        <li><a href="image-compressor.html">Image Compressor</a></li>
                         <li><a href="#">Image Converter</a></li>
                         <li><a href="#">Image Resizer</a></li>
                         <li><a href="#">Background Remover</a></li>
@@ -1066,14 +1018,8 @@
             }
         });
 
-        // Tool card click handlers
-        document.querySelectorAll('.tool-card').forEach(card => {
-            card.addEventListener('click', function() {
-                const toolName = this.querySelector('h3').textContent;
-                alert(`Opening ${toolName} tool...`);
-                // In a real implementation, this would redirect to the tool page
-            });
-        });
+        // REMOVED: Tool card click handlers to prevent double navigation
+        // The anchor tags now handle navigation smoothly without popups
     </script>
 </body>
 </html>
