@@ -51,6 +51,7 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
+            flex-wrap: wrap;
         }
 
         .logo {
@@ -62,6 +63,7 @@
         nav ul {
             display: flex;
             list-style: none;
+            flex-wrap: wrap;
         }
 
         nav li {
@@ -73,6 +75,7 @@
             color: var(--secondary-color);
             font-weight: 500;
             transition: color 0.3s;
+            font-size: 0.9rem;
         }
 
         nav a:hover {
@@ -82,20 +85,21 @@
         .hero {
             background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
             color: white;
-            padding: 3rem 0;
+            padding: 2rem 0;
             text-align: center;
             margin-bottom: 2rem;
         }
 
         .hero h1 {
-            font-size: 2.5rem;
+            font-size: 2rem;
             margin-bottom: 1rem;
         }
 
         .hero p {
-            font-size: 1.2rem;
+            font-size: 1.1rem;
             max-width: 700px;
             margin: 0 auto 1.5rem;
+            padding: 0 1rem;
         }
 
         .main-content {
@@ -115,7 +119,13 @@
             background-color: white;
             border-radius: var(--border-radius);
             box-shadow: var(--box-shadow);
-            padding: 2rem;
+            padding: 1.5rem;
+        }
+
+        @media (max-width: 768px) {
+            .compression-tool {
+                padding: 1rem;
+            }
         }
 
         .tool-section {
@@ -125,15 +135,22 @@
         .tool-section h2 {
             margin-bottom: 1rem;
             color: var(--dark-bg);
+            font-size: 1.3rem;
         }
 
         .upload-area {
             border: 2px dashed #ddd;
             border-radius: var(--border-radius);
-            padding: 2rem;
+            padding: 1.5rem;
             text-align: center;
             cursor: pointer;
             transition: border-color 0.3s;
+        }
+
+        @media (max-width: 768px) {
+            .upload-area {
+                padding: 1rem;
+            }
         }
 
         .upload-area:hover {
@@ -141,13 +158,19 @@
         }
 
         .upload-area i {
-            font-size: 3rem;
+            font-size: 2.5rem;
             color: var(--secondary-color);
             margin-bottom: 1rem;
         }
 
         .upload-area p {
             margin-bottom: 1rem;
+            font-size: 0.95rem;
+        }
+
+        .file-types {
+            font-size: 0.8rem;
+            color: var(--secondary-color);
         }
 
         .btn {
@@ -159,6 +182,7 @@
             cursor: pointer;
             font-weight: 600;
             transition: background-color 0.3s;
+            font-size: 0.9rem;
         }
 
         .btn:hover {
@@ -182,9 +206,10 @@
             gap: 1.5rem;
         }
 
-        @media (max-width: 576px) {
+        @media (max-width: 768px) {
             .compression-controls {
                 grid-template-columns: 1fr;
+                gap: 1rem;
             }
         }
 
@@ -196,6 +221,7 @@
             display: block;
             margin-bottom: 0.5rem;
             font-weight: 500;
+            font-size: 0.95rem;
         }
 
         .slider-container {
@@ -225,6 +251,7 @@
             margin-left: 1rem;
             font-weight: 600;
             min-width: 40px;
+            font-size: 0.9rem;
         }
 
         .preview-area {
@@ -237,6 +264,7 @@
         @media (max-width: 768px) {
             .preview-area {
                 grid-template-columns: 1fr;
+                gap: 1rem;
             }
         }
 
@@ -247,14 +275,26 @@
             text-align: center;
         }
 
+        @media (max-width: 768px) {
+            .preview-box {
+                padding: 0.75rem;
+            }
+        }
+
         .preview-box img {
             max-width: 100%;
-            max-height: 300px;
+            max-height: 200px;
             margin-bottom: 1rem;
         }
 
+        @media (max-width: 768px) {
+            .preview-box img {
+                max-height: 150px;
+            }
+        }
+
         .file-info {
-            font-size: 0.9rem;
+            font-size: 0.8rem;
             color: var(--secondary-color);
         }
 
@@ -278,7 +318,7 @@
         }
 
         .ad-label {
-            font-size: 0.8rem;
+            font-size: 0.7rem;
             color: var(--secondary-color);
             margin-bottom: 0.5rem;
         }
@@ -309,10 +349,12 @@
         .features h3 {
             margin-bottom: 1rem;
             color: var(--dark-bg);
+            font-size: 1.1rem;
         }
 
         .features ul {
             list-style-position: inside;
+            font-size: 0.9rem;
         }
 
         .features li {
@@ -335,12 +377,13 @@
         @media (max-width: 768px) {
             .footer-content {
                 grid-template-columns: 1fr;
+                gap: 1.5rem;
             }
         }
 
         .footer-section h3 {
             margin-bottom: 1rem;
-            font-size: 1.2rem;
+            font-size: 1.1rem;
         }
 
         .footer-section p, .footer-section a {
@@ -348,6 +391,7 @@
             margin-bottom: 0.5rem;
             display: block;
             text-decoration: none;
+            font-size: 0.9rem;
         }
 
         .footer-section a:hover {
@@ -360,7 +404,7 @@
             padding-top: 1rem;
             border-top: 1px solid #495057;
             color: #adb5bd;
-            font-size: 0.9rem;
+            font-size: 0.8rem;
         }
 
         .hidden {
@@ -408,16 +452,168 @@
             align-items: center;
         }
 
+        @media (max-width: 768px) {
+            .ad-banner {
+                height: 100px;
+                padding: 0.75rem;
+            }
+        }
+
         .compression-info {
             background-color: #e7f1ff;
             border-radius: var(--border-radius);
             padding: 1rem;
             margin-top: 1rem;
+            font-size: 0.9rem;
         }
 
         .compression-info h4 {
             margin-bottom: 0.5rem;
             color: var(--primary-color);
+            font-size: 1rem;
+        }
+
+        /* Mobile-specific fixes */
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            nav {
+                width: 100%;
+                margin-top: 1rem;
+            }
+            
+            nav ul {
+                justify-content: space-between;
+                width: 100%;
+            }
+            
+            nav li {
+                margin-left: 0;
+                flex: 1;
+                text-align: center;
+            }
+            
+            .hero h1 {
+                font-size: 1.7rem;
+            }
+            
+            .hero p {
+                font-size: 1rem;
+            }
+            
+            .tool-section h2 {
+                font-size: 1.2rem;
+            }
+            
+            .upload-area i {
+                font-size: 2rem;
+            }
+            
+            .upload-area p {
+                font-size: 0.9rem;
+            }
+            
+            .file-types {
+                font-size: 0.75rem;
+            }
+            
+            .btn {
+                padding: 0.6rem 1.2rem;
+                font-size: 0.85rem;
+            }
+            
+            .format-select {
+                font-size: 0.9rem;
+                padding: 0.6rem;
+            }
+            
+            .resize-inputs {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+            
+            .resize-inputs input {
+                width: 100%;
+                padding: 0.6rem;
+            }
+            
+            .compression-info p {
+                font-size: 0.8rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 0 10px;
+            }
+            
+            .hero {
+                padding: 1.5rem 0;
+            }
+            
+            .hero h1 {
+                font-size: 1.5rem;
+            }
+            
+            .compression-tool {
+                padding: 0.75rem;
+            }
+            
+            .tool-section {
+                margin-bottom: 1.5rem;
+            }
+            
+            .upload-area {
+                padding: 1rem 0.5rem;
+            }
+            
+            .preview-box h3 {
+                font-size: 1rem;
+            }
+            
+            .file-info {
+                font-size: 0.75rem;
+            }
+        }
+
+        /* Fix for resize inputs */
+        .resize-inputs {
+            display: flex;
+            gap: 0.5rem;
+            align-items: center;
+        }
+
+        @media (max-width: 768px) {
+            .resize-inputs {
+                flex-direction: column;
+            }
+            
+            .resize-inputs span {
+                display: none;
+            }
+        }
+
+        .resize-inputs input {
+            flex: 1;
+            padding: 0.5rem;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 0.9rem;
+        }
+
+        .checkbox-group {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-top: 0.5rem;
+        }
+
+        .checkbox-group label {
+            margin-bottom: 0;
+            font-size: 0.9rem;
         }
     </style>
 </head>
@@ -559,12 +755,12 @@
                             </select>
                             
                             <label for="resize" style="margin-top: 1rem;">Resize Image (Optional)</label>
-                            <div style="display: flex; gap: 0.5rem;">
-                                <input type="number" id="resizeWidth" placeholder="Width" class="btn-outline" style="flex: 1; padding: 0.5rem;">
+                            <div class="resize-inputs">
+                                <input type="number" id="resizeWidth" placeholder="Width" class="btn-outline">
                                 <span style="line-height: 2.5;">x</span>
-                                <input type="number" id="resizeHeight" placeholder="Height" class="btn-outline" style="flex: 1; padding: 0.5rem;">
+                                <input type="number" id="resizeHeight" placeholder="Height" class="btn-outline">
                             </div>
-                            <div style="margin-top: 0.5rem;">
+                            <div class="checkbox-group">
                                 <input type="checkbox" id="maintainAspect" checked>
                                 <label for="maintainAspect">Maintain aspect ratio</label>
                             </div>
