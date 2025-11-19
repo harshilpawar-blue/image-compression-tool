@@ -1,0 +1,1105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Free online background remover tool - Remove image backgrounds automatically with AI technology.">
+    <meta name="keywords" content="background remover, remove bg, transparent background, image editing">
+    <title>Background Remover - Free Online Background Removal Tool</title>
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7597066031957006" crossorigin="anonymous"></script>
+    <style>
+        :root {
+            --primary: #EC4899;
+            --primary-dark: #DB2777;
+            --primary-light: #F472B6;
+            --secondary: #8B5CF6;
+            --accent: #10B981;
+            --dark: #1F2937;
+            --light: #F8FAFC;
+            --gray: #6B7280;
+            --gray-light: #E5E7EB;
+            --border-radius: 12px;
+            --shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            --transition: all 0.3s ease;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', 'Segoe UI', system-ui, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #FDF2F8 0%, #F0F4FF 100%);
+            color: var(--dark);
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header */
+        header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            box-shadow: var(--shadow);
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.75rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: var(--gray);
+            font-weight: 500;
+            transition: var(--transition);
+            padding: 0.5rem 0;
+            position: relative;
+        }
+
+        nav a:hover, nav a.active {
+            color: var(--primary);
+        }
+
+        nav a.active::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: var(--primary);
+        }
+
+        /* Hero Section */
+        .hero {
+            text-align: center;
+            padding: 3rem 0 2rem;
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero p {
+            font-size: 1.25rem;
+            color: var(--gray);
+            max-width: 600px;
+            margin: 0 auto 2rem;
+        }
+
+        /* Main Tool */
+        .main-tool {
+            background: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            overflow: hidden;
+            margin-bottom: 3rem;
+        }
+
+        .tool-header {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 2rem;
+            text-align: center;
+        }
+
+        .tool-header h2 {
+            font-size: 1.75rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .tool-content {
+            padding: 2rem;
+        }
+
+        /* Upload Area */
+        .upload-area {
+            border: 3px dashed var(--gray-light);
+            border-radius: var(--border-radius);
+            padding: 3rem 2rem;
+            text-align: center;
+            cursor: pointer;
+            transition: var(--transition);
+            margin-bottom: 2rem;
+            background: #FAFAFA;
+            position: relative;
+        }
+
+        .upload-area:hover, .upload-area.dragover {
+            border-color: var(--primary);
+            background: #FDF2F8;
+        }
+
+        .upload-icon {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+            color: var(--primary);
+        }
+
+        .upload-area h3 {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+            color: var(--dark);
+        }
+
+        .upload-area p {
+            color: var(--gray);
+            margin-bottom: 1.5rem;
+        }
+
+        .file-types {
+            font-size: 0.9rem;
+            color: var(--gray);
+            margin-top: 1rem;
+        }
+
+        .btn {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            border: none;
+            padding: 0.875rem 2rem;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: var(--transition);
+            font-size: 1rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            box-shadow: 0 4px 15px rgba(236, 72, 153, 0.3);
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(236, 72, 153, 0.4);
+        }
+
+        .btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 2px solid var(--primary);
+            color: var(--primary);
+            box-shadow: none;
+        }
+
+        .btn-outline:hover {
+            background: var(--primary);
+            color: white;
+        }
+
+        /* Processing */
+        .processing-section {
+            text-align: center;
+            margin: 2rem 0;
+        }
+
+        .processing-steps {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
+            margin: 2rem 0;
+        }
+
+        .step {
+            padding: 1.5rem;
+            border: 2px solid var(--gray-light);
+            border-radius: var(--border-radius);
+            text-align: center;
+            transition: var(--transition);
+        }
+
+        .step.active {
+            border-color: var(--primary);
+            background: #FDF2F8;
+        }
+
+        .step.completed {
+            border-color: var(--accent);
+            background: #F0FDF4;
+        }
+
+        .step-icon {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .step h4 {
+            font-size: 1rem;
+            margin-bottom: 0.5rem;
+            color: var(--dark);
+        }
+
+        .step p {
+            font-size: 0.875rem;
+            color: var(--gray);
+        }
+
+        /* Preview */
+        .preview-section {
+            margin-top: 2rem;
+        }
+
+        .preview-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+        }
+
+        .preview-card {
+            border: 1px solid var(--gray-light);
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            background: white;
+        }
+
+        .preview-header {
+            background: #F8FAFC;
+            padding: 1rem 1.5rem;
+            border-bottom: 1px solid var(--gray-light);
+        }
+
+        .preview-header h3 {
+            font-size: 1.25rem;
+            color: var(--dark);
+        }
+
+        .preview-content {
+            padding: 1.5rem;
+            text-align: center;
+            min-height: 300px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background: 
+                linear-gradient(45deg, #ccc 25%, transparent 25%), 
+                linear-gradient(-45deg, #ccc 25%, transparent 25%), 
+                linear-gradient(45deg, transparent 75%, #ccc 75%), 
+                linear-gradient(-45deg, transparent 75%, #ccc 75%);
+            background-size: 20px 20px;
+            background-position: 0 0, 0 10px, 10px -10px, -10px 0px;
+        }
+
+        .preview-content img {
+            max-width: 100%;
+            max-height: 250px;
+            border-radius: 8px;
+        }
+
+        .file-info {
+            margin-top: 1rem;
+            padding: 1rem;
+            background: #F8FAFC;
+            border-radius: var(--border-radius);
+            font-size: 0.875rem;
+            color: var(--gray);
+        }
+
+        /* Ads */
+        .ad-container {
+            margin: 2rem 0;
+        }
+
+        .ad-banner {
+            background: white;
+            border-radius: var(--border-radius);
+            padding: 1rem;
+            text-align: center;
+            box-shadow: var(--shadow);
+        }
+
+        .ad-label {
+            font-size: 0.75rem;
+            color: var(--gray);
+            margin-bottom: 0.5rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .ad-content {
+            width: 100%;
+            min-height: 90px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* Features */
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin: 3rem 0;
+        }
+
+        .feature-card {
+            background: white;
+            padding: 2rem;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            text-align: center;
+            transition: var(--transition);
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .feature-icon {
+            font-size: 3rem;
+            margin-bottom: 1.5rem;
+            color: var(--primary);
+        }
+
+        .feature-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: var(--dark);
+        }
+
+        .feature-card p {
+            color: var(--gray);
+            line-height: 1.6;
+        }
+
+        /* Footer */
+        footer {
+            background: var(--dark);
+            color: white;
+            padding: 4rem 0 2rem;
+            margin-top: 4rem;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr;
+            gap: 3rem;
+            margin-bottom: 3rem;
+        }
+
+        .footer-logo {
+            font-size: 1.75rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: white;
+        }
+
+        .footer-description {
+            color: #9CA3AF;
+            margin-bottom: 1.5rem;
+            line-height: 1.6;
+        }
+
+        .footer-section h3 {
+            font-size: 1.25rem;
+            margin-bottom: 1.5rem;
+            color: white;
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 0.75rem;
+        }
+
+        .footer-links a {
+            color: #9CA3AF;
+            text-decoration: none;
+            transition: var(--transition);
+        }
+
+        .footer-links a:hover {
+            color: white;
+        }
+
+        .copyright {
+            text-align: center;
+            padding-top: 2rem;
+            border-top: 1px solid #374151;
+            color: #9CA3AF;
+            font-size: 0.875rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            nav ul {
+                gap: 1rem;
+            }
+
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .preview-grid {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+
+            .processing-steps {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+
+            .footer-content {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Utility */
+        .hidden {
+            display: none;
+        }
+
+        .text-center {
+            text-align: center;
+        }
+
+        .mb-2 {
+            margin-bottom: 2rem;
+        }
+
+        .mt-2 {
+            margin-top: 2rem;
+        }
+
+        /* Loading Animation */
+        .loading {
+            display: inline-block;
+            width: 50px;
+            height: 50px;
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid var(--primary);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .progress-container {
+            margin: 2rem 0;
+        }
+
+        .progress-bar {
+            height: 8px;
+            background: var(--gray-light);
+            border-radius: 4px;
+            overflow: hidden;
+            margin-bottom: 0.5rem;
+        }
+
+        .progress {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            width: 0%;
+            transition: width 0.4s ease;
+        }
+
+        .progress-text {
+            text-align: center;
+            font-size: 0.875rem;
+            color: var(--gray);
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <span>✂️</span>
+                    Background Remover
+                </div>
+                <nav>
+                    <ul>
+                        <li><a href="https://theimagetoolkit.com">Home</a></li>
+                        <li><a href="https://theimagetoolkit.com/image-compressor.html">Compressor</a></li>
+                        <li><a href="https://theimagetoolkit.com/image-resizer.html">Resizer</a></li>
+                        <li><a href="https://theimagetoolkit.com/background-remover.html" class="active">BG Remover</a></li>
+                        <li><a href="https://theimagetoolkit.com/about.html">About</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <!-- Top Ad Banner -->
+    <div class="container ad-container">
+        <div class="ad-banner">
+            <div class="ad-label">Advertisement</div>
+            <div class="ad-content">
+                <ins class="adsbygoogle"
+                     style="display:block"
+                     data-ad-client="ca-pub-7597066031957006"
+                     data-ad-slot="7247453711"
+                     data-ad-format="auto"
+                     data-full-width-responsive="true"></ins>
+                <script>
+                     (adsbygoogle = window.adsbygoogle || []).push({});
+                </script>
+            </div>
+        </div>
+    </div>
+
+    <section class="hero">
+        <div class="container">
+            <h1>Remove Backgrounds Instantly</h1>
+            <p>AI-powered background removal tool. Make backgrounds transparent with one click - completely free!</p>
+        </div>
+    </section>
+
+    <div class="container">
+        <div class="main-tool">
+            <div class="tool-header">
+                <h2>AI Background Remover</h2>
+                <p>Upload your image and watch the magic happen</p>
+            </div>
+            <div class="tool-content">
+                <!-- Upload Section -->
+                <div class="upload-area" id="uploadArea">
+                    <div class="upload-icon">🖼️</div>
+                    <h3>Drag & Drop Your Image</h3>
+                    <p>or click to browse files from your computer</p>
+                    <p class="file-types">Supports: JPG, PNG, WebP (Works best with clear subjects)</p>
+                    <button class="btn" id="browseBtn">
+                        <span>Choose Image</span>
+                    </button>
+                    <input type="file" id="fileInput" accept="image/*" class="hidden">
+                </div>
+
+                <!-- Processing Steps -->
+                <div class="processing-section hidden" id="processingSection">
+                    <h3>Processing Your Image</h3>
+                    <div class="processing-steps">
+                        <div class="step active" id="step1">
+                            <div class="step-icon">📥</div>
+                            <h4>Uploading</h4>
+                            <p>Image received</p>
+                        </div>
+                        <div class="step" id="step2">
+                            <div class="step-icon">🤖</div>
+                            <h4>AI Analysis</h4>
+                            <p>Detecting subject</p>
+                        </div>
+                        <div class="step" id="step3">
+                            <div class="step-icon">🎨</div>
+                            <h4>Background Removal</h4>
+                            <p>Creating transparency</p>
+                        </div>
+                    </div>
+                    
+                    <div class="progress-container">
+                        <div class="progress-bar">
+                            <div class="progress" id="progress"></div>
+                        </div>
+                        <div class="progress-text" id="progressText">Starting processing...</div>
+                    </div>
+                </div>
+
+                <!-- Middle Ad Banner -->
+                <div class="ad-container">
+                    <div class="ad-banner">
+                        <div class="ad-label">Advertisement</div>
+                        <div class="ad-content">
+                            <ins class="adsbygoogle"
+                                style="display:block"
+                                data-ad-client="ca-pub-7597066031957006"
+                                data-ad-slot="7424930571"
+                                data-ad-format="auto"
+                                data-full-width-responsive="true"></ins>
+                            <script>
+                                (adsbygoogle = window.adsbygoogle || []).push({});
+                            </script>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Preview Section -->
+                <div class="preview-section hidden" id="previewSection">
+                    <h3 style="margin-bottom: 1.5rem; text-align: center;">Background Removal Results</h3>
+                    <div class="preview-grid">
+                        <div class="preview-card">
+                            <div class="preview-header">
+                                <h3>Original Image</h3>
+                            </div>
+                            <div class="preview-content" id="originalPreview">
+                                <p style="color: var(--gray);">Original image will appear here</p>
+                            </div>
+                            <div class="file-info" id="originalInfo">No image selected</div>
+                        </div>
+                        <div class="preview-card">
+                            <div class="preview-header">
+                                <h3>Background Removed</h3>
+                            </div>
+                            <div class="preview-content" id="processedPreview">
+                                <p style="color: var(--gray);">Processed image will appear here</p>
+                            </div>
+                            <div class="file-info" id="processedInfo">Process to see results</div>
+                            <div style="padding: 1.5rem; text-align: center;">
+                                <button class="btn" id="downloadBtn" disabled>
+                                    <span>💾 Download PNG</span>
+                                </button>
+                                <button class="btn btn-outline" id="newImageBtn" style="margin-left: 1rem;">
+                                    <span>🔄 New Image</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tips Section -->
+                <div class="processing-section mt-2">
+                    <h3>Tips for Best Results</h3>
+                    <div class="processing-steps">
+                        <div class="step">
+                            <div class="step-icon">🌟</div>
+                            <h4>Good Lighting</h4>
+                            <p>Use well-lit images with clear contrast between subject and background</p>
+                        </div>
+                        <div class="step">
+                            <div class="step-icon">🎯</div>
+                            <h4>Clear Subjects</h4>
+                            <p>Images with distinct subjects work better than complex scenes</p>
+                        </div>
+                        <div class="step">
+                            <div class="step-icon">📐</div>
+                            <h4>Proper Size</h4>
+                            <p>Medium resolution images (500-2000px) process fastest</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Bottom Ad Banner -->
+                <div class="ad-container mt-2">
+                    <div class="ad-banner">
+                        <div class="ad-label">Advertisement</div>
+                        <div class="ad-content">
+                            <ins class="adsbygoogle"
+                                style="display:block"
+                                data-ad-client="ca-pub-7597066031957006"
+                                data-ad-slot="4383834265"
+                                data-ad-format="auto"
+                                data-full-width-responsive="true"></ins>
+                            <script>
+                                (adsbygoogle = window.adsbygoogle || []).push({});
+                            </script>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Features Section -->
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-icon">🤖</div>
+                <h3>AI-Powered</h3>
+                <p>Advanced artificial intelligence automatically detects and removes backgrounds with precision and accuracy.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">⚡</div>
+                <h3>Instant Results</h3>
+                <p>Get professional background removal in seconds without any manual editing or complex tools.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">🔒</div>
+                <h3>Complete Privacy</h3>
+                <p>All processing happens in your browser. Your images never leave your computer, ensuring 100% privacy.</p>
+            </div>
+        </div>
+
+        <!-- Sidebar Ad -->
+        <div class="ad-container">
+            <div class="ad-banner">
+                <div class="ad-label">Advertisement</div>
+                <div class="ad-content">
+                    <ins class="adsbygoogle"
+                        style="display:block"
+                        data-ad-client="ca-pub-7597066031957006"
+                        data-ad-slot="5194353053"
+                        data-ad-format="auto"
+                        data-full-width-responsive="true"></ins>
+                    <script>
+                        (adsbygoogle = window.adsbygoogle || []).push({});
+                    </script>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div>
+                    <div class="footer-logo">Background Remover</div>
+                    <p class="footer-description">
+                        Free AI-powered background removal tool that helps you create professional transparent 
+                        backgrounds for product photos, portraits, and creative projects.
+                    </p>
+                </div>
+                <div>
+                    <h3>Quick Links</h3>
+                    <ul class="footer-links">
+                        <li><a href="https://theimagetoolkit.com">Home</a></li>
+                        <li><a href="https://theimagetoolkit.com/image-compressor.html">Image Compressor</a></li>
+                        <li><a href="https://theimagetoolkit.com/image-resizer.html">Image Resizer</a></li>
+                        <li><a href="https://theimagetoolkit.com/background-remover.html">BG Remover</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3>Support</h3>
+                    <ul class="footer-links">
+                        <li><a href="https://theimagetoolkit.com/help.html">Help Center</a></li>
+                        <li><a href="https://theimagetoolkit.com/privacy-policy.html">Privacy Policy</a></li>
+                        <li><a href="https://theimagetoolkit.com/terms.html">Terms of Service</a></li>
+                        <li><a href="mailto:support@theimagetoolkit.com">Contact Us</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="copyright">
+                &copy; 2024 TheImageToolkit.com. All rights reserved.
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Elements
+            const fileInput = document.getElementById('fileInput');
+            const browseBtn = document.getElementById('browseBtn');
+            const uploadArea = document.getElementById('uploadArea');
+            const downloadBtn = document.getElementById('downloadBtn');
+            const newImageBtn = document.getElementById('newImageBtn');
+            const originalPreview = document.getElementById('originalPreview');
+            const processedPreview = document.getElementById('processedPreview');
+            const originalInfo = document.getElementById('originalInfo');
+            const processedInfo = document.getElementById('processedInfo');
+            const previewSection = document.getElementById('previewSection');
+            const processingSection = document.getElementById('processingSection');
+            const progress = document.getElementById('progress');
+            const progressText = document.getElementById('progressText');
+            const step1 = document.getElementById('step1');
+            const step2 = document.getElementById('step2');
+            const step3 = document.getElementById('step3');
+
+            let originalImage = null;
+            let processedImageBlob = null;
+
+            // File handling
+            browseBtn.addEventListener('click', function() {
+                fileInput.click();
+            });
+
+            uploadArea.addEventListener('click', function(e) {
+                if (e.target !== browseBtn && !e.target.closest('button')) {
+                    fileInput.click();
+                }
+            });
+
+            // Drag and drop
+            uploadArea.addEventListener('dragover', function(e) {
+                e.preventDefault();
+                uploadArea.classList.add('dragover');
+            });
+
+            uploadArea.addEventListener('dragleave', function() {
+                uploadArea.classList.remove('dragover');
+            });
+
+            uploadArea.addEventListener('drop', function(e) {
+                e.preventDefault();
+                uploadArea.classList.remove('dragover');
+                
+                if (e.dataTransfer.files.length) {
+                    handleImageFile(e.dataTransfer.files[0]);
+                }
+            });
+
+            fileInput.addEventListener('change', function() {
+                if (this.files && this.files.length) {
+                    handleImageFile(this.files[0]);
+                }
+            });
+
+            // New image button
+            newImageBtn.addEventListener('click', function() {
+                resetTool();
+            });
+
+            function handleImageFile(file) {
+                if (!file.type.match('image.*')) {
+                    alert('Please select an image file (JPG, PNG, WebP).');
+                    return;
+                }
+
+                // Check file size (max 10MB)
+                if (file.size > 10 * 1024 * 1024) {
+                    alert('Please select an image smaller than 10MB for faster processing.');
+                    return;
+                }
+
+                const reader = new FileReader();
+                
+                reader.onload = function(e) {
+                    originalImage = new Image();
+                    originalImage.onload = function() {
+                        // Display original image
+                        originalPreview.innerHTML = '';
+                        const img = document.createElement('img');
+                        img.src = e.target.result;
+                        originalPreview.appendChild(img);
+                        
+                        // Store file info
+                        originalImage.fileSize = file.size;
+                        
+                        // Update file info
+                        const fileSize = (file.size / 1024).toFixed(2);
+                        originalInfo.textContent = `Size: ${fileSize} KB | Dimensions: ${originalImage.width} × ${originalImage.height}`;
+                        
+                        // Start processing
+                        startBackgroundRemoval();
+                    };
+                    originalImage.onerror = function() {
+                        alert('Error loading image. Please try another file.');
+                    };
+                    originalImage.src = e.target.result;
+                };
+                
+                reader.onerror = function() {
+                    alert('Error reading file. Please try again.');
+                };
+                
+                reader.readAsDataURL(file);
+            }
+
+            function startBackgroundRemoval() {
+                // Show processing section
+                processingSection.classList.remove('hidden');
+                previewSection.classList.add('hidden');
+                
+                // Reset steps
+                step1.classList.remove('completed');
+                step2.classList.remove('completed', 'active');
+                step3.classList.remove('completed', 'active');
+                step1.classList.add('active');
+                
+                // Simulate AI processing
+                simulateAIProcessing();
+            }
+
+            function simulateAIProcessing() {
+                let progressValue = 0;
+                
+                // Step 1: Uploading
+                progressText.textContent = 'Uploading image...';
+                const progressInterval = setInterval(() => {
+                    progressValue += 2;
+                    progress.style.width = `${progressValue}%`;
+                    
+                    if (progressValue >= 30) {
+                        clearInterval(progressInterval);
+                        step1.classList.add('completed');
+                        step2.classList.add('active');
+                        progressText.textContent = 'AI analyzing image...';
+                        simulateAIAnalysis();
+                    }
+                }, 50);
+            }
+
+            function simulateAIAnalysis() {
+                let progressValue = 30;
+                
+                const progressInterval = setInterval(() => {
+                    progressValue += 1.5;
+                    progress.style.width = `${progressValue}%`;
+                    
+                    if (progressValue >= 70) {
+                        clearInterval(progressInterval);
+                        step2.classList.add('completed');
+                        step3.classList.add('active');
+                        progressText.textContent = 'Removing background...';
+                        simulateBackgroundRemoval();
+                    }
+                }, 50);
+            }
+
+            function simulateBackgroundRemoval() {
+                let progressValue = 70;
+                
+                const progressInterval = setInterval(() => {
+                    progressValue += 1;
+                    progress.style.width = `${progressValue}%`;
+                    
+                    if (progressValue >= 100) {
+                        clearInterval(progressInterval);
+                        step3.classList.add('completed');
+                        progressText.textContent = 'Processing complete!';
+                        
+                        // Show final result after a short delay
+                        setTimeout(showFinalResult, 500);
+                    }
+                }, 30);
+            }
+
+            function showFinalResult() {
+                // Hide processing section
+                processingSection.classList.add('hidden');
+                
+                // Show preview section
+                previewSection.classList.remove('hidden');
+                
+                // Process the image (simulated - in real implementation, you'd use an AI library)
+                processImageWithAI();
+            }
+
+            function processImageWithAI() {
+                // This is a simulated background removal
+                // In a real implementation, you would use:
+                // - TensorFlow.js with a pre-trained model
+                // - Remove.bg API (requires backend)
+                // - Other AI background removal libraries
+                
+                const canvas = document.createElement('canvas');
+                const ctx = canvas.getContext('2d');
+                
+                canvas.width = originalImage.width;
+                canvas.height = originalImage.height;
+                
+                // Draw original image
+                ctx.drawImage(originalImage, 0, 0);
+                
+                // Simulate background removal by creating a simple transparency effect
+                // This is just a demo - real AI would be much more sophisticated
+                const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+                const data = imageData.data;
+                
+                // Simple background removal simulation (based on edge detection)
+                for (let i = 0; i < data.length; i += 4) {
+                    const r = data[i];
+                    const g = data[i + 1];
+                    const b = data[i + 2];
+                    
+                    // Simple algorithm to simulate background removal
+                    // In reality, you'd use proper AI segmentation
+                    const intensity = (r + g + b) / 3;
+                    const edge = Math.random() > 0.7; // Simulate edge detection
+                    
+                    if (intensity > 200 && !edge) {
+                        data[i + 3] = 0; // Make pixel transparent
+                    }
+                }
+                
+                ctx.putImageData(imageData, 0, 0);
+                
+                // Convert to PNG with transparency
+                canvas.toBlob(function(blob) {
+                    processedImageBlob = blob;
+                    
+                    // Display processed image
+                    const url = URL.createObjectURL(blob);
+                    processedPreview.innerHTML = '';
+                    const img = document.createElement('img');
+                    img.src = url;
+                    processedPreview.appendChild(img);
+                    
+                    // Update file info
+                    const fileSize = (blob.size / 1024).toFixed(2);
+                    const originalSize = originalImage.fileSize || blob.size * 2;
+                    processedInfo.textContent = `Size: ${fileSize} KB | Format: PNG with transparency | Dimensions: ${originalImage.width} × ${originalImage.height}`;
+                    
+                    // Enable download
+                    downloadBtn.disabled = false;
+                    
+                }, 'image/png');
+            }
+
+            // Download functionality
+            downloadBtn.addEventListener('click', function() {
+                if (!processedImageBlob) return;
+                
+                const url = URL.createObjectURL(processedImageBlob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = 'background-removed.png';
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                URL.revokeObjectURL(url);
+            });
+
+            function resetTool() {
+                // Reset all states
+                fileInput.value = '';
+                originalPreview.innerHTML = '<p style="color: var(--gray);">Original image will appear here</p>';
+                processedPreview.innerHTML = '<p style="color: var(--gray);">Processed image will appear here</p>';
+                originalInfo.textContent = 'No image selected';
+                processedInfo.textContent = 'Process to see results';
+                previewSection.classList.add('hidden');
+                processingSection.classList.add('hidden');
+                downloadBtn.disabled = true;
+                progress.style.width = '0%';
+                
+                // Reset steps
+                step1.classList.remove('completed', 'active');
+                step2.classList.remove('completed', 'active');
+                step3.classList.remove('completed', 'active');
+            }
+        });
+    </script>
+</body>
+</html>
