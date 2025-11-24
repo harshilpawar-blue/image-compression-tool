@@ -1,0 +1,1755 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image Cropper - ToolKit Pro</title>
+    <!-- FAVICON -->
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' fill='%234a6cf7' rx='20'/><path d='M30 30 L50 50 L70 30 L65 45 L80 50 L65 55 L70 70 L50 50 L30 70 L35 55 L20 50 L35 45 Z' fill='white'/></svg>">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- AD UNIT -->
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7597066031957006" crossorigin="anonymous"></script>
+    <style>
+        :root {
+            --primary-color: #4a6cf7;
+            --primary-dark: #3a56d4;
+            --secondary-color: #6c757d;
+            --accent-color: #6c5ce7;
+            --gradient: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+            --light-bg: #f5f5fa;
+            --dark-bg: #343a40;
+            --card-bg: #ffffff;
+            --border-radius: 16px;
+            --box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            --transition: all 0.3s ease;
+            --success-color: #28a745;
+            --error-color: #dc3545;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--light-bg);
+            color: #333;
+            line-height: 1.6;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header Styles */
+        header {
+            background-color: var(--card-bg);
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            height: 70px;
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 0;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .logo-icon {
+            width: 40px;
+            height: 40px;
+            background: var(--gradient);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.2rem;
+        }
+
+        .logo-text {
+            font-size: 1.6rem;
+            font-weight: 700;
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+        }
+
+        nav li {
+            margin-left: 1.8rem;
+            position: relative;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: var(--secondary-color);
+            font-weight: 500;
+            transition: var(--transition);
+            position: relative;
+            padding: 0.5rem 0;
+        }
+
+        nav a:hover, nav a.active {
+            color: var(--primary-color);
+        }
+
+        nav a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 3px;
+            bottom: 0;
+            left: 0;
+            background: var(--gradient);
+            transition: var(--transition);
+            border-radius: 3px;
+        }
+
+        nav a:hover::after, nav a.active::after {
+            width: 100%;
+        }
+
+        /* User Menu Styles */
+        .user-menu {
+            display: none;
+            position: relative;
+        }
+
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--gradient);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .user-dropdown {
+            display: none;
+            position: absolute;
+            top: 100%;
+            right: 0;
+            background: white;
+            min-width: 200px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+            border-radius: 10px;
+            padding: 1rem 0;
+            z-index: 1000;
+            margin-top: 10px;
+        }
+
+        .user-dropdown.active {
+            display: block;
+        }
+
+        .user-dropdown a {
+            display: block;
+            padding: 0.7rem 1.5rem;
+            color: var(--secondary-color);
+            text-decoration: none;
+            transition: var(--transition);
+        }
+
+        .user-dropdown a:hover {
+            background: rgba(74, 108, 247, 0.05);
+            color: var(--primary-color);
+        }
+
+        /* Dropdown Styles */
+        .dropdown {
+            position: relative;
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background: white;
+            min-width: 200px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+            border-radius: 10px;
+            padding: 1rem 0;
+            z-index: 1000;
+        }
+
+        .dropdown:hover .dropdown-content {
+            display: block;
+        }
+
+        .dropdown-content a {
+            display: block;
+            padding: 0.7rem 1.5rem;
+            color: var(--secondary-color);
+            text-decoration: none;
+            transition: var(--transition);
+        }
+
+        .dropdown-content a:hover {
+            background: rgba(74, 108, 247, 0.05);
+            color: var(--primary-color);
+        }
+
+        .dropdown-content a i {
+            margin-right: 10px;
+            width: 20px;
+            text-align: center;
+        }
+
+        .auth-buttons {
+            display: flex;
+            gap: 12px;
+        }
+
+        .btn {
+            padding: 0.7rem 1.5rem;
+            border-radius: 10px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            border: none;
+            font-size: 0.95rem;
+        }
+
+        .btn-primary {
+            background: var(--gradient);
+            color: white;
+            box-shadow: 0 4px 15px rgba(74, 108, 247, 0.3);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(74, 108, 247, 0.4);
+        }
+
+        .btn-outline {
+            background-color: transparent;
+            border: 2px solid var(--primary-color);
+            color: var(--primary-color);
+        }
+
+        .btn-outline:hover {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        .mobile-menu {
+            display: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--primary-color);
+        }
+
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 2000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: 20px;
+            width: 90%;
+            max-width: 450px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
+            overflow: hidden;
+            transform: scale(0.9);
+            opacity: 0;
+            transition: all 0.3s ease;
+        }
+
+        .modal.active .modal-content {
+            transform: scale(1);
+            opacity: 1;
+        }
+
+        .modal-header {
+            padding: 1.5rem 2rem;
+            border-bottom: 1px solid #eee;
+            text-align: center;
+        }
+
+        .modal-header h2 {
+            color: var(--dark-bg);
+            font-size: 1.8rem;
+        }
+
+        .modal-body {
+            padding: 2rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+            position: relative;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: var(--dark-bg);
+            font-weight: 500;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 1rem;
+            border: 2px solid #eee;
+            border-radius: 10px;
+            font-size: 1rem;
+            transition: var(--transition);
+        }
+
+        .form-group input:focus {
+            border-color: var(--primary-color);
+            outline: none;
+        }
+
+        .form-group.error input {
+            border-color: var(--error-color);
+        }
+
+        .form-group.success input {
+            border-color: var(--success-color);
+        }
+
+        .form-message {
+            margin-top: 0.5rem;
+            font-size: 0.85rem;
+            display: none;
+        }
+
+        .form-message.error {
+            color: var(--error-color);
+            display: block;
+        }
+
+        .form-message.success {
+            color: var(--success-color);
+            display: block;
+        }
+
+        .modal-footer {
+            padding: 0 2rem 2rem;
+            text-align: center;
+        }
+
+        .modal-footer p {
+            margin-top: 1rem;
+            color: var(--secondary-color);
+        }
+
+        .modal-footer a {
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .modal-footer a:hover {
+            text-decoration: underline;
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--secondary-color);
+            z-index: 10;
+        }
+
+        /* Toast Notification */
+        .toast {
+            position: fixed;
+            top: 100px;
+            right: 20px;
+            padding: 1rem 1.5rem;
+            border-radius: 10px;
+            color: white;
+            font-weight: 500;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            z-index: 3000;
+            transform: translateX(150%);
+            transition: transform 0.3s ease;
+        }
+
+        .toast.show {
+            transform: translateX(0);
+        }
+
+        .toast.success {
+            background: var(--success-color);
+        }
+
+        .toast.error {
+            background: var(--error-color);
+        }
+
+        /* Tool Container */
+        .tool-container {
+            padding: 3rem 0;
+        }
+
+        .tool-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .tool-header h1 {
+            font-size: 2.8rem;
+            margin-bottom: 1rem;
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .tool-header p {
+            color: var(--secondary-color);
+            max-width: 700px;
+            margin: 0 auto;
+            font-size: 1.2rem;
+        }
+
+        .tool-wrapper {
+            display: grid;
+            grid-template-columns: 1fr 300px;
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        /* Tool Area */
+        .tool-area {
+            background: var(--card-bg);
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            padding: 2rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .upload-area {
+            border: 2px dashed #ddd;
+            border-radius: var(--border-radius);
+            padding: 3rem 2rem;
+            text-align: center;
+            transition: var(--transition);
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .upload-area:hover {
+            border-color: var(--primary-color);
+        }
+
+        .upload-area.active {
+            border-color: var(--primary-color);
+            background: rgba(74, 108, 247, 0.05);
+        }
+
+        .upload-icon {
+            font-size: 3rem;
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+        }
+
+        .upload-text {
+            margin-bottom: 1.5rem;
+        }
+
+        .upload-text h3 {
+            margin-bottom: 0.5rem;
+            color: var(--dark-bg);
+        }
+
+        .upload-text p {
+            color: var(--secondary-color);
+        }
+
+        .file-input {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            cursor: pointer;
+        }
+
+        .preview-container {
+            display: none;
+            position: relative;
+            overflow: hidden;
+            border-radius: var(--border-radius);
+            background: #f8f9fa;
+            min-height: 400px;
+            max-height: 600px;
+        }
+
+        #image-preview {
+            max-width: 100%;
+            max-height: 100%;
+            display: block;
+            margin: 0 auto;
+        }
+
+        .crop-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.3);
+            display: none;
+            z-index: 10;
+        }
+
+        .crop-box {
+            position: absolute;
+            border: 2px solid white;
+            box-shadow: 0 0 0 9999px rgba(0, 0, 0, 0.5);
+            cursor: move;
+            z-index: 11;
+        }
+
+        .crop-handle {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background: white;
+            border: 1px solid #333;
+            z-index: 12;
+        }
+
+        .handle-nw { top: -5px; left: -5px; cursor: nw-resize; }
+        .handle-ne { top: -5px; right: -5px; cursor: ne-resize; }
+        .handle-sw { bottom: -5px; left: -5px; cursor: sw-resize; }
+        .handle-se { bottom: -5px; right: -5px; cursor: se-resize; }
+
+        /* Controls */
+        .controls {
+            background: var(--card-bg);
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            padding: 2rem;
+        }
+
+        .control-group {
+            margin-bottom: 2rem;
+        }
+
+        .control-group h3 {
+            margin-bottom: 1rem;
+            color: var(--dark-bg);
+            font-size: 1.2rem;
+        }
+
+        .aspect-ratios {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 0.8rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .aspect-btn {
+            padding: 0.8rem;
+            background: #f8f9fa;
+            border: 1px solid #e9ecef;
+            border-radius: 8px;
+            text-align: center;
+            cursor: pointer;
+            transition: var(--transition);
+            font-weight: 500;
+        }
+
+        .aspect-btn:hover {
+            background: #e9ecef;
+        }
+
+        .aspect-btn.active {
+            background: var(--primary-color);
+            color: white;
+            border-color: var(--primary-color);
+        }
+
+        .dimension-controls {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+
+        .dimension-control {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .dimension-control label {
+            font-weight: 500;
+            color: var(--dark-bg);
+        }
+
+        .dimension-control input {
+            padding: 0.8rem;
+            border: 1px solid #e9ecef;
+            border-radius: 8px;
+            font-size: 1rem;
+        }
+
+        .dimension-control input:focus {
+            border-color: var(--primary-color);
+            outline: none;
+        }
+
+        .action-buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .action-buttons .btn {
+            width: 100%;
+            text-align: center;
+            justify-content: center;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        /* Ad Unit */
+        .ad-unit {
+            background: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            padding: 1.5rem;
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .ad-placeholder {
+            background: #f8f9fa;
+            border: 1px dashed #dee2e6;
+            border-radius: 8px;
+            padding: 2rem;
+            color: var(--secondary-color);
+        }
+
+        /* Features Section */
+        .features {
+            padding: 5rem 0;
+            background: white;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2.5rem;
+        }
+
+        .feature-card {
+            background: var(--card-bg);
+            padding: 2.5rem;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            transition: var(--transition);
+            text-align: center;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .feature-icon {
+            width: 80px;
+            height: 80px;
+            background: var(--gradient);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 2rem;
+            margin: 0 auto 1.5rem;
+        }
+
+        .feature-content h3 {
+            margin-bottom: 1rem;
+            color: var(--dark-bg);
+            font-size: 1.4rem;
+        }
+
+        .feature-content p {
+            color: var(--secondary-color);
+        }
+
+        /* Footer */
+        footer {
+            background: var(--dark-bg);
+            color: white;
+            padding: 4rem 0 2rem;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 3rem;
+            margin-bottom: 3rem;
+        }
+
+        .footer-column h3 {
+            margin-bottom: 1.5rem;
+            font-size: 1.3rem;
+        }
+
+        .footer-column ul {
+            list-style: none;
+        }
+
+        .footer-column li {
+            margin-bottom: 0.8rem;
+        }
+
+        .footer-column a {
+            color: #adb5bd;
+            text-decoration: none;
+            transition: var(--transition);
+        }
+
+        .footer-column a:hover {
+            color: white;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        .social-links a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 42px;
+            height: 42px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            transition: var(--transition);
+            font-size: 1.2rem;
+        }
+
+        .social-links a:hover {
+            background: var(--primary-color);
+            transform: translateY(-3px);
+        }
+
+        .copyright {
+            text-align: center;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: #adb5bd;
+            font-size: 0.95rem;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 992px) {
+            .tool-wrapper {
+                grid-template-columns: 1fr;
+            }
+            
+            .tool-header h1 {
+                font-size: 2.4rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .header-content {
+                flex-wrap: wrap;
+            }
+
+            nav {
+                width: 100%;
+                margin-top: 1.5rem;
+                display: none;
+            }
+
+            nav.active {
+                display: block;
+            }
+
+            nav ul {
+                flex-direction: column;
+            }
+
+            nav li {
+                margin: 0;
+                margin-bottom: 0.8rem;
+            }
+
+            .mobile-menu {
+                display: block;
+            }
+
+            .auth-buttons {
+                margin-left: auto;
+                margin-right: 1rem;
+            }
+
+            .tool-header h1 {
+                font-size: 2.3rem;
+            }
+
+            .tool-header p {
+                font-size: 1.1rem;
+            }
+
+            .dropdown-content {
+                position: static;
+                box-shadow: none;
+                display: none;
+                padding-left: 1rem;
+            }
+
+            .dropdown.active .dropdown-content {
+                display: block;
+            }
+
+            .toast {
+                top: 20px;
+                right: 20px;
+                left: 20px;
+            }
+
+            .aspect-ratios {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 576px) {
+            .tool-container {
+                padding: 2rem 0;
+            }
+
+            .tool-area, .controls {
+                padding: 1.5rem;
+            }
+
+            .upload-area {
+                padding: 2rem 1.5rem;
+            }
+
+            .dimension-controls {
+                grid-template-columns: 1fr;
+            }
+            
+            .aspect-ratios {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <div class="logo-icon">
+                        <i class="fas fa-tools"></i>
+                    </div>
+                    <div class="logo-text">ToolKit Pro</div>
+                </div>
+
+                <div class="mobile-menu">
+                    <i class="fas fa-bars"></i>
+                </div>
+
+                <nav id="main-nav">
+                    <ul>
+                        <li><a href="https://theimagetoolkit.com">Home</a></li>
+                        <li class="dropdown">
+                            <a href="#">All Tools <i class="fas fa-chevron-down"></i></a>
+                            <div class="dropdown-content">
+                                <a href="https://theimagetoolkit.com/image-compressor.html"><i class="fas fa-compress-arrows-alt"></i> Image Compressor</a>
+                                <a href="https://theimagetoolkit.com/image-converter.html"><i class="fas fa-exchange-alt"></i> Image Converter</a>
+                                <a href="#"><i class="fas fa-crop-alt"></i> Image Resizer</a>
+                                <a href="image-cropper.html" class="active"><i class="fas fa-crop"></i> Image Cropper</a>
+                                <a href="#"><i class="fas fa-exchange-alt"></i> Convert to JPG</a>
+                                <a href="#"><i class="fas fa-exchange-alt"></i> Convert from JPG</a>
+                                <a href="#"><i class="fas fa-edit"></i> Photo Editor</a>
+                                <a href="#"><i class="fas fa-expand-arrows-alt"></i> Image Upscaler</a>
+                                <a href="#"><i class="fas fa-magic"></i> Background Remover</a>
+                                <a href="#"><i class="fas fa-laugh"></i> Meme Generator</a>
+                                <a href="#"><i class="fas fa-redo"></i> Image Rotator</a>
+                                <a href="#"><i class="fas fa-code"></i> HTML to Image</a>
+                                <a href="#"><i class="fas fa-tint"></i> Watermark Tool</a>
+                                <a href="#"><i class="fas fa-eye-slash"></i> Blur Tool</a>
+                                <a href="#"><i class="fas fa-file-pdf"></i> PDF Compressor</a>
+                                <a href="#"><i class="fas fa-object-group"></i> PDF Merger</a>
+                                <a href="#"><i class="fas fa-cut"></i> PDF Splitter</a>
+                                <a href="#"><i class="fas fa-lock"></i> PDF Protector</a>
+                            </div>
+                        </li>
+                        <li><a href="https://theimagetoolkit.com/about.html">About</a></li>
+                        <li><a href="https://theimagetoolkit.com/privacy-policy.html">Privacy</a></li>
+                    </ul>    
+                </nav>
+
+                <div class="auth-buttons" id="auth-buttons">
+                    <button class="btn btn-outline" id="login-btn">Login</button>
+                    <button class="btn btn-primary" id="signup-btn">Sign Up</button>
+                </div>
+
+                <div class="user-menu" id="user-menu">
+                    <div class="user-avatar" id="user-avatar">U</div>
+                    <div class="user-dropdown" id="user-dropdown">
+                        <a href="#"><i class="fas fa-user"></i> My Profile</a>
+                        <a href="#"><i class="fas fa-crown"></i> Upgrade to Pro</a>
+                        <a href="#"><i class="fas fa-history"></i> My Tools</a>
+                        <a href="#" id="logout-btn"><i class="fas fa-sign-out-alt"></i> Logout</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Toast Notification -->
+    <div class="toast" id="toast"></div>
+
+    <!-- Login Modal -->
+    <div class="modal" id="login-modal">
+        <div class="modal-content">
+            <button class="close-modal" id="close-login">&times;</button>
+            <div class="modal-header">
+                <h2>Welcome Back</h2>
+            </div>
+            <div class="modal-body">
+                <form id="login-form">
+                    <div class="form-group">
+                        <label for="login-email">Email</label>
+                        <input type="email" id="login-email" placeholder="Enter your email" required>
+                        <div class="form-message" id="login-email-error"></div>
+                    </div>
+                    <div class="form-group">
+                        <label for="login-password">Password</label>
+                        <input type="password" id="login-password" placeholder="Enter your password" required>
+                        <div class="form-message" id="login-password-error"></div>
+                    </div>
+                    <button type="submit" class="btn btn-primary" style="width: 100%;">Login</button>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <p>Don't have an account? <a href="#" id="switch-to-signup">Sign Up</a></p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Signup Modal -->
+    <div class="modal" id="signup-modal">
+        <div class="modal-content">
+            <button class="close-modal" id="close-signup">&times;</button>
+            <div class="modal-header">
+                <h2>Create Account</h2>
+            </div>
+            <div class="modal-body">
+                <form id="signup-form">
+                    <div class="form-group">
+                        <label for="signup-name">Full Name</label>
+                        <input type="text" id="signup-name" placeholder="Enter your full name" required>
+                        <div class="form-message" id="signup-name-error"></div>
+                    </div>
+                    <div class="form-group">
+                        <label for="signup-email">Email</label>
+                        <input type="email" id="signup-email" placeholder="Enter your email" required>
+                        <div class="form-message" id="signup-email-error"></div>
+                    </div>
+                    <div class="form-group">
+                        <label for="signup-password">Password</label>
+                        <input type="password" id="signup-password" placeholder="Create a password" required>
+                        <div class="form-message" id="signup-password-error"></div>
+                    </div>
+                    <div class="form-group">
+                        <label for="signup-confirm">Confirm Password</label>
+                        <input type="password" id="signup-confirm" placeholder="Confirm your password" required>
+                        <div class="form-message" id="signup-confirm-error"></div>
+                    </div>
+                    <button type="submit" class="btn btn-primary" style="width: 100%;">Create Account</button>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <p>Already have an account? <a href="#" id="switch-to-login">Login</a></p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Tool Container -->
+    <section class="tool-container">
+        <div class="container">
+            <div class="tool-header">
+                <h1>Image Cropper</h1>
+                <p>Crop images to remove unwanted areas or focus on specific parts of your photo. Free, fast, and easy to use.</p>
+            </div>
+
+            <div class="tool-wrapper">
+                <div class="tool-area">
+                    <div class="upload-area" id="upload-area">
+                        <div class="upload-icon">
+                            <i class="fas fa-cloud-upload-alt"></i>
+                        </div>
+                        <div class="upload-text">
+                            <h3>Upload an Image</h3>
+                            <p>Drag & drop your image here or click to browse</p>
+                        </div>
+                        <p>Supports JPG, PNG, WebP, GIF (Max 10MB)</p>
+                        <input type="file" id="file-input" class="file-input" accept="image/*">
+                    </div>
+
+                    <div class="preview-container" id="preview-container">
+                        <img id="image-preview" src="" alt="Preview">
+                        <div class="crop-overlay" id="crop-overlay"></div>
+                        <div class="crop-box" id="crop-box">
+                            <div class="crop-handle handle-nw"></div>
+                            <div class="crop-handle handle-ne"></div>
+                            <div class="crop-handle handle-sw"></div>
+                            <div class="crop-handle handle-se"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="controls">
+                    <div class="ad-unit">
+                        <div class="ad-placeholder">
+                            <p>Advertisement</p>
+                            <p>300x250 Ad Unit</p>
+                        </div>
+                    </div>
+
+                    <div class="control-group">
+                        <h3>Aspect Ratio</h3>
+                        <div class="aspect-ratios">
+                            <div class="aspect-btn active" data-ratio="free">Free</div>
+                            <div class="aspect-btn" data-ratio="1:1">1:1</div>
+                            <div class="aspect-btn" data-ratio="4:3">4:3</div>
+                            <div class="aspect-btn" data-ratio="16:9">16:9</div>
+                            <div class="aspect-btn" data-ratio="3:2">3:2</div>
+                            <div class="aspect-btn" data-ratio="2:3">2:3</div>
+                        </div>
+
+                        <div class="dimension-controls">
+                            <div class="dimension-control">
+                                <label for="crop-width">Width (px)</label>
+                                <input type="number" id="crop-width" min="1" value="300">
+                            </div>
+                            <div class="dimension-control">
+                                <label for="crop-height">Height (px)</label>
+                                <input type="number" id="crop-height" min="1" value="200">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="action-buttons">
+                        <button class="btn btn-primary" id="crop-btn">
+                            <i class="fas fa-crop-alt"></i> Crop Image
+                        </button>
+                        <button class="btn btn-outline" id="reset-btn">
+                            <i class="fas fa-redo"></i> Reset
+                        </button>
+                        <button class="btn btn-primary" id="download-btn" disabled>
+                            <i class="fas fa-download"></i> Download
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="ad-unit">
+                <div class="ad-placeholder">
+                    <p>Advertisement</p>
+                    <p>728x90 Ad Unit</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features">
+        <div class="container">
+            <div class="section-title">
+                <h2>Why Use Our Image Cropper?</h2>
+                <p>Our tool offers everything you need for perfect image cropping</p>
+            </div>
+
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <div class="feature-content">
+                        <h3>100% Secure</h3>
+                        <p>All processing happens in your browser. Your images never leave your computer.</p>
+                    </div>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-bolt"></i>
+                    </div>
+                    <div class="feature-content">
+                        <h3>Lightning Fast</h3>
+                        <p>Crop images in seconds with our optimized tool. No waiting for uploads or processing.</p>
+                    </div>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-expand-arrows-alt"></i>
+                    </div>
+                    <div class="feature-content">
+                        <h3>Precise Control</h3>
+                        <p>Drag to select exact cropping area with pixel-perfect precision.</p>
+                    </div>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-mobile-alt"></i>
+                    </div>
+                    <div class="feature-content">
+                        <h3>Mobile Friendly</h3>
+                        <p>Works perfectly on all devices - desktop, tablet, or smartphone.</p>
+                    </div>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-infinity"></i>
+                    </div>
+                    <div class="feature-content">
+                        <h3>No Limits</h3>
+                        <p>Crop as many images as you want with no restrictions or watermarks.</p>
+                    </div>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-comment-dollar"></i>
+                    </div>
+                    <div class="feature-content">
+                        <h3>Completely Free</h3>
+                        <p>Our image cropper is free forever with no hidden costs.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h3>ToolKit Pro</h3>
+                    <p>Your all-in-one solution for image and PDF tools. Free, fast, and secure.</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                    </div>
+                </div>
+
+                <div class="footer-column">
+                    <h3>Image Tools</h3>
+                    <ul>
+                        <li><a href="image-compressor.html">Image Compressor</a></li>
+                        <li><a href="image-converter.html">Image Converter</a></li>
+                        <li><a href="#">Image Resizer</a></li>
+                        <li><a href="#">Image Cropper</a></li>
+                        <li><a href="#">Background Remover</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-column">
+                    <h3>PDF Tools</h3>
+                    <ul>
+                        <li><a href="#">PDF Compressor</a></li>
+                        <li><a href="#">PDF Merger</a></li>
+                        <li><a href="#">PDF Splitter</a></li>
+                        <li><a href="#">PDF to Word</a></li>
+                        <li><a href="#">PDF Protector</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-column">
+                    <h3>Company</h3>
+                    <ul>
+                        <li><a href="#">About Us</a></li>
+                        <li><a href="#">Blog</a></li>
+                        <li><a href="#">Pricing</a></li>
+                        <li><a href="#">Affiliate Program</a></li>
+                        <li><a href="#">Contact</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="copyright">
+                <p>&copy; 2025 ToolKit Pro. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // User Authentication System (same as main page)
+        let currentUser = JSON.parse(localStorage.getItem('currentUser'));
+        let users = JSON.parse(localStorage.getItem('users')) || [];
+
+        // DOM Elements
+        const authButtons = document.getElementById('auth-buttons');
+        const userMenu = document.getElementById('user-menu');
+        const userAvatar = document.getElementById('user-avatar');
+        const userDropdown = document.getElementById('user-dropdown');
+        const logoutBtn = document.getElementById('logout-btn');
+        const loginBtn = document.getElementById('login-btn');
+        const signupBtn = document.getElementById('signup-btn');
+        const loginModal = document.getElementById('login-modal');
+        const signupModal = document.getElementById('signup-modal');
+        const closeLogin = document.getElementById('close-login');
+        const closeSignup = document.getElementById('close-signup');
+        const switchToSignup = document.getElementById('switch-to-signup');
+        const switchToLogin = document.getElementById('switch-to-login');
+        const loginForm = document.getElementById('login-form');
+        const signupForm = document.getElementById('signup-form');
+        const toast = document.getElementById('toast');
+
+        // Image Cropper Variables
+        let originalImage = null;
+        let cropBox = {
+            x: 50,
+            y: 50,
+            width: 300,
+            height: 200
+        };
+        let isDragging = false;
+        let dragStartX, dragStartY;
+        let currentAspectRatio = 'free';
+
+        // DOM Elements for Cropper
+        const uploadArea = document.getElementById('upload-area');
+        const fileInput = document.getElementById('file-input');
+        const previewContainer = document.getElementById('preview-container');
+        const imagePreview = document.getElementById('image-preview');
+        const cropOverlay = document.getElementById('crop-overlay');
+        const cropBoxElement = document.getElementById('crop-box');
+        const cropWidthInput = document.getElementById('crop-width');
+        const cropHeightInput = document.getElementById('crop-height');
+        const aspectBtns = document.querySelectorAll('.aspect-btn');
+        const cropBtn = document.getElementById('crop-btn');
+        const resetBtn = document.getElementById('reset-btn');
+        const downloadBtn = document.getElementById('download-btn');
+
+        // Check if user is logged in
+        function checkAuthStatus() {
+            if (currentUser) {
+                authButtons.style.display = 'none';
+                userMenu.style.display = 'block';
+                userAvatar.textContent = currentUser.name.charAt(0).toUpperCase();
+            } else {
+                authButtons.style.display = 'flex';
+                userMenu.style.display = 'none';
+            }
+        }
+
+        // Show toast notification
+        function showToast(message, type = 'success') {
+            toast.textContent = message;
+            toast.className = `toast ${type} show`;
+            
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 3000);
+        }
+
+        // Show modal with animation
+        function showModal(modal) {
+            modal.style.display = 'flex';
+            setTimeout(() => {
+                modal.classList.add('active');
+            }, 10);
+        }
+
+        // Hide modal with animation
+        function hideModal(modal) {
+            modal.classList.remove('active');
+            setTimeout(() => {
+                modal.style.display = 'none';
+            }, 300);
+        }
+
+        // Form validation
+        function validateEmail(email) {
+            const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            return re.test(email);
+        }
+
+        function validatePassword(password) {
+            return password.length >= 6;
+        }
+
+        // Initialize auth status
+        checkAuthStatus();
+
+        // Event Listeners for Authentication
+        loginBtn.addEventListener('click', () => showModal(loginModal));
+        signupBtn.addEventListener('click', () => showModal(signupModal));
+
+        closeLogin.addEventListener('click', () => hideModal(loginModal));
+        closeSignup.addEventListener('click', () => hideModal(signupModal));
+
+        switchToSignup.addEventListener('click', (e) => {
+            e.preventDefault();
+            hideModal(loginModal);
+            showModal(signupModal);
+        });
+
+        switchToLogin.addEventListener('click', (e) => {
+            e.preventDefault();
+            hideModal(signupModal);
+            showModal(loginModal);
+        });
+
+        // Close modals when clicking outside
+        window.addEventListener('click', (e) => {
+            if (e.target === loginModal) hideModal(loginModal);
+            if (e.target === signupModal) hideModal(signupModal);
+        });
+
+        // User dropdown toggle
+        userAvatar.addEventListener('click', () => {
+            userDropdown.classList.toggle('active');
+        });
+
+        // Logout functionality
+        logoutBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            localStorage.removeItem('currentUser');
+            currentUser = null;
+            checkAuthStatus();
+            showToast('You have been logged out successfully', 'success');
+            userDropdown.classList.remove('active');
+        });
+
+        // Login form submission
+        loginForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            
+            const email = document.getElementById('login-email').value;
+            const password = document.getElementById('login-password').value;
+            
+            // Reset error states
+            document.getElementById('login-email-error').textContent = '';
+            document.getElementById('login-password-error').textContent = '';
+            
+            let isValid = true;
+            
+            // Validate email
+            if (!validateEmail(email)) {
+                document.getElementById('login-email-error').textContent = 'Please enter a valid email address';
+                document.getElementById('login-email-error').className = 'form-message error';
+                isValid = false;
+            }
+            
+            // Validate password
+            if (!validatePassword(password)) {
+                document.getElementById('login-password-error').textContent = 'Password must be at least 6 characters';
+                document.getElementById('login-password-error').className = 'form-message error';
+                isValid = false;
+            }
+            
+            if (!isValid) return;
+            
+            // Check if user exists
+            const user = users.find(u => u.email === email && u.password === password);
+            
+            if (user) {
+                currentUser = user;
+                localStorage.setItem('currentUser', JSON.stringify(currentUser));
+                checkAuthStatus();
+                hideModal(loginModal);
+                showToast(`Welcome back, ${user.name}!`, 'success');
+                loginForm.reset();
+            } else {
+                document.getElementById('login-password-error').textContent = 'Invalid email or password';
+                document.getElementById('login-password-error').className = 'form-message error';
+            }
+        });
+
+        // Signup form submission
+        signupForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            
+            const name = document.getElementById('signup-name').value;
+            const email = document.getElementById('signup-email').value;
+            const password = document.getElementById('signup-password').value;
+            const confirmPassword = document.getElementById('signup-confirm').value;
+            
+            // Reset error states
+            document.getElementById('signup-name-error').textContent = '';
+            document.getElementById('signup-email-error').textContent = '';
+            document.getElementById('signup-password-error').textContent = '';
+            document.getElementById('signup-confirm-error').textContent = '';
+            
+            let isValid = true;
+            
+            // Validate name
+            if (name.trim().length < 2) {
+                document.getElementById('signup-name-error').textContent = 'Name must be at least 2 characters';
+                document.getElementById('signup-name-error').className = 'form-message error';
+                isValid = false;
+            }
+            
+            // Validate email
+            if (!validateEmail(email)) {
+                document.getElementById('signup-email-error').textContent = 'Please enter a valid email address';
+                document.getElementById('signup-email-error').className = 'form-message error';
+                isValid = false;
+            }
+            
+            // Check if email already exists
+            if (users.find(u => u.email === email)) {
+                document.getElementById('signup-email-error').textContent = 'An account with this email already exists';
+                document.getElementById('signup-email-error').className = 'form-message error';
+                isValid = false;
+            }
+            
+            // Validate password
+            if (!validatePassword(password)) {
+                document.getElementById('signup-password-error').textContent = 'Password must be at least 6 characters';
+                document.getElementById('signup-password-error').className = 'form-message error';
+                isValid = false;
+            }
+            
+            // Validate password confirmation
+            if (password !== confirmPassword) {
+                document.getElementById('signup-confirm-error').textContent = 'Passwords do not match';
+                document.getElementById('signup-confirm-error').className = 'form-message error';
+                isValid = false;
+            }
+            
+            if (!isValid) return;
+            
+            // Create new user
+            const newUser = {
+                id: Date.now(),
+                name: name.trim(),
+                email: email,
+                password: password,
+                joined: new Date().toISOString()
+            };
+            
+            users.push(newUser);
+            localStorage.setItem('users', JSON.stringify(users));
+            
+            currentUser = newUser;
+            localStorage.setItem('currentUser', JSON.stringify(currentUser));
+            
+            checkAuthStatus();
+            hideModal(signupModal);
+            showToast(`Account created successfully! Welcome, ${name}!`, 'success');
+            signupForm.reset();
+        });
+
+        // Mobile menu toggle
+        document.querySelector('.mobile-menu').addEventListener('click', function() {
+            document.getElementById('main-nav').classList.toggle('active');
+        });
+
+        // Image Cropper Functions
+
+        // Handle file upload
+        fileInput.addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (!file) return;
+            
+            if (!file.type.match('image.*')) {
+                showToast('Please select a valid image file', 'error');
+                return;
+            }
+            
+            if (file.size > 10 * 1024 * 1024) {
+                showToast('File size must be less than 10MB', 'error');
+                return;
+            }
+            
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                originalImage = new Image();
+                originalImage.onload = function() {
+                    // Set up preview
+                    imagePreview.src = e.target.result;
+                    previewContainer.style.display = 'block';
+                    uploadArea.classList.add('active');
+                    
+                    // Initialize crop box
+                    initializeCropBox();
+                    
+                    showToast('Image loaded successfully!', 'success');
+                };
+                originalImage.src = e.target.result;
+            };
+            reader.readAsDataURL(file);
+        });
+
+        // Initialize crop box
+        function initializeCropBox() {
+            const containerRect = previewContainer.getBoundingClientRect();
+            const imgRect = imagePreview.getBoundingClientRect();
+            
+            // Set crop box to center with reasonable size
+            cropBox.width = Math.min(300, imgRect.width * 0.7);
+            cropBox.height = Math.min(200, imgRect.height * 0.7);
+            cropBox.x = (imgRect.width - cropBox.width) / 2;
+            cropBox.y = (imgRect.height - cropBox.height) / 2;
+            
+            updateCropBoxDisplay();
+            updateDimensionInputs();
+        }
+
+        // Update crop box display
+        function updateCropBoxDisplay() {
+            cropBoxElement.style.left = `${cropBox.x}px`;
+            cropBoxElement.style.top = `${cropBox.y}px`;
+            cropBoxElement.style.width = `${cropBox.width}px`;
+            cropBoxElement.style.height = `${cropBox.height}px`;
+        }
+
+        // Update dimension inputs
+        function updateDimensionInputs() {
+            cropWidthInput.value = Math.round(cropBox.width);
+            cropHeightInput.value = Math.round(cropBox.height);
+        }
+
+        // Apply aspect ratio
+        function applyAspectRatio(ratio) {
+            if (ratio === 'free') {
+                currentAspectRatio = 'free';
+                return;
+            }
+            
+            currentAspectRatio = ratio;
+            const [widthRatio, heightRatio] = ratio.split(':').map(Number);
+            const aspect = widthRatio / heightRatio;
+            
+            // Adjust height to maintain aspect ratio based on current width
+            cropBox.height = cropBox.width / aspect;
+            updateCropBoxDisplay();
+            updateDimensionInputs();
+        }
+
+        // Handle aspect ratio buttons
+        aspectBtns.forEach(btn => {
+            btn.addEventListener('click', function() {
+                aspectBtns.forEach(b => b.classList.remove('active'));
+                this.classList.add('active');
+                applyAspectRatio(this.dataset.ratio);
+            });
+        });
+
+        // Handle dimension input changes
+        cropWidthInput.addEventListener('input', function() {
+            if (!originalImage) return;
+            
+            const newWidth = parseInt(this.value);
+            if (isNaN(newWidth) || newWidth < 1) return;
+            
+            cropBox.width = newWidth;
+            
+            if (currentAspectRatio !== 'free') {
+                const [widthRatio, heightRatio] = currentAspectRatio.split(':').map(Number);
+                const aspect = widthRatio / heightRatio;
+                cropBox.height = cropBox.width / aspect;
+                cropHeightInput.value = Math.round(cropBox.height);
+            }
+            
+            updateCropBoxDisplay();
+        });
+
+        cropHeightInput.addEventListener('input', function() {
+            if (!originalImage) return;
+            
+            const newHeight = parseInt(this.value);
+            if (isNaN(newHeight) || newHeight < 1) return;
+            
+            cropBox.height = newHeight;
+            
+            if (currentAspectRatio !== 'free') {
+                const [widthRatio, heightRatio] = currentAspectRatio.split(':').map(Number);
+                const aspect = widthRatio / heightRatio;
+                cropBox.width = cropBox.height * aspect;
+                cropWidthInput.value = Math.round(cropBox.width);
+            }
+            
+            updateCropBoxDisplay();
+        });
+
+        // Crop box dragging
+        cropBoxElement.addEventListener('mousedown', startDrag);
+        cropBoxElement.addEventListener('touchstart', startDrag);
+
+        function startDrag(e) {
+            e.preventDefault();
+            isDragging = true;
+            
+            if (e.type === 'mousedown') {
+                dragStartX = e.clientX - cropBox.x;
+                dragStartY = e.clientY - cropBox.y;
+                document.addEventListener('mousemove', drag);
+                document.addEventListener('mouseup', stopDrag);
+            } else {
+                const touch = e.touches[0];
+                dragStartX = touch.clientX - cropBox.x;
+                dragStartY = touch.clientY - cropBox.y;
+                document.addEventListener('touchmove', drag);
+                document.addEventListener('touchend', stopDrag);
+            }
+        }
+
+        function drag(e) {
+            if (!isDragging) return;
+            
+            let clientX, clientY;
+            if (e.type === 'mousemove') {
+                clientX = e.clientX;
+                clientY = e.clientY;
+            } else {
+                clientX = e.touches[0].clientX;
+                clientY = e.touches[0].clientY;
+            }
+            
+            const containerRect = previewContainer.getBoundingClientRect();
+            const imgRect = imagePreview.getBoundingClientRect();
+            
+            // Calculate new position
+            let newX = clientX - dragStartX - (containerRect.left + (containerRect.width - imgRect.width) / 2);
+            let newY = clientY - dragStartY - (containerRect.top + (containerRect.height - imgRect.height) / 2);
+            
+            // Constrain to image bounds
+            newX = Math.max(0, Math.min(newX, imgRect.width - cropBox.width));
+            newY = Math.max(0, Math.min(newY, imgRect.height - cropBox.height));
+            
+            cropBox.x = newX;
+            cropBox.y = newY;
+            
+            updateCropBoxDisplay();
+        }
+
+        function stopDrag() {
+            isDragging = false;
+            document.removeEventListener('mousemove', drag);
+            document.removeEventListener('mouseup', stopDrag);
+            document.removeEventListener('touchmove', drag);
+            document.removeEventListener('touchend', stopDrag);
+        }
+
+        // Crop image
+        cropBtn.addEventListener('click', function() {
+            if (!originalImage) {
+                showToast('Please upload an image first', 'error');
+                return;
+            }
+            
+            // Create a canvas for cropping
+            const canvas = document.createElement('canvas');
+            const ctx = canvas.getContext('2d');
+            
+            // Set canvas dimensions to crop box size
+            canvas.width = cropBox.width;
+            canvas.height = cropBox.height;
+            
+            // Calculate scaling factor (image might be displayed at different size)
+            const scaleX = originalImage.width / imagePreview.naturalWidth;
+            const scaleY = originalImage.height / imagePreview.naturalHeight;
+            
+            // Draw the cropped portion
+            ctx.drawImage(
+                originalImage,
+                cropBox.x * scaleX, cropBox.y * scaleY,
+                cropBox.width * scaleX, cropBox.height * scaleY,
+                0, 0,
+                cropBox.width, cropBox.height
+            );
+            
+            // Update the preview with cropped image
+            imagePreview.src = canvas.toDataURL('image/png');
+            
+            // Enable download button
+            downloadBtn.disabled = false;
+            
+            showToast('Image cropped successfully!', 'success');
+        });
+
+        // Reset tool
+        resetBtn.addEventListener('click', function() {
+            if (originalImage) {
+                imagePreview.src = originalImage.src;
+                initializeCropBox();
+                downloadBtn.disabled = true;
+                showToast('Image reset to original', 'success');
+            } else {
+                previewContainer.style.display = 'none';
+                uploadArea.classList.remove('active');
+                fileInput.value = '';
+            }
+        });
+
+        // Download cropped image
+        downloadBtn.addEventListener('click', function() {
+            const link = document.createElement('a');
+            link.download = 'cropped-image.png';
+            link.href = imagePreview.src;
+            link.click();
+            showToast('Image downloaded successfully!', 'success');
+        });
+
+        // Mobile dropdown functionality
+        if (window.innerWidth <= 768) {
+            const dropdown = document.querySelector('.dropdown');
+            dropdown.addEventListener('click', function() {
+                this.classList.toggle('active');
+            });
+        }
+    </script>
+</body>
+</html>
