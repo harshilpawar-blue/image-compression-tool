@@ -22,6 +22,8 @@
             --border-radius: 16px;
             --box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
             --transition: all 0.3s ease;
+            --success-color: #28a745;
+            --error-color: #dc3545;
         }
 
         * {
@@ -124,6 +126,56 @@
 
         nav a:hover::after, nav a.active::after {
             width: 100%;
+        }
+
+        /* User Menu Styles */
+        .user-menu {
+            display: none;
+            position: relative;
+        }
+
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--gradient);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .user-dropdown {
+            display: none;
+            position: absolute;
+            top: 100%;
+            right: 0;
+            background: white;
+            min-width: 200px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+            border-radius: 10px;
+            padding: 1rem 0;
+            z-index: 1000;
+            margin-top: 10px;
+        }
+
+        .user-dropdown.active {
+            display: block;
+        }
+
+        .user-dropdown a {
+            display: block;
+            padding: 0.7rem 1.5rem;
+            color: var(--secondary-color);
+            text-decoration: none;
+            transition: var(--transition);
+        }
+
+        .user-dropdown a:hover {
+            background: rgba(74, 108, 247, 0.05);
+            color: var(--primary-color);
         }
 
         /* Dropdown Styles */
@@ -232,6 +284,14 @@
             max-width: 450px;
             box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
             overflow: hidden;
+            transform: scale(0.9);
+            opacity: 0;
+            transition: all 0.3s ease;
+        }
+
+        .modal.active .modal-content {
+            transform: scale(1);
+            opacity: 1;
         }
 
         .modal-header {
@@ -251,6 +311,7 @@
 
         .form-group {
             margin-bottom: 1.5rem;
+            position: relative;
         }
 
         .form-group label {
@@ -272,6 +333,30 @@
         .form-group input:focus {
             border-color: var(--primary-color);
             outline: none;
+        }
+
+        .form-group.error input {
+            border-color: var(--error-color);
+        }
+
+        .form-group.success input {
+            border-color: var(--success-color);
+        }
+
+        .form-message {
+            margin-top: 0.5rem;
+            font-size: 0.85rem;
+            display: none;
+        }
+
+        .form-message.error {
+            color: var(--error-color);
+            display: block;
+        }
+
+        .form-message.success {
+            color: var(--success-color);
+            display: block;
         }
 
         .modal-footer {
@@ -303,6 +388,34 @@
             font-size: 1.5rem;
             cursor: pointer;
             color: var(--secondary-color);
+            z-index: 10;
+        }
+
+        /* Toast Notification */
+        .toast {
+            position: fixed;
+            top: 100px;
+            right: 20px;
+            padding: 1rem 1.5rem;
+            border-radius: 10px;
+            color: white;
+            font-weight: 500;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            z-index: 3000;
+            transform: translateX(150%);
+            transition: transform 0.3s ease;
+        }
+
+        .toast.show {
+            transform: translateX(0);
+        }
+
+        .toast.success {
+            background: var(--success-color);
+        }
+
+        .toast.error {
+            background: var(--error-color);
         }
 
         /* Hero Section */
@@ -913,6 +1026,12 @@
             .dropdown.active .dropdown-content {
                 display: block;
             }
+
+            .toast {
+                top: 20px;
+                right: 20px;
+                left: 20px;
+            }
         }
 
         @media (max-width: 576px) {
@@ -996,13 +1115,26 @@
                      </ul>    
                 </nav>
 
-                <div class="auth-buttons">
+                <div class="auth-buttons" id="auth-buttons">
                     <button class="btn btn-outline" id="login-btn">Login</button>
                     <button class="btn btn-primary" id="signup-btn">Sign Up</button>
+                </div>
+
+                <div class="user-menu" id="user-menu">
+                    <div class="user-avatar" id="user-avatar">U</div>
+                    <div class="user-dropdown" id="user-dropdown">
+                        <a href="#"><i class="fas fa-user"></i> My Profile</a>
+                        <a href="#"><i class="fas fa-crown"></i> Upgrade to Pro</a>
+                        <a href="#"><i class="fas fa-history"></i> My Tools</a>
+                        <a href="#" id="logout-btn"><i class="fas fa-sign-out-alt"></i> Logout</a>
+                    </div>
                 </div>
             </div>
         </div>
     </header>
+
+    <!-- Toast Notification -->
+    <div class="toast" id="toast"></div>
 
     <!-- Login Modal -->
     <div class="modal" id="login-modal">
@@ -1012,15 +1144,19 @@
                 <h2>Welcome Back</h2>
             </div>
             <div class="modal-body">
-                <div class="form-group">
-                    <label for="login-email">Email</label>
-                    <input type="email" id="login-email" placeholder="Enter your email">
-                </div>
-                <div class="form-group">
-                    <label for="login-password">Password</label>
-                    <input type="password" id="login-password" placeholder="Enter your password">
-                </div>
-                <button class="btn btn-primary" style="width: 100%;">Login</button>
+                <form id="login-form">
+                    <div class="form-group">
+                        <label for="login-email">Email</label>
+                        <input type="email" id="login-email" placeholder="Enter your email" required>
+                        <div class="form-message" id="login-email-error"></div>
+                    </div>
+                    <div class="form-group">
+                        <label for="login-password">Password</label>
+                        <input type="password" id="login-password" placeholder="Enter your password" required>
+                        <div class="form-message" id="login-password-error"></div>
+                    </div>
+                    <button type="submit" class="btn btn-primary" style="width: 100%;">Login</button>
+                </form>
             </div>
             <div class="modal-footer">
                 <p>Don't have an account? <a href="#" id="switch-to-signup">Sign Up</a></p>
@@ -1036,19 +1172,29 @@
                 <h2>Create Account</h2>
             </div>
             <div class="modal-body">
-                <div class="form-group">
-                    <label for="signup-name">Full Name</label>
-                    <input type="text" id="signup-name" placeholder="Enter your full name">
-                </div>
-                <div class="form-group">
-                    <label for="signup-email">Email</label>
-                    <input type="email" id="signup-email" placeholder="Enter your email">
-                </div>
-                <div class="form-group">
-                    <label for="signup-password">Password</label>
-                    <input type="password" id="signup-password" placeholder="Create a password">
-                </div>
-                <button class="btn btn-primary" style="width: 100%;">Create Account</button>
+                <form id="signup-form">
+                    <div class="form-group">
+                        <label for="signup-name">Full Name</label>
+                        <input type="text" id="signup-name" placeholder="Enter your full name" required>
+                        <div class="form-message" id="signup-name-error"></div>
+                    </div>
+                    <div class="form-group">
+                        <label for="signup-email">Email</label>
+                        <input type="email" id="signup-email" placeholder="Enter your email" required>
+                        <div class="form-message" id="signup-email-error"></div>
+                    </div>
+                    <div class="form-group">
+                        <label for="signup-password">Password</label>
+                        <input type="password" id="signup-password" placeholder="Create a password" required>
+                        <div class="form-message" id="signup-password-error"></div>
+                    </div>
+                    <div class="form-group">
+                        <label for="signup-confirm">Confirm Password</label>
+                        <input type="password" id="signup-confirm" placeholder="Confirm your password" required>
+                        <div class="form-message" id="signup-confirm-error"></div>
+                    </div>
+                    <button type="submit" class="btn btn-primary" style="width: 100%;">Create Account</button>
+                </form>
             </div>
             <div class="modal-footer">
                 <p>Already have an account? <a href="#" id="switch-to-login">Login</a></p>
@@ -1681,6 +1827,239 @@
     </footer>
 
     <script>
+        // User Authentication System
+        let currentUser = JSON.parse(localStorage.getItem('currentUser'));
+        let users = JSON.parse(localStorage.getItem('users')) || [];
+
+        // DOM Elements
+        const authButtons = document.getElementById('auth-buttons');
+        const userMenu = document.getElementById('user-menu');
+        const userAvatar = document.getElementById('user-avatar');
+        const userDropdown = document.getElementById('user-dropdown');
+        const logoutBtn = document.getElementById('logout-btn');
+        const loginBtn = document.getElementById('login-btn');
+        const signupBtn = document.getElementById('signup-btn');
+        const loginModal = document.getElementById('login-modal');
+        const signupModal = document.getElementById('signup-modal');
+        const closeLogin = document.getElementById('close-login');
+        const closeSignup = document.getElementById('close-signup');
+        const switchToSignup = document.getElementById('switch-to-signup');
+        const switchToLogin = document.getElementById('switch-to-login');
+        const loginForm = document.getElementById('login-form');
+        const signupForm = document.getElementById('signup-form');
+        const toast = document.getElementById('toast');
+
+        // Check if user is logged in
+        function checkAuthStatus() {
+            if (currentUser) {
+                authButtons.style.display = 'none';
+                userMenu.style.display = 'block';
+                userAvatar.textContent = currentUser.name.charAt(0).toUpperCase();
+            } else {
+                authButtons.style.display = 'flex';
+                userMenu.style.display = 'none';
+            }
+        }
+
+        // Show toast notification
+        function showToast(message, type = 'success') {
+            toast.textContent = message;
+            toast.className = `toast ${type} show`;
+            
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 3000);
+        }
+
+        // Show modal with animation
+        function showModal(modal) {
+            modal.style.display = 'flex';
+            setTimeout(() => {
+                modal.classList.add('active');
+            }, 10);
+        }
+
+        // Hide modal with animation
+        function hideModal(modal) {
+            modal.classList.remove('active');
+            setTimeout(() => {
+                modal.style.display = 'none';
+            }, 300);
+        }
+
+        // Form validation
+        function validateEmail(email) {
+            const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            return re.test(email);
+        }
+
+        function validatePassword(password) {
+            return password.length >= 6;
+        }
+
+        // Initialize auth status
+        checkAuthStatus();
+
+        // Event Listeners
+        loginBtn.addEventListener('click', () => showModal(loginModal));
+        signupBtn.addEventListener('click', () => showModal(signupModal));
+
+        closeLogin.addEventListener('click', () => hideModal(loginModal));
+        closeSignup.addEventListener('click', () => hideModal(signupModal));
+
+        switchToSignup.addEventListener('click', (e) => {
+            e.preventDefault();
+            hideModal(loginModal);
+            showModal(signupModal);
+        });
+
+        switchToLogin.addEventListener('click', (e) => {
+            e.preventDefault();
+            hideModal(signupModal);
+            showModal(loginModal);
+        });
+
+        // Close modals when clicking outside
+        window.addEventListener('click', (e) => {
+            if (e.target === loginModal) hideModal(loginModal);
+            if (e.target === signupModal) hideModal(signupModal);
+        });
+
+        // User dropdown toggle
+        userAvatar.addEventListener('click', () => {
+            userDropdown.classList.toggle('active');
+        });
+
+        // Logout functionality
+        logoutBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            localStorage.removeItem('currentUser');
+            currentUser = null;
+            checkAuthStatus();
+            showToast('You have been logged out successfully', 'success');
+            userDropdown.classList.remove('active');
+        });
+
+        // Login form submission
+        loginForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            
+            const email = document.getElementById('login-email').value;
+            const password = document.getElementById('login-password').value;
+            
+            // Reset error states
+            document.getElementById('login-email-error').textContent = '';
+            document.getElementById('login-password-error').textContent = '';
+            
+            let isValid = true;
+            
+            // Validate email
+            if (!validateEmail(email)) {
+                document.getElementById('login-email-error').textContent = 'Please enter a valid email address';
+                document.getElementById('login-email-error').className = 'form-message error';
+                isValid = false;
+            }
+            
+            // Validate password
+            if (!validatePassword(password)) {
+                document.getElementById('login-password-error').textContent = 'Password must be at least 6 characters';
+                document.getElementById('login-password-error').className = 'form-message error';
+                isValid = false;
+            }
+            
+            if (!isValid) return;
+            
+            // Check if user exists
+            const user = users.find(u => u.email === email && u.password === password);
+            
+            if (user) {
+                currentUser = user;
+                localStorage.setItem('currentUser', JSON.stringify(currentUser));
+                checkAuthStatus();
+                hideModal(loginModal);
+                showToast(`Welcome back, ${user.name}!`, 'success');
+                loginForm.reset();
+            } else {
+                document.getElementById('login-password-error').textContent = 'Invalid email or password';
+                document.getElementById('login-password-error').className = 'form-message error';
+            }
+        });
+
+        // Signup form submission
+        signupForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            
+            const name = document.getElementById('signup-name').value;
+            const email = document.getElementById('signup-email').value;
+            const password = document.getElementById('signup-password').value;
+            const confirmPassword = document.getElementById('signup-confirm').value;
+            
+            // Reset error states
+            document.getElementById('signup-name-error').textContent = '';
+            document.getElementById('signup-email-error').textContent = '';
+            document.getElementById('signup-password-error').textContent = '';
+            document.getElementById('signup-confirm-error').textContent = '';
+            
+            let isValid = true;
+            
+            // Validate name
+            if (name.trim().length < 2) {
+                document.getElementById('signup-name-error').textContent = 'Name must be at least 2 characters';
+                document.getElementById('signup-name-error').className = 'form-message error';
+                isValid = false;
+            }
+            
+            // Validate email
+            if (!validateEmail(email)) {
+                document.getElementById('signup-email-error').textContent = 'Please enter a valid email address';
+                document.getElementById('signup-email-error').className = 'form-message error';
+                isValid = false;
+            }
+            
+            // Check if email already exists
+            if (users.find(u => u.email === email)) {
+                document.getElementById('signup-email-error').textContent = 'An account with this email already exists';
+                document.getElementById('signup-email-error').className = 'form-message error';
+                isValid = false;
+            }
+            
+            // Validate password
+            if (!validatePassword(password)) {
+                document.getElementById('signup-password-error').textContent = 'Password must be at least 6 characters';
+                document.getElementById('signup-password-error').className = 'form-message error';
+                isValid = false;
+            }
+            
+            // Validate password confirmation
+            if (password !== confirmPassword) {
+                document.getElementById('signup-confirm-error').textContent = 'Passwords do not match';
+                document.getElementById('signup-confirm-error').className = 'form-message error';
+                isValid = false;
+            }
+            
+            if (!isValid) return;
+            
+            // Create new user
+            const newUser = {
+                id: Date.now(),
+                name: name.trim(),
+                email: email,
+                password: password,
+                joined: new Date().toISOString()
+            };
+            
+            users.push(newUser);
+            localStorage.setItem('users', JSON.stringify(users));
+            
+            currentUser = newUser;
+            localStorage.setItem('currentUser', JSON.stringify(currentUser));
+            
+            checkAuthStatus();
+            hideModal(signupModal);
+            showToast(`Account created successfully! Welcome, ${name}!`, 'success');
+            signupForm.reset();
+        });
+
         // Mobile menu toggle
         document.querySelector('.mobile-menu').addEventListener('click', function() {
             document.getElementById('main-nav').classList.toggle('active');
@@ -1720,58 +2099,6 @@
                     }
                 });
             });
-        });
-
-        // Modal functionality
-        const loginBtn = document.getElementById('login-btn');
-        const signupBtn = document.getElementById('signup-btn');
-        const loginModal = document.getElementById('login-modal');
-        const signupModal = document.getElementById('signup-modal');
-        const closeLogin = document.getElementById('close-login');
-        const closeSignup = document.getElementById('close-signup');
-        const switchToSignup = document.getElementById('switch-to-signup');
-        const switchToLogin = document.getElementById('switch-to-login');
-
-        // Show login modal
-        loginBtn.addEventListener('click', function() {
-            loginModal.style.display = 'flex';
-        });
-
-        // Show signup modal
-        signupBtn.addEventListener('click', function() {
-            signupModal.style.display = 'flex';
-        });
-
-        // Close modals
-        closeLogin.addEventListener('click', function() {
-            loginModal.style.display = 'none';
-        });
-
-        closeSignup.addEventListener('click', function() {
-            signupModal.style.display = 'none';
-        });
-
-        // Switch between modals
-        switchToSignup.addEventListener('click', function(e) {
-            e.preventDefault();
-            loginModal.style.display = 'none';
-            signupModal.style.display = 'flex';
-        });
-
-        switchToLogin.addEventListener('click', function(e) {
-            e.preventDefault();
-            signupModal.style.display = 'none';
-            loginModal.style.display = 'flex';
-        });
-
-        // Close modals when clicking outside
-        window.addEventListener('click', function(e) {
-            if (e.target === loginModal) {
-                loginModal.style.display = 'none';
-            }
-            if (e.target === signupModal) {
-                signupModal.style.display = 'none';
-            }
         });
 
         // Mobile dropdown functionality
