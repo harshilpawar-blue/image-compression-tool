@@ -30,11 +30,15 @@
         .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
 
         /* Header */
-        header { background: white; border-bottom: 1px solid var(--border); height: 70px; display: flex; align-items: center; }
+        header { background: white; border-bottom: 1px solid var(--border); height: 70px; display: flex; align-items: center; position: sticky; top: 0; z-index: 1000; box-shadow: 0 1px 2px rgba(0,0,0,0.05); }
         .nav-wrapper { display: flex; justify-content: space-between; align-items: center; width: 100%; }
         .logo { font-weight: 700; font-size: 1.5rem; color: var(--primary); display: flex; align-items: center; gap: 8px; }
-        .nav-links { display: flex; gap: 24px; }
+        
+        .nav-links { display: flex; gap: 30px; }
+        .nav-links a { font-weight: 500; font-size: 0.95rem; color: var(--text-main); transition: 0.2s; }
         .nav-links a:hover { color: var(--primary); }
+
+        .mobile-toggle { display: none; font-size: 1.5rem; cursor: pointer; color: var(--text-main); }
 
         /* Ad Wrapper */
         .ad-wrapper { width: 100%; margin: 20px 0; display: flex; justify-content: center; overflow: hidden; min-height: 90px; background: #fff; border: 1px solid #f0f0f0; border-radius: 8px; align-items: center; }
@@ -103,6 +107,11 @@
         footer { background: #111827; color: #9CA3AF; padding: 2rem 0; margin-top: auto; text-align: center; }
 
         @media (max-width: 768px) {
+            .mobile-toggle { display: block; }
+            .nav-links { display: none; flex-direction: column; position: absolute; top: 70px; left: 0; width: 100%; background: white; padding: 1rem; border-bottom: 1px solid var(--border); box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); }
+            .nav-links.active { display: flex; }
+            .nav-links a { padding: 10px 0; border-bottom: 1px solid #f3f4f6; width: 100%; text-align: center; }
+            
             .editor-grid { grid-template-columns: 1fr; }
             .file-list-panel { border-right: none; border-bottom: 1px solid var(--border); }
         }
@@ -122,24 +131,8 @@
                 <a href="index.html">Home</a>
                 <a href="index.html#tools">All Tools</a>
                 <a href="about.html">About</a>
-                <a href="#blog">Guides</a>
-                
-                <a href="#" onclick="openModal('login-modal')" class="mobile-auth-link" style="display:none; color: var(--primary);">Log In</a>
-                <a href="#" onclick="logout()" class="mobile-logout-link" style="display:none; color: var(--error);">Log Out</a>
+                <a href="index.html#guides">Guides</a>
             </nav>
-
-            <div class="auth-btns" id="desktop-auth-btns">
-                <button class="btn btn-outline" onclick="openModal('login-modal')">Log In</button>
-                <button class="btn btn-primary" onclick="openModal('signup-modal')">Sign Up</button>
-            </div>
-
-            <div class="user-profile" id="user-profile" onclick="toggleUserMenu()">
-                <div class="user-avatar" id="user-avatar-initial">U</div>
-                <div class="user-dropdown" id="user-dropdown">
-                    <a href="#">My Account</a>
-                    <a href="#" onclick="logout()" style="color: var(--error);">Log Out</a>
-                </div>
-            </div>
         </div>
     </header>
 
@@ -266,7 +259,12 @@
     </footer>
 
     <script>
-        // DOM Elements
+        // --- Mobile Menu Toggle ---
+        function toggleMenu() {
+            document.getElementById('navLinks').classList.toggle('active');
+        }
+
+        // --- Tool Logic ---
         const dropZone = document.getElementById('dropZone');
         const fileInput = document.getElementById('fileInput');
         const editorContainer = document.getElementById('editorContainer');
@@ -375,8 +373,6 @@
                 
                 try {
                     let blob = await resizeImage(file);
-                    
-                    // Add to zip
                     zip.file(`resized_${file.name}`, blob);
                     resEl.innerHTML = '<span style="color:#10B981">Done</span>';
                     processed++;
@@ -416,17 +412,10 @@
 
                         if (currentMode === 'percentage') {
                             const pct = parseInt(percentRange.value) / 100;
-                            // NOTE: "Reduce by 50%" means new size is 50% of original (1 - 0.5 is wrong logic if value is "Target %").
-                            // If slider says "Reduce by X%", assume value 50 = 50% size.
                             targetW = img.width * (percentRange.value / 100);
                             targetH = img.height * (percentRange.value / 100);
                         } else {
-                            // Pixels Mode
                             if (checkRatio.checked) {
-                                // Logic: Use width to drive ratio for all? 
-                                // Actually, for bulk, it's safer to use the 'inputWidth' as a constraint
-                                // OR apply scaling factor of first image.
-                                // SIMPLEST BULK LOGIC: Apply requested Width, Auto-calculate Height based on OWN ratio.
                                 targetW = parseInt(inputWidth.value);
                                 targetH = targetW / (img.width / img.height);
                             } else {
