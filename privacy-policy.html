@@ -3,69 +3,217 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Privacy Policy - The Image Toolkit</title>
+    
+    <!-- SEO -->
+    <title>Privacy Policy - ToolKit Pro | Data Protection & Security</title>
+    <meta name="description" content="Read the ToolKit Pro Privacy Policy. We prioritize your security. Learn how we handle your files, cookies, and personal data.">
+    
+    <!-- FONTS & ICONS -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- ADSENSE -->
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7597066031957006" crossorigin="anonymous"></script>
+
     <style>
-        /* Use same styles as your main site */
-        body { 
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            max-width: 800px; 
-            margin: 0 auto; 
-            padding: 20px;
-            line-height: 1.6;
-            background-color: #f8f9fa;
-            color: #333;
+        :root {
+            --primary: #4F46E5;
+            --text-main: #1F2937;
+            --text-light: #6B7280;
+            --bg-body: #F3F4F6;
+            --border: #E5E7EB;
+            --radius: 12px;
         }
-        .container {
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
+        body { background-color: var(--bg-body); color: var(--text-main); line-height: 1.6; }
+        a { text-decoration: none; color: inherit; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+
+        /* Header (Consistent with other pages) */
+        header { background: white; border-bottom: 1px solid var(--border); height: 70px; display: flex; align-items: center; position: sticky; top: 0; z-index: 1000; }
+        .nav-wrapper { display: flex; justify-content: space-between; align-items: center; width: 100%; }
+        .logo { font-weight: 700; font-size: 1.5rem; color: var(--primary); display: flex; align-items: center; gap: 8px; }
+        .nav-links { display: flex; gap: 24px; }
+        .nav-links a { font-weight: 500; font-size: 0.95rem; }
+        .nav-links a:hover { color: var(--primary); }
+        .mobile-toggle { display: none; font-size: 1.4rem; cursor: pointer; }
+
+        /* Privacy Hero */
+        .policy-hero {
+            background: white;
+            text-align: center;
+            padding: 3rem 20px;
+            border-bottom: 1px solid var(--border);
+        }
+        .policy-hero h1 { font-size: 2.2rem; color: #111827; margin-bottom: 0.5rem; }
+        .policy-hero p { font-size: 1rem; color: var(--text-light); }
+
+        /* Main Content Layout */
+        .content-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 40px;
+            padding: 3rem 0;
+        }
+
+        .policy-content {
             background: white;
             padding: 2rem;
-            border-radius: 8px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            border-radius: var(--radius);
+            border: 1px solid var(--border);
         }
-        h1, h2 { 
-            color: #4a6cf7;
-            margin-bottom: 1rem;
+
+        .policy-content h2 { font-size: 1.5rem; margin-top: 1.5rem; margin-bottom: 1rem; color: #111827; border-bottom: 1px solid var(--border); padding-bottom: 0.5rem; }
+        .policy-content h2:first-of-type { margin-top: 0; }
+        .policy-content p { margin-bottom: 1rem; color: #374151; font-size: 1rem; }
+        .policy-content ul { margin-bottom: 1rem; padding-left: 20px; }
+        .policy-content li { margin-bottom: 0.5rem; color: #374151; }
+
+        /* Sidebar */
+        .sidebar-box {
+            background: white;
+            padding: 1.5rem;
+            border-radius: var(--radius);
+            border: 1px solid var(--border);
+            position: sticky;
+            top: 90px;
         }
-        p { margin-bottom: 1rem; }
-        .back-link {
-            display: inline-block;
-            margin-top: 2rem;
-            color: #4a6cf7;
-            text-decoration: none;
-            font-weight: 600;
-        }
-        .back-link:hover {
-            text-decoration: underline;
+
+        /* Footer */
+        footer { background: #111827; color: #9CA3AF; padding: 3rem 0; font-size: 0.9rem; margin-top: auto; }
+        .footer-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 2rem; }
+        .footer-col h4 { color: white; margin-bottom: 1rem; }
+        .footer-col ul li { margin-bottom: 0.5rem; }
+
+        @media (max-width: 768px) {
+            .content-grid { grid-template-columns: 1fr; }
+            .nav-links { display: none; }
+            .mobile-toggle { display: block; }
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>Privacy Policy</h1>
-        <p><strong>Last updated:</strong> November 17, 2025 </p>
-        
-        <h2>Information We Collect</h2>
-        <p>We do not collect or store any personal information. All image processing happens directly in your browser - your files never leave your computer or get uploaded to our servers.</p>
-        
-        <h2>How We Use Your Information</h2>
-        <p>Since we don't collect any personal data, there's no information to use or share. Your privacy is completely protected.</p>
-        
-        <h2>Third-Party Services</h2>
-        <p>We use Google AdSense to display advertisements. Google may use cookies to serve personalized ads based on your browsing history. You can learn more about how Google uses data and manage your preferences at <a href="https://policies.google.com/technologies/ads">Google's Advertising Policies</a>.</p>
-        
-        <h2>Cookies</h2>
-        <p>We only use cookies that are essential for the functioning of our tools. Third-party advertisers (Google AdSense) may use cookies for ad personalization.</p>
-        
-        <h2>Data Security</h2>
-        <p>Your data security is our top priority. Since all processing happens locally in your browser, your files remain completely private and secure.</p>
-        
-        <h2>Changes to This Policy</h2>
-        <p>We may update this privacy policy from time to time. We will notify you of any changes by posting the new policy on this page.</p>
-        
-        <h2>Contact Us</h2>
-        <p>If you have any questions about this Privacy Policy, please contact us at:</p>
-        <p>Email: privacy@theimagetoolkit.com</p>
-        
-        <a href="https://theimagetoolkit.com" class="back-link">← Back to Home</a>
+
+    <!-- Header -->
+    <header>
+        <div class="container nav-wrapper">
+            <a href="index.html" class="logo">
+                <i class="fas fa-layer-group"></i> ToolKit Pro
+            </a>
+            <div class="mobile-toggle"><i class="fas fa-bars"></i></div>
+            <nav class="nav-links">
+                <a href="index.html">Home</a>
+                <a href="about.html">About</a>
+                <a href="#" class="active">Privacy</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero -->
+    <section class="policy-hero">
+        <div class="container">
+            <h1>Privacy Policy</h1>
+            <p>Last Updated: November 24, 2025</p>
+        </div>
+    </section>
+
+    <!-- Main Content -->
+    <div class="container content-grid">
+        <div class="policy-content">
+            
+            <h2>1. Introduction</h2>
+            <p>ToolKit Pro ("we," "us," or "our") respects your privacy. This Privacy Policy explains how we collect, use, and protect your information when you visit our website.</p>
+            <p>We do not require you to create an account to use our tools. You can use our services anonymously.</p>
+
+            <h2>2. User Files and Data Handling</h2>
+            <p>Our core service involves processing files (images and PDFs) that you upload. We treat your files with strict confidentiality.</p>
+            <ul>
+                <li><strong>Temporary Storage:</strong> We upload your files to our secure servers solely to process them (e.g., to compress or convert).</li>
+                <li><strong>Automatic Deletion:</strong> We delete all uploaded and processed files from our servers automatically after one (1) hour. We do not keep backups.</li>
+                <li><strong>No Ownership:</strong> We claim no ownership over your content. You retain all rights to your files.</li>
+                <li><strong>Local Processing:</strong> Where possible, we process files directly in your web browser. In these cases, your files never leave your device.</li>
+            </ul>
+
+            <h2>3. Information We Collect</h2>
+            <p>We collect limited information to maintain our site performance and security.</p>
+            <ul>
+                <li><strong>Log Data:</strong> We log standard technical data, such as your IP address, browser type, and access times. This helps us detect abuse and fix errors.</li>
+                <li><strong>Cookies:</strong> We use cookies to improve your experience. You can disable cookies in your browser settings, though some site features may not work correctly.</li>
+            </ul>
+
+            <h2>4. Third-Party Services and Ads</h2>
+            <p>We use third-party services to support our free platform.</p>
+            <p><strong>Google AdSense:</strong> We display ads provided by Google. Google uses cookies (including the DoubleClick cookie) to serve ads based on your visits to this and other websites. You can opt out of personalized advertising by visiting <a href="https://www.google.com/settings/ads" target="_blank" style="color:var(--primary)">Google Ad Settings</a>.</p>
+            <p><strong>Google Analytics:</strong> We use Google Analytics to understand how visitors use our site. This tool collects anonymous data, such as page views and session duration.</p>
+
+            <h2>5. Data Security</h2>
+            <p>We protect your data using industry standards. We use SSL (Secure Socket Layer) encryption for all data transfer between your device and our servers. We limit access to our servers to authorized personnel only.</p>
+
+            <h2>6. Your Rights</h2>
+            <p>Depending on your location, you have rights regarding your data. These may include the right to access, correct, or delete your personal information. Since we do not store user files permanently or require accounts, we hold very little personal data. If you have questions about your data, please contact us.</p>
+
+            <h2>7. Changes to This Policy</h2>
+            <p>We may update this policy occasionally. We will post the new date at the top of this page. We encourage you to review this page periodically.</p>
+
+            <h2>8. Contact Us</h2>
+            <p>If you have questions about this Privacy Policy, please contact us at:</p>
+            <p><strong>Email:</strong> support@toolkitpro.com</p>
+        </div>
+
+        <!-- Sidebar with Ad -->
+        <aside>
+            <div class="sidebar-box">
+                <h3 style="margin-bottom: 1rem; font-size: 1.1rem;">Advertisement</h3>
+                <!-- Ad Unit: Sidebar (Slot 7424930571) -->
+                <div style="background: #f9fafb; min-height: 250px; display: flex; align-items: center; justify-content: center;">
+                    <ins class="adsbygoogle"
+                         style="display:block"
+                         data-ad-client="ca-pub-7597066031957006"
+                         data-ad-slot="7424930571"
+                         data-ad-format="auto"
+                         data-full-width-responsive="true"></ins>
+                    <script>
+                         (adsbygoogle = window.adsbygoogle || []).push({});
+                    </script>
+                </div>
+            </div>
+        </aside>
     </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <h4 style="font-size: 1.2rem; display: flex; align-items: center; gap: 8px;"><i class="fas fa-layer-group"></i> ToolKit Pro</h4>
+                    <p>&copy; 2025 ToolKit Pro.</p>
+                </div>
+                <div class="footer-col">
+                    <h4>Company</h4>
+                    <ul>
+                        <li><a href="about.html">About Us</a></li>
+                        <li><a href="#">Contact</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <!-- Footer Ad (Slot 7424930571 reused) -->
+            <div style="margin-top: 2rem; min-height: 90px; text-align: center;">
+                 <ins class="adsbygoogle"
+                     style="display:block"
+                     data-ad-client="ca-pub-7597066031957006"
+                     data-ad-slot="7424930571"
+                     data-ad-format="auto"
+                     data-full-width-responsive="true"></ins>
+                <script>
+                     (adsbygoogle = window.adsbygoogle || []).push({});
+                </script>
+            </div>
+        </div>
+    </footer>
+
 </body>
 </html>
