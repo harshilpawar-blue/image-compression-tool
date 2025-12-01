@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- SEO -->
+    <title>Watermark Image Online - Add Text or Logo | The Image Toolkit</title>
+    <meta name="description" content="Add watermark to images online for free. Overlay text or logo to protect your photos. Customize transparency, position, and font. Secure and fast.">
+    <meta name="keywords" content="watermark image, add logo to photo, photo copyright, image protection, add text to image, online watermark tool">
+    
+    <!-- FONTS & ICONS -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- LIBRARIES -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
+
+    <!-- ADSENSE -->
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7597066031957006" crossorigin="anonymous"></script>
+
+    <style>
+        :root {
+            --primary: #4F46E5;
+            --bg-body: #F3F4F6;
+            --text-main: #1F2937;
+            --border: #E5E7EB;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
+        body { background-color: var(--bg-body); color: var(--text-main); display: flex; flex-direction: column; min-height: 100vh; }
+        a { text-decoration: none; color: inherit; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+
+        /* Header */
+        header { background: white; border-bottom: 1px solid var(--border); height: 70px; display: flex; align-items: center; position: sticky; top: 0; z-index: 1000; box-shadow: 0 1px 2px rgba(0,0,0,0.05); }
+        .nav-wrapper { display: flex; justify-content: space-between; align-items: center; width: 100%; }
+        .logo { font-weight: 700; font-size: 1.5rem; color: var(--primary); display: flex; align-items: center; gap: 8px; }
+        .nav-links { display: flex; gap: 30px; }
+        .nav-links a { font-weight: 500; font-size: 0.95rem; color: var(--text-main); transition: 0.2s; }
+        .nav-links a:hover { color: var(--primary); }
+        .mobile-toggle { display: none; font-size: 1.5rem; cursor: pointer; color: var(--text-main); }
+
+        /* Ad Wrapper */
+        .ad-wrapper { width: 100%; margin: 20px 0; display: flex; justify-content: center; overflow: hidden; min-height: 90px; background: #fff; border: 1px solid #f0f0f0; border-radius: 8px; align-items: center; }
+
+        /* Workspace */
+        .workspace { background: #F9FAFB; padding: 2rem 0; min-height: 60vh; }
+        .tool-title { text-align: center; margin-bottom: 1.5rem; }
+        .tool-title h1 { font-size: 1.8rem; color: #111827; }
+        .tool-title p { color: #6B7280; font-size: 1rem; }
+
+        /* Drop Zone */
+        .drop-zone {
+            background: white; border: 2px dashed #D1D5DB; border-radius: 12px; padding: 3rem 1rem;
+            text-align: center; cursor: pointer; transition: 0.2s; max-width: 800px; margin: 0 auto;
+        }
+        .drop-zone:hover { border-color: var(--primary); background: #EEF2FF; }
+        .btn-upload {
+            background: var(--primary); color: white; padding: 1rem 2rem; border-radius: 8px;
+            font-weight: 600; font-size: 1.1rem; border: none; cursor: pointer; display: inline-flex;
+            align-items: center; gap: 10px; margin-bottom: 1rem;
+        }
+
+        /* Editor Container */
+        .editor-container {
+            display: none; max-width: 1100px; margin: 0 auto; background: white;
+            border-radius: 12px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); overflow: hidden;
+        }
+        .editor-grid { display: grid; grid-template-columns: 300px 1fr; min-height: 600px; }
+
+        /* Sidebar Controls */
+        .controls-panel { 
+            padding: 1.5rem; border-right: 1px solid var(--border); background: #fff; 
+            display: flex; flex-direction: column; overflow-y: auto;
+        }
+
+        /* Tabs */
+        .mode-tabs { display: flex; gap: 5px; margin-bottom: 1.5rem; background: #E5E7EB; padding: 4px; border-radius: 8px; }
+        .mode-tab { flex: 1; text-align: center; padding: 8px; cursor: pointer; border-radius: 6px; font-size: 0.9rem; font-weight: 500; transition: 0.2s; }
+        .mode-tab.active { background: white; color: var(--primary); box-shadow: 0 1px 2px rgba(0,0,0,0.1); }
+
+        .control-group { margin-bottom: 1.5rem; }
+        .control-label { font-weight: 600; margin-bottom: 0.5rem; display: block; color: #374151; font-size: 0.9rem; }
+        
+        input[type="text"], select { width: 100%; padding: 10px; border: 1px solid var(--border); border-radius: 6px; margin-bottom: 10px; }
+        input[type="color"] { width: 100%; height: 40px; padding: 2px; border: 1px solid var(--border); border-radius: 6px; cursor: pointer; }
+        
+        input[type=range] { width: 100%; height: 6px; background: #e5e7eb; border-radius: 5px; outline: none; appearance: none; }
+        input[type=range]::-webkit-slider-thumb { -webkit-appearance: none; width: 18px; height: 18px; background: var(--primary); border-radius: 50%; cursor: pointer; }
+
+        /* Position Grid */
+        .pos-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 5px; width: 120px; margin: 0 auto; }
+        .pos-btn { width: 36px; height: 36px; border: 1px solid var(--border); background: #F9FAFB; cursor: pointer; border-radius: 4px; display: flex; align-items: center; justify-content: center; }
+        .pos-btn:hover { background: #E5E7EB; }
+        .pos-btn.active { background: var(--primary); border-color: var(--primary); }
+        .pos-dot { width: 8px; height: 8px; background: #9CA3AF; border-radius: 50%; }
+        .pos-btn.active .pos-dot { background: white; }
+
+        /* Upload Logo Button */
+        .logo-upload-label {
+            display: block; width: 100%; padding: 10px; text-align: center; border: 1px dashed var(--primary);
+            border-radius: 6px; color: var(--primary); cursor: pointer; font-weight: 500; background: #EEF2FF;
+        }
+
+        /* Canvas */
+        .canvas-area { background: #f0f0f0; display: flex; align-items: center; justify-content: center; padding: 2rem; overflow: hidden; position: relative; }
+        canvas { max-width: 100%; max-height: 70vh; box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1); background-image: url('data:image/svg+xml;utf8,<svg width="20" height="20" xmlns="http://www.w3.org/2000/svg"><rect width="10" height="10" fill="%23eee"/><rect x="10" y="10" width="10" height="10" fill="%23eee"/></svg>'); }
+
+        /* Actions */
+        .action-bar { padding: 1rem; border-top: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; background: white; grid-column: 1 / -1; }
+        .btn-action { padding: 0.8rem 1.5rem; background: var(--primary); color: white; border: none; border-radius: 8px; font-weight: 600; cursor: pointer; }
+        .btn-reset { background: transparent; color: #EF4444; border: 1px solid #EF4444; }
+
+        /* Footer & Content */
+        .content-section { background: white; padding: 4rem 0; border-top: 1px solid var(--border); }
+        .sidebar-box { border: 1px solid var(--border); border-radius: 8px; padding: 1.5rem; }
+        footer { background: #111827; color: #9CA3AF; padding: 2rem 0; margin-top: auto; text-align: center; }
+
+        @media (max-width: 850px) {
+            .editor-grid { grid-template-columns: 1fr; }
+            .controls-panel { border-right: none; border-bottom: 1px solid var(--border); max-height: none; }
+            .canvas-area { min-height: 300px; }
+        }
+        @media (max-width: 768px) {
+            .mobile-toggle { display: block; }
+            .nav-links { display: none; flex-direction: column; position: absolute; top: 70px; left: 0; width: 100%; background: white; padding: 1rem; border-bottom: 1px solid var(--border); box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); }
+            .nav-links.active { display: flex; }
+            .nav-links a { padding: 10px 0; border-bottom: 1px solid #f3f4f6; width: 100%; text-align: center; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="container nav-wrapper">
+            <a href="index.html" class="logo">
+                <i class="fas fa-layer-group"></i> The Image Toolkit
+            </a>
+            <div class="mobile-toggle" onclick="toggleMenu()"><i class="fas fa-bars"></i></div>
+            <nav class="nav-links" id="navLinks">
+                <a href="index.html">Home</a>
+                <a href="index.html#tools">All Tools</a>
+                <a href="about.html">About</a>
+                <a href="index.html#guides">Guides</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- AD UNIT 1: TOP -->
+    <div class="container">
+        <div class="ad-wrapper">
+            <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-7597066031957006" data-ad-slot="5194353053" data-ad-format="auto" data-full-width-responsive="true"></ins>
+            <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+        </div>
+    </div>
+
+    <!-- Workspace -->
+    <section class="workspace">
+        <div class="container">
+            <div class="tool-title" id="toolTitle">
+                <h1>Watermark Image</h1>
+                <p>Add text or logo watermarks to your images. Protect your copyright easily.</p>
+            </div>
+
+            <!-- Upload State -->
+            <div class="drop-zone" id="dropZone" onclick="document.getElementById('fileInput').click()">
+                <input type="file" id="fileInput" accept="image/*" style="display:none">
+                <div style="font-size: 3rem; color: #E5E7EB; margin-bottom: 1rem;"><i class="fas fa-tint"></i></div>
+                <button class="btn-upload">Select Image</button>
+                <p>or drop image here</p>
+            </div>
+
+            <!-- Editor State -->
+            <div class="editor-container" id="editorContainer">
+                <div class="editor-grid">
+                    <!-- Left: Controls -->
+                    <div class="controls-panel">
+                        <div class="mode-tabs">
+                            <div class="mode-tab active" onclick="setMode('text')">Text</div>
+                            <div class="mode-tab" onclick="setMode('image')">Logo</div>
+                        </div>
+
+                        <!-- Text Controls -->
+                        <div id="textControls">
+                            <div class="control-group">
+                                <label class="control-label">Text</label>
+                                <input type="text" id="watermarkText" value="The Image Toolkit" oninput="draw()">
+                            </div>
+                            <div class="control-group">
+                                <label class="control-label">Font</label>
+                                <select id="fontSelect" onchange="draw()">
+                                    <option value="Arial">Arial</option>
+                                    <option value="Verdana">Verdana</option>
+                                    <option value="Times New Roman">Times New Roman</option>
+                                    <option value="Courier New">Courier New</option>
+                                    <option value="Impact">Impact</option>
+                                </select>
+                            </div>
+                            <div class="control-group">
+                                <label class="control-label">Color</label>
+                                <input type="color" id="textColor" value="#ffffff" oninput="draw()">
+                            </div>
+                            <div class="control-group">
+                                <label class="control-label">Size</label>
+                                <input type="range" id="textSize" min="10" max="200" value="50" oninput="draw()">
+                            </div>
+                        </div>
+
+                        <!-- Image Controls -->
+                        <div id="imageControls" style="display: none;">
+                            <div class="control-group">
+                                <label class="control-label">Upload Logo</label>
+                                <label class="logo-upload-label">
+                                    Choose File
+                                    <input type="file" id="logoInput" accept="image/*" style="display:none" onchange="handleLogo(this)">
+                                </label>
+                            </div>
+                            <div class="control-group">
+                                <label class="control-label">Scale</label>
+                                <input type="range" id="imgScale" min="10" max="100" value="30" oninput="draw()">
+                            </div>
+                        </div>
+
+                        <!-- Common Controls -->
+                        <div class="control-group">
+                            <label class="control-label">Opacity</label>
+                            <input type="range" id="opacity" min="0" max="100" value="80" oninput="draw()">
+                        </div>
+
+                        <div class="control-group">
+                            <label class="control-label">Position</label>
+                            <div class="pos-grid">
+                                <div class="pos-btn" onclick="setPos(0,0,this)"><div class="pos-dot"></div></div>
+                                <div class="pos-btn" onclick="setPos(1,0,this)"><div class="pos-dot"></div></div>
+                                <div class="pos-btn" onclick="setPos(2,0,this)"><div class="pos-dot"></div></div>
+                                <div class="pos-btn" onclick="setPos(0,1,this)"><div class="pos-dot"></div></div>
+                                <div class="pos-btn active" onclick="setPos(1,1,this)"><div class="pos-dot"></div></div>
+                                <div class="pos-btn" onclick="setPos(2,1,this)"><div class="pos-dot"></div></div>
+                                <div class="pos-btn" onclick="setPos(0,2,this)"><div class="pos-dot"></div></div>
+                                <div class="pos-btn" onclick="setPos(1,2,this)"><div class="pos-dot"></div></div>
+                                <div class="pos-btn" onclick="setPos(2,2,this)"><div class="pos-dot"></div></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Right: Canvas -->
+                    <div class="canvas-area">
+                        <canvas id="canvas"></canvas>
+                    </div>
+
+                    <!-- Bottom: Actions -->
+                    <div class="action-bar">
+                        <button class="btn-action btn-reset" onclick="location.reload()">Start Over</button>
+                        <button class="btn-action" onclick="downloadImage()">Download Image</button>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- AD UNIT 2: MIDDLE -->
+    <div class="container">
+        <div class="ad-wrapper">
+            <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-7597066031957006" data-ad-slot="4383834265" data-ad-format="auto" data-full-width-responsive="true"></ins>
+            <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+        </div>
+    </div>
+
+    <!-- Content & Sidebar -->
+    <section class="content-section">
+        <div class="container" style="display: grid; grid-template-columns: 2fr 1fr; gap: 3rem;">
+            <div>
+                <h2 style="margin-bottom: 1rem;">Free Watermark Tool</h2>
+                <p>Protect your digital assets by adding a watermark. Whether it's your name, website URL, or company logo, placing a watermark ensures viewers know who the image belongs to.</p>
+                
+                <h3 style="margin-top: 1.5rem; margin-bottom: 0.5rem;">Why use this tool?</h3>
+                <ul style="padding-left: 20px; line-height: 1.8; color: #4B5563;">
+                    <li><strong>Dual Modes:</strong> Type text directly or upload a transparent PNG logo.</li>
+                    <li><strong>Full Control:</strong> Adjust opacity to make the watermark subtle but visible.</li>
+                    <li><strong>Smart Positioning:</strong> Instantly place your mark in any corner or the center with one click.</li>
+                    <li><strong>Secure:</strong> Everything happens in your browser. Your original image is never sent to a server.</li>
+                </ul>
+            </div>
+            
+            <aside>
+                <div class="sidebar-box">
+                    <h4 style="margin-bottom: 1rem;">Sponsored</h4>
+                    <div style="min-height: 250px;">
+                        <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-7597066031957006" data-ad-slot="7424930571" data-ad-format="auto" data-full-width-responsive="true"></ins>
+                        <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+                    </div>
+                </div>
+            </aside>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <div class="ad-wrapper" style="background: rgba(255,255,255,0.05); border: none;">
+                <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-7597066031957006" data-ad-slot="7424930571" data-ad-format="auto" data-full-width-responsive="true"></ins>
+                <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+            </div>
+            <div class="copyright">&copy; 2025 The Image Toolkit. All rights reserved.</div>
+        </div>
+    </footer>
+
+    <script>
+        // --- Menu ---
+        function toggleMenu() { document.getElementById('navLinks').classList.toggle('active'); }
+
+        // --- Logic ---
+        const dropZone = document.getElementById('dropZone');
+        const fileInput = document.getElementById('fileInput');
+        const editorContainer = document.getElementById('editorContainer');
+        const toolTitle = document.getElementById('toolTitle');
+        const canvas = document.getElementById('canvas');
+        const ctx = canvas.getContext('2d');
+
+        let mainImg = new Image();
+        let logoImg = null;
+        let mode = 'text'; // 'text' or 'image'
+        let posX = 1, posY = 1; // 0,1,2 grid positions
+        let fileName = 'watermarked.png';
+
+        // Upload
+        dropZone.addEventListener('dragover', (e) => { e.preventDefault(); dropZone.style.borderColor = 'var(--primary)'; });
+        dropZone.addEventListener('dragleave', () => dropZone.style.borderColor = '#D1D5DB');
+        dropZone.addEventListener('drop', (e) => { e.preventDefault(); handleFile(e.dataTransfer.files[0]); });
+        fileInput.addEventListener('change', (e) => handleFile(e.target.files[0]));
+
+        function handleFile(file) {
+            if (!file || !file.type.startsWith('image/')) return;
+            fileName = file.name;
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                mainImg.src = e.target.result;
+                mainImg.onload = () => {
+                    dropZone.style.display = 'none';
+                    toolTitle.style.display = 'none';
+                    editorContainer.style.display = 'block';
+                    draw();
+                };
+            };
+            reader.readAsDataURL(file);
+        }
+
+        function handleLogo(input) {
+            if (input.files && input.files[0]) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    logoImg = new Image();
+                    logoImg.src = e.target.result;
+                    logoImg.onload = draw;
+                }
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+
+        // Settings
+        function setMode(m) {
+            mode = m;
+            document.querySelectorAll('.mode-tab').forEach(t => t.classList.remove('active'));
+            if(m === 'text') {
+                document.querySelectorAll('.mode-tab')[0].classList.add('active');
+                document.getElementById('textControls').style.display = 'block';
+                document.getElementById('imageControls').style.display = 'none';
+            } else {
+                document.querySelectorAll('.mode-tab')[1].classList.add('active');
+                document.getElementById('textControls').style.display = 'none';
+                document.getElementById('imageControls').style.display = 'block';
+            }
+            draw();
+        }
+
+        function setPos(x, y, btn) {
+            posX = x; posY = y;
+            document.querySelectorAll('.pos-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            draw();
+        }
+
+        // Draw Canvas
+        function draw() {
+            // Setup canvas
+            canvas.width = mainImg.width;
+            canvas.height = mainImg.height;
+            ctx.drawImage(mainImg, 0, 0);
+
+            const opacity = document.getElementById('opacity').value / 100;
+            ctx.globalAlpha = opacity;
+
+            if (mode === 'text') {
+                const text = document.getElementById('watermarkText').value;
+                const size = document.getElementById('textSize').value;
+                const font = document.getElementById('fontSelect').value;
+                const color = document.getElementById('textColor').value;
+
+                // Scale font size relative to image size to keep consistency
+                const scaledSize = (size / 100) * (canvas.width / 10); 
+                
+                ctx.font = `bold ${scaledSize}px ${font}`;
+                ctx.fillStyle = color;
+                ctx.textBaseline = 'middle';
+                ctx.textAlign = 'center';
+
+                // Calculate coords
+                let x = (canvas.width / 2) * posX;
+                let y = (canvas.height / 2) * posY;
+                
+                // Adjust for edges (padding)
+                const pad = canvas.width * 0.05;
+                if(posX === 0) { ctx.textAlign = 'left'; x += pad; }
+                if(posX === 2) { ctx.textAlign = 'right'; x -= pad; }
+                if(posY === 0) y += pad;
+                if(posY === 2) y -= pad;
+
+                ctx.fillText(text, x, y);
+
+            } else if (mode === 'image' && logoImg) {
+                const scale = document.getElementById('imgScale').value / 100;
+                
+                // Max width relative to main image
+                let w = (canvas.width * 0.3) * (scale * 2); 
+                let ratio = logoImg.width / logoImg.height;
+                let h = w / ratio;
+
+                // Calculate coords
+                let x = (canvas.width - w) / 2 * posX; // 0=0, 1=mid, 2=end
+                let y = (canvas.height - h) / 2 * posY;
+
+                // Adjust for true center vs grid logic
+                if(posX === 1) x = (canvas.width - w) / 2;
+                if(posX === 2) x = canvas.width - w - (canvas.width * 0.05);
+                if(posX === 0) x = canvas.width * 0.05;
+
+                if(posY === 1) y = (canvas.height - h) / 2;
+                if(posY === 2) y = canvas.height - h - (canvas.height * 0.05);
+                if(posY === 0) y = canvas.height * 0.05;
+
+                ctx.drawImage(logoImg, x, y, w, h);
+            }
+            
+            ctx.globalAlpha = 1.0;
+        }
+
+        function downloadImage() {
+            canvas.toBlob((blob) => {
+                saveAs(blob, 'watermarked_' + fileName);
+            }, 'image/png');
+        }
+    </script>
+</body>
+</html>
