@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- SEO -->
+    <title>HTML to Image Converter - Convert Code to JPG/PNG | The Image Toolkit</title>
+    <meta name="description" content="Convert HTML code and CSS to high-quality JPG or PNG images online. Free tool to render and snapshot HTML snippets instantly.">
+    <meta name="keywords" content="html to image, code to image, html to jpg, html to png, snippet generator, convert web to image, free html converter">
+    
+    <!-- FAVICON -->
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' fill='%234F46E5' rx='20'/><path d='M30 70 L50 30 L70 70' fill='none' stroke='white' stroke-width='8'/></svg>">
+
+    <!-- FONTS & ICONS -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Fira+Code:wght@400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- LIBRARIES -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
+
+    <!-- ADSENSE -->
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7597066031957006" crossorigin="anonymous"></script>
+
+    <style>
+        :root {
+            --primary: #4F46E5;
+            --bg-body: #F3F4F6;
+            --text-main: #1F2937;
+            --border: #E5E7EB;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
+        body { background-color: var(--bg-body); color: var(--text-main); display: flex; flex-direction: column; min-height: 100vh; }
+        a { text-decoration: none; color: inherit; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+
+        /* Header */
+        header { background: white; border-bottom: 1px solid var(--border); height: 70px; display: flex; align-items: center; position: sticky; top: 0; z-index: 1000; box-shadow: 0 1px 2px rgba(0,0,0,0.05); }
+        .nav-wrapper { display: flex; justify-content: space-between; align-items: center; width: 100%; }
+        .logo { font-weight: 700; font-size: 1.5rem; color: var(--primary); display: flex; align-items: center; gap: 8px; }
+        .nav-links { display: flex; gap: 30px; }
+        .nav-links a { font-weight: 500; font-size: 0.95rem; color: var(--text-main); transition: 0.2s; }
+        .nav-links a:hover { color: var(--primary); }
+        .mobile-toggle { display: none; font-size: 1.5rem; cursor: pointer; color: var(--text-main); }
+
+        /* Ad Wrapper */
+        .ad-wrapper { width: 100%; margin: 20px 0; display: flex; justify-content: center; overflow: hidden; min-height: 90px; background: #fff; border: 1px solid #f0f0f0; border-radius: 8px; align-items: center; }
+
+        /* Workspace */
+        .workspace { background: #F9FAFB; padding: 2rem 0; min-height: 60vh; }
+        .tool-title { text-align: center; margin-bottom: 1.5rem; }
+        .tool-title h1 { font-size: 1.8rem; color: #111827; }
+        .tool-title p { color: #6B7280; font-size: 1rem; }
+
+        /* Editor Grid */
+        .editor-container {
+            display: grid; grid-template-columns: 1fr 1fr; gap: 20px; max-width: 1200px; margin: 0 auto;
+        }
+
+        /* Code Input Panel */
+        .input-panel {
+            background: white; padding: 1.5rem; border-radius: 12px; border: 1px solid var(--border);
+            display: flex; flex-direction: column; gap: 1rem;
+        }
+        .panel-header { font-weight: 600; font-size: 1.1rem; margin-bottom: 0.5rem; color: #374151; display: flex; justify-content: space-between; align-items: center; }
+        
+        textarea {
+            width: 100%; height: 200px; padding: 1rem; border: 1px solid var(--border); border-radius: 8px;
+            font-family: 'Fira Code', monospace; font-size: 0.9rem; background: #F9FAFB; resize: vertical;
+        }
+        textarea:focus { outline: 1px solid var(--primary); background: white; }
+
+        /* Preview Panel */
+        .preview-panel {
+            background: white; padding: 1.5rem; border-radius: 12px; border: 1px solid var(--border);
+            display: flex; flex-direction: column;
+        }
+        
+        .preview-box {
+            flex-grow: 1; border: 2px dashed #E5E7EB; border-radius: 8px; padding: 20px;
+            background: #fff; overflow: auto; min-height: 300px; display: flex; align-items: center; justify-content: center;
+        }
+        
+        /* The actual div that gets captured */
+        #captureArea {
+            background: white; padding: 20px; width: 100%; min-height: 200px;
+        }
+
+        /* Controls */
+        .controls { display: flex; gap: 10px; align-items: center; margin-top: 1rem; flex-wrap: wrap; }
+        select { padding: 0.8rem; border: 1px solid var(--border); border-radius: 6px; font-size: 0.9rem; background: white; cursor: pointer; }
+        
+        .btn-action { padding: 0.8rem 1.5rem; background: var(--primary); color: white; border: none; border-radius: 8px; font-weight: 600; cursor: pointer; font-size: 1rem; flex-grow: 1; text-align: center; }
+        .btn-action:hover { background: #4338ca; }
+        .btn-render { background: #10B981; }
+        .btn-render:hover { background: #059669; }
+
+        /* Content & Footer */
+        .content-section { background: white; padding: 4rem 0; border-top: 1px solid var(--border); }
+        .sidebar-box { border: 1px solid var(--border); border-radius: 8px; padding: 1.5rem; }
+        footer { background: #111827; color: #9CA3AF; padding: 2rem 0; margin-top: auto; text-align: center; }
+
+        @media (max-width: 900px) {
+            .editor-container { grid-template-columns: 1fr; }
+        }
+        @media (max-width: 768px) {
+            .mobile-toggle { display: block; }
+            .nav-links { display: none; flex-direction: column; position: absolute; top: 70px; left: 0; width: 100%; background: white; padding: 1rem; border-bottom: 1px solid var(--border); box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); }
+            .nav-links.active { display: flex; }
+            .nav-links a { padding: 10px 0; border-bottom: 1px solid #f3f4f6; width: 100%; text-align: center; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="container nav-wrapper">
+            <a href="index.html" class="logo">
+                <i class="fas fa-layer-group"></i> The Image Toolkit
+            </a>
+            <div class="mobile-toggle" onclick="toggleMenu()"><i class="fas fa-bars"></i></div>
+            <nav class="nav-links" id="navLinks">
+                <a href="index.html">Home</a>
+                <a href="index.html#tools">All Tools</a>
+                <a href="about.html">About</a>
+                <a href="index.html#guides">Guides</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- AD UNIT 1: TOP -->
+    <div class="container">
+        <div class="ad-wrapper">
+            <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-7597066031957006" data-ad-slot="5194353053" data-ad-format="auto" data-full-width-responsive="true"></ins>
+            <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+        </div>
+    </div>
+
+    <!-- Workspace -->
+    <section class="workspace">
+        <div class="container">
+            <div class="tool-title">
+                <h1>HTML to Image</h1>
+                <p>Render HTML code and save it as a high-quality image instantly.</p>
+            </div>
+
+            <div class="editor-container">
+                <!-- Left: Input -->
+                <div class="input-panel">
+                    <div class="panel-header">
+                        <i class="fas fa-code"></i> HTML Code
+                    </div>
+                    <textarea id="htmlInput" placeholder="<div>Hello World</div>">
+<div style="background: linear-gradient(135deg, #4F46E5, #818cf8); color: white; padding: 40px; border-radius: 12px; text-align: center; font-family: sans-serif;">
+    <h1 style="margin: 0; font-size: 2.5rem;">Hello World</h1>
+    <p style="font-size: 1.2rem;">Converted from HTML!</p>
+</div></textarea>
+                    
+                    <div class="panel-header" style="margin-top: 10px;">
+                        <i class="fab fa-css3"></i> Custom CSS (Optional)
+                    </div>
+                    <textarea id="cssInput" placeholder=".my-class { color: red; }" style="height: 100px;"></textarea>
+
+                    <button class="btn-action btn-render" onclick="renderPreview()">
+                        <i class="fas fa-play"></i> Render Preview
+                    </button>
+                </div>
+
+                <!-- Right: Preview -->
+                <div class="preview-panel">
+                    <div class="panel-header">
+                        <span><i class="fas fa-eye"></i> Preview</span>
+                        <span style="font-size: 0.8rem; color: #6B7280; font-weight: normal;">What you see is what you get</span>
+                    </div>
+                    
+                    <div class="preview-box">
+                        <div id="captureArea">
+                            <!-- Rendered Content Goes Here -->
+                        </div>
+                    </div>
+
+                    <div class="controls">
+                        <select id="formatSelect">
+                            <option value="png">PNG (Transparent)</option>
+                            <option value="jpeg">JPG (Small Size)</option>
+                        </select>
+                        <button class="btn-action" onclick="downloadImage()">
+                            <i class="fas fa-download"></i> Download Image
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- AD UNIT 2: MIDDLE -->
+    <div class="container">
+        <div class="ad-wrapper">
+            <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-7597066031957006" data-ad-slot="4383834265" data-ad-format="auto" data-full-width-responsive="true"></ins>
+            <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+        </div>
+    </div>
+
+    <!-- Content & Sidebar -->
+    <section class="content-section">
+        <div class="container" style="display: grid; grid-template-columns: 2fr 1fr; gap: 3rem;">
+            <div>
+                <h2 style="margin-bottom: 1rem;">Convert HTML to Image Free</h2>
+                <p>The Image Toolkit allows developers and designers to quickly snapshot HTML code into an image file. This is perfect for creating social media previews from code snippets, saving email templates as images, or debugging layout issues visually.</p>
+                
+                <h3 style="margin-top: 1.5rem; margin-bottom: 0.5rem;">How it works</h3>
+                <ol style="padding-left: 20px; line-height: 1.8; color: #4B5563;">
+                    <li><strong>Enter HTML:</strong> Paste your raw HTML structure in the top box. Inline styles (style="...") work best.</li>
+                    <li><strong>Add CSS:</strong> If you have a separate CSS block, paste it in the bottom box.</li>
+                    <li><strong>Render:</strong> Click "Render Preview" to see how it looks.</li>
+                    <li><strong>Download:</strong> Click "Download Image" to save the result as a PNG or JPG file.</li>
+                </ol>
+            </div>
+            
+            <aside>
+                <div class="sidebar-box">
+                    <h4 style="margin-bottom: 1rem;">Sponsored</h4>
+                    <div style="min-height: 250px;">
+                        <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-7597066031957006" data-ad-slot="7424930571" data-ad-format="auto" data-full-width-responsive="true"></ins>
+                        <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+                    </div>
+                </div>
+            </aside>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <div class="ad-wrapper" style="background: rgba(255,255,255,0.05); border: none;">
+                <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-7597066031957006" data-ad-slot="7424930571" data-ad-format="auto" data-full-width-responsive="true"></ins>
+                <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+            </div>
+            <div class="copyright">&copy; 2025 The Image Toolkit. All rights reserved.</div>
+        </div>
+    </footer>
+
+    <script>
+        // --- Mobile Menu ---
+        function toggleMenu() { document.getElementById('navLinks').classList.toggle('active'); }
+
+        // --- Logic ---
+        const htmlInput = document.getElementById('htmlInput');
+        const cssInput = document.getElementById('cssInput');
+        const captureArea = document.getElementById('captureArea');
+
+        // Init with default content
+        window.addEventListener('load', renderPreview);
+
+        function renderPreview() {
+            const html = htmlInput.value;
+            const css = cssInput.value;
+            
+            // Build content with scoped style
+            const styleTag = css ? `<style>${css}</style>` : '';
+            captureArea.innerHTML = styleTag + html;
+        }
+
+        function downloadImage() {
+            const format = document.getElementById('formatSelect').value;
+            const btn = document.querySelector('.btn-action:not(.btn-render)');
+            
+            btn.textContent = "Processing...";
+            btn.disabled = true;
+
+            html2canvas(captureArea, {
+                scale: 2, // Retina quality
+                backgroundColor: format === 'jpeg' ? '#ffffff' : null, // Transparent for PNG
+                logging: false
+            }).then(canvas => {
+                canvas.toBlob(blob => {
+                    saveAs(blob, `html_converted.${format}`);
+                    btn.textContent = "Download Image";
+                    btn.disabled = false;
+                }, `image/${format}`);
+            }).catch(err => {
+                console.error(err);
+                alert("Error generating image. Check your HTML syntax.");
+                btn.textContent = "Download Image";
+                btn.disabled = false;
+            });
+        }
+    </script>
+</body>
+</html>
