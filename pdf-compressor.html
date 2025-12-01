@@ -5,9 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
     <!-- SEO -->
-    <title>Compress PDF Online - Target Size & Quality Slider | The Image Toolkit</title>
-    <meta name="description" content="Compress PDF files online. Set target file size (e.g. 1MB), use a quality slider, or choose presets. Bulk PDF compressor with secure client-side processing.">
-    <meta name="keywords" content="compress pdf, reduce pdf size, target pdf size, pdf slider, online pdf compressor, optimize pdf, shrink pdf, free pdf tool">
+    <title>Compress PDF Online - Lossless & Strong Compression | The Image Toolkit</title>
+    <meta name="description" content="Compress PDF files online. Choose 'Lossless' to preserve text quality or 'Strong' to drastically reduce file size. Bulk processing available.">
+    <meta name="keywords" content="compress pdf, lossless pdf compression, reduce pdf size, shrink pdf, optimize pdf, pdf optimizer, free pdf tool">
     
     <!-- FAVICON -->
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' fill='%234F46E5' rx='20'/><path d='M30 70 L50 30 L70 70' fill='none' stroke='white' stroke-width='8'/></svg>">
@@ -19,6 +19,7 @@
     <!-- LIBRARIES -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://unpkg.com/pdf-lib/dist/pdf-lib.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
 
@@ -100,32 +101,35 @@
         /* Right Panel */
         .settings-panel { padding: 2rem; background: #F9FAFB; display: flex; flex-direction: column; }
         
-        /* Tabs */
-        .mode-tabs { display: flex; gap: 5px; margin-bottom: 1.5rem; background: #E5E7EB; padding: 4px; border-radius: 8px; }
-        .mode-tab { flex: 1; text-align: center; padding: 8px; cursor: pointer; border-radius: 6px; font-size: 0.9rem; font-weight: 500; transition: 0.2s; }
-        .mode-tab.active { background: white; color: var(--primary); box-shadow: 0 1px 2px rgba(0,0,0,0.1); }
-
-        /* Preset Cards */
-        .level-cards { display: flex; flex-direction: column; gap: 10px; }
-        .level-card {
-            background: white; border: 1px solid var(--border); border-radius: 8px; padding: 15px;
-            cursor: pointer; transition: 0.2s; display: flex; align-items: center; gap: 15px;
+        /* Engine Tabs */
+        .engine-tabs { display: flex; gap: 10px; margin-bottom: 1.5rem; }
+        .engine-tab { 
+            flex: 1; text-align: center; padding: 12px; cursor: pointer; border: 1px solid var(--border); 
+            border-radius: 8px; font-weight: 600; font-size: 0.95rem; background: white;
         }
-        .level-card:hover, .level-card.active { border-color: var(--primary); background: #EEF2FF; }
-        .level-card.active { box-shadow: 0 0 0 1px var(--primary); }
-        .level-icon { font-size: 1.2rem; color: #4B5563; }
-        .level-card.active .level-icon { color: var(--primary); }
+        .engine-tab.active { background: #EEF2FF; border-color: var(--primary); color: var(--primary); }
+        .engine-info { font-size: 0.8rem; color: #6B7280; margin-top: 5px; font-weight: normal; display: block; }
 
-        /* Custom & Target Inputs */
+        /* Settings Area */
+        .settings-content { flex-grow: 1; }
         .setting-group { margin-bottom: 1.5rem; }
         .setting-label { font-weight: 600; margin-bottom: 0.5rem; display: block; color: #374151; font-size: 0.9rem; }
-        input[type=range] { width: 100%; height: 6px; background: #d1d5db; border-radius: 5px; outline: none; accent-color: var(--primary); }
         
+        input[type=range] { width: 100%; height: 6px; background: #d1d5db; border-radius: 5px; outline: none; accent-color: var(--primary); }
         .input-group { display: flex; gap: 10px; }
         .input-box { width: 100%; padding: 10px; border: 1px solid var(--border); border-radius: 6px; }
 
+        /* Preset Pills */
+        .preset-pills { display: flex; gap: 8px; margin-top: 10px; flex-wrap: wrap; }
+        .preset-pill {
+            padding: 6px 12px; background: white; border: 1px solid var(--border); border-radius: 20px;
+            font-size: 0.85rem; cursor: pointer; transition: 0.2s;
+        }
+        .preset-pill:hover { border-color: var(--primary); }
+        .preset-pill.active { background: var(--primary); color: white; border-color: var(--primary); }
+
         /* Actions */
-        .actions-row { display: flex; gap: 10px; margin-top: auto; }
+        .actions-row { display: flex; gap: 10px; margin-top: 20px; }
         .btn-action { flex: 2; padding: 1rem; background: var(--primary); color: white; border: none; border-radius: 8px; font-weight: 600; cursor: pointer; font-size: 1rem; }
         .btn-reset { flex: 1; background: transparent; color: #EF4444; border: 1px solid #EF4444; border-radius: 8px; font-weight: 600; cursor: pointer; }
         .btn-reset:hover { background: #FEF2F2; }
@@ -178,7 +182,7 @@
         <div class="container">
             <div class="tool-title" id="toolTitle">
                 <h1>Compress PDF</h1>
-                <p>Reduce the file size of your PDF documents without losing quality.</p>
+                <p>Reduce file size efficiently. Choose Lossless for text or Strong for images.</p>
             </div>
 
             <!-- Upload State -->
@@ -195,7 +199,7 @@
                     <!-- Left: File List -->
                     <div class="file-list-panel">
                         <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1rem;">
-                            <h3 style="margin:0;">PDFs to Compress</h3>
+                            <h3 style="margin:0;">Files</h3>
                             <span id="fileCount" style="color:#6B7280; font-size:0.9rem;">0 files</span>
                         </div>
                         
@@ -208,72 +212,61 @@
 
                     <!-- Right: Settings -->
                     <div class="settings-panel">
-                        <h3 style="margin-bottom: 1.5rem;">Compression Options</h3>
-
-                        <div class="mode-tabs">
-                            <div class="mode-tab active" onclick="setMode('presets')">Presets</div>
-                            <div class="mode-tab" onclick="setMode('custom')">Slider</div>
-                            <div class="mode-tab" onclick="setMode('target')">Target Size</div>
-                        </div>
-
-                        <!-- Mode: Presets -->
-                        <div id="presetsMode">
-                            <div class="level-cards">
-                                <div class="level-card" onclick="selectLevel('extreme', this)">
-                                    <i class="fas fa-compress-arrows-alt level-icon"></i>
-                                    <div class="level-info">
-                                        <h4>Extreme Compression</h4>
-                                        <p>Low quality (72 DPI). Maximum reduction.</p>
-                                    </div>
-                                </div>
-                                <div class="level-card active" onclick="selectLevel('recommended', this)">
-                                    <i class="fas fa-check-circle level-icon"></i>
-                                    <div class="level-info">
-                                        <h4>Recommended</h4>
-                                        <p>Good quality (150 DPI). Standard.</p>
-                                    </div>
-                                </div>
-                                <div class="level-card" onclick="selectLevel('less', this)">
-                                    <i class="fas fa-expand-alt level-icon"></i>
-                                    <div class="level-info">
-                                        <h4>Less Compression</h4>
-                                        <p>High quality (200 DPI). Minimal reduction.</p>
-                                    </div>
-                                </div>
+                        
+                        <!-- Engine Selection -->
+                        <label class="setting-label">Compression Mode</label>
+                        <div class="engine-tabs">
+                            <div class="engine-tab active" onclick="setEngine('lossless')">
+                                Lossless
+                                <span class="engine-info">Clean Structure</span>
+                            </div>
+                            <div class="engine-tab" onclick="setEngine('strong')">
+                                Strong
+                                <span class="engine-info">Rasterize Images</span>
                             </div>
                         </div>
 
-                        <!-- Mode: Custom Slider -->
-                        <div id="customMode" style="display: none;">
-                            <div class="setting-group">
-                                <label class="setting-label">Image Quality: <span id="qualityVal">70</span>%</label>
-                                <input type="range" id="qualityRange" min="10" max="100" value="70" oninput="document.getElementById('qualityVal').textContent=this.value">
-                                <p style="font-size:0.8rem; color:#6B7280; margin-top:5px;">Controls the clarity of images inside the PDF.</p>
+                        <div class="settings-content">
+                            <!-- LOSSLESS SETTINGS -->
+                            <div id="losslessSettings">
+                                <p style="font-size:0.9rem; color:#4B5563; line-height:1.5; background:#EEF2FF; padding:10px; border-radius:6px;">
+                                    <strong>Best for:</strong> Text documents, CVs, Invoices.<br>
+                                    Removes unused data, metadata, and redundant objects without affecting visual quality. File size reduction is moderate (10-30%).
+                                </p>
                             </div>
-                            <div class="setting-group">
-                                <label class="setting-label">Resolution Scale: <span id="scaleVal">1.0</span>x</label>
-                                <input type="range" id="scaleRange" min="0.5" max="2.0" step="0.1" value="1.0" oninput="document.getElementById('scaleVal').textContent=this.value">
-                                <p style="font-size:0.8rem; color:#6B7280; margin-top:5px;">Lower scale reduces dimensions (e.g. 0.5 is half size).</p>
-                            </div>
-                        </div>
 
-                        <!-- Mode: Target Size -->
-                        <div id="targetMode" style="display: none;">
-                            <div class="setting-group">
-                                <label class="setting-label">Target File Size</label>
-                                <div class="input-group">
-                                    <input type="number" id="targetInput" class="input-box" placeholder="e.g. 1">
-                                    <select id="unitSelect" class="input-box" style="width:80px;">
-                                        <option value="MB">MB</option>
-                                        <option value="KB">KB</option>
-                                    </select>
+                            <!-- STRONG SETTINGS -->
+                            <div id="strongSettings" style="display:none;">
+                                <p style="font-size:0.85rem; color:#EF4444; margin-bottom:1rem;">
+                                    <i class="fas fa-exclamation-triangle"></i> Converts pages to images. Text will no longer be selectable. Best for scans or huge files.
+                                </p>
+
+                                <div class="setting-group">
+                                    <label class="setting-label">Image Quality: <span id="qualityVal">70</span>%</label>
+                                    <input type="range" id="qualityRange" min="10" max="100" value="70" oninput="updateQuality(this.value)">
+                                    <div class="preset-pills">
+                                        <div class="preset-pill" onclick="setPreset(30)">Low</div>
+                                        <div class="preset-pill active" onclick="setPreset(70)">Medium</div>
+                                        <div class="preset-pill" onclick="setPreset(90)">High</div>
+                                    </div>
                                 </div>
-                                <p style="font-size:0.8rem; color:#6B7280; margin-top:8px;">We will adjust quality per page to attempt to fit this size.</p>
+
+                                <div class="setting-group">
+                                    <label class="setting-label">Target File Size (Optional)</label>
+                                    <div class="input-group">
+                                        <input type="number" id="targetInput" class="input-box" placeholder="e.g. 1">
+                                        <select id="unitSelect" class="input-box" style="width:80px;">
+                                            <option value="MB">MB</option>
+                                            <option value="KB">KB</option>
+                                        </select>
+                                    </div>
+                                    <p style="font-size:0.8rem; color:#6B7280; margin-top:5px;">We'll try to fit the PDF into this size.</p>
+                                </div>
                             </div>
                         </div>
 
                         <div class="actions-row">
-                            <button class="btn-reset" onclick="resetTool()">Start Over</button>
+                            <button class="btn-reset" onclick="resetTool()">Reset</button>
                             <button class="btn-action" id="processBtn">Compress PDF</button>
                         </div>
                         <div id="statusMsg" style="margin-top: 10px; text-align: center; font-size: 0.9rem; font-weight: 500;"></div>
@@ -296,15 +289,13 @@
     <section class="content-section">
         <div class="container" style="display: grid; grid-template-columns: 2fr 1fr; gap: 3rem;">
             <div>
-                <h2 style="margin-bottom: 1rem;">Optimize PDF Files Online</h2>
-                <p>The Image Toolkit's PDF Compressor reduces the size of your PDF documents to make them easier to share via email or upload to the web. We use smart rasterization to optimize the internal visual data.</p>
+                <h2 style="margin-bottom: 1rem;">Smart PDF Compression</h2>
+                <p>The Image Toolkit gives you two powerful ways to shrink your PDFs. Use <strong>Lossless Mode</strong> to clean up the internal structure of documents without affecting text clarity. Use <strong>Strong Mode</strong> to drastically reduce file size by converting pages into optimized images.</p>
                 
-                <h3 style="margin-top: 1.5rem; margin-bottom: 0.5rem;">Why use this tool?</h3>
+                <h3 style="margin-top: 1.5rem; margin-bottom: 0.5rem;">Which mode should I choose?</h3>
                 <ul style="padding-left: 20px; line-height: 1.8; color: #4B5563;">
-                    <li><strong>Target Size:</strong> Need a PDF under 2MB? Just set the target and we'll handle the rest.</li>
-                    <li><strong>Custom Control:</strong> Use sliders to fine-tune visual quality and resolution.</li>
-                    <li><strong>Bulk Processing:</strong> Compress multiple PDFs at once. We'll zip them up for you.</li>
-                    <li><strong>Secure:</strong> Files are processed locally using your browser's engine. No sensitive data is stored on our servers.</li>
+                    <li><strong>Lossless:</strong> Perfect for Word documents saved as PDF, resumes, and contracts where text sharpness is critical.</li>
+                    <li><strong>Strong:</strong> Ideal for scanned documents, heavy reports with many photos, or when you have a strict file size limit (e.g. "Max 2MB").</li>
                 </ul>
             </div>
             
@@ -331,7 +322,7 @@
     </footer>
 
     <script>
-        // --- Mobile Menu ---
+        // --- Menu ---
         function toggleMenu() { document.getElementById('navLinks').classList.toggle('active'); }
 
         // --- Logic ---
@@ -344,27 +335,34 @@
         const statusMsg = document.getElementById('statusMsg');
         
         let filesData = [];
-        let currentMode = 'presets'; // presets, custom, target
-        let selectedPreset = 'recommended';
+        let currentEngine = 'lossless'; // 'lossless' or 'strong'
 
-        // Tabs Logic
-        function setMode(mode) {
-            currentMode = mode;
-            document.querySelectorAll('.mode-tab').forEach(t => t.classList.remove('active'));
-            // Tab Indices: 0=Presets, 1=Custom, 2=Target
-            const idx = mode === 'presets' ? 0 : (mode === 'custom' ? 1 : 2);
-            document.querySelectorAll('.mode-tab')[idx].classList.add('active');
+        // Engine Toggle
+        function setEngine(engine) {
+            currentEngine = engine;
+            document.querySelectorAll('.engine-tab').forEach(t => t.classList.remove('active'));
+            const idx = engine === 'lossless' ? 0 : 1;
+            document.querySelectorAll('.engine-tab')[idx].classList.add('active');
 
-            document.getElementById('presetsMode').style.display = mode === 'presets' ? 'block' : 'none';
-            document.getElementById('customMode').style.display = mode === 'custom' ? 'block' : 'none';
-            document.getElementById('targetMode').style.display = mode === 'target' ? 'block' : 'none';
+            document.getElementById('losslessSettings').style.display = engine === 'lossless' ? 'block' : 'none';
+            document.getElementById('strongSettings').style.display = engine === 'strong' ? 'block' : 'none';
         }
 
-        // Preset Selector
-        function selectLevel(level, card) {
-            selectedPreset = level;
-            document.querySelectorAll('.level-card').forEach(c => c.classList.remove('active'));
-            card.classList.add('active');
+        // Quality Sliders (Strong Mode)
+        function updateQuality(val) {
+            document.getElementById('qualityVal').textContent = val;
+            document.querySelectorAll('.preset-pill').forEach(p => p.classList.remove('active'));
+        }
+
+        function setPreset(val) {
+            document.getElementById('qualityRange').value = val;
+            updateQuality(val);
+            // Highlight specific pill logic
+            const pills = document.querySelectorAll('.preset-pill');
+            pills.forEach(p => p.classList.remove('active'));
+            if(val === 30) pills[0].classList.add('active');
+            if(val === 70) pills[1].classList.add('active');
+            if(val === 90) pills[2].classList.add('active');
         }
 
         // Reset
@@ -410,111 +408,119 @@
                     <div class="file-meta">
                         <i class="fas fa-file-pdf file-icon"></i>
                         <div>
-                            <div style="font-weight:500;">${file.name.substring(0, 20)}...</div>
+                            <div style="font-weight:500;">${file.name.length > 20 ? file.name.substring(0, 20) + '...' : file.name}</div>
                             <div style="font-size:0.8rem; color:#6B7280;">${(file.size/1024).toFixed(1)} KB</div>
                         </div>
                     </div>
-                    <div id="res-${index}" style="font-size:0.8rem; font-weight:600; color:var(--text-light);">Pending</div>
+                    <div style="display:flex; align-items:center; gap:10px;">
+                        <div id="res-${index}" style="font-size:0.8rem; font-weight:600; color:var(--text-light);">Pending</div>
+                        <button onclick="removeFile(${index})" style="background:none; border:none; color:#EF4444; cursor:pointer;" title="Remove file">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </div>
                 `;
                 fileListEl.appendChild(div);
             });
         }
 
-        // Processing Logic
+        function removeFile(index) {
+            filesData.splice(index, 1);
+            renderFileList();
+            if(filesData.length === 0) resetTool();
+        }
+
+        // Main Processor
         processBtn.addEventListener('click', async () => {
             if (filesData.length === 0) return;
             
             processBtn.disabled = true;
-            processBtn.textContent = "Compressing...";
+            processBtn.textContent = "Processing...";
             const zip = new JSZip();
             let processed = 0;
 
-            // Determine Base Settings based on Mode
-            let scale = 1.0;
-            let quality = 0.7;
-            let targetBytes = 0; // 0 means ignored
-
-            if (currentMode === 'presets') {
-                if (selectedPreset === 'extreme') { scale = 0.8; quality = 0.3; }
-                else if (selectedPreset === 'less') { scale = 1.5; quality = 0.9; }
-                else { scale = 1.0; quality = 0.7; } // Recommended
-            } else if (currentMode === 'custom') {
-                quality = document.getElementById('qualityRange').value / 100;
-                scale = parseFloat(document.getElementById('scaleRange').value);
-            } else if (currentMode === 'target') {
-                const val = parseFloat(document.getElementById('targetInput').value) || 1;
-                const unit = document.getElementById('unitSelect').value;
-                targetBytes = val * (unit === 'MB' ? 1024 * 1024 : 1024);
-            }
+            // Get Settings
+            const quality = document.getElementById('qualityRange').value / 100;
+            const targetVal = parseFloat(document.getElementById('targetInput').value);
+            const targetUnit = document.getElementById('unitSelect').value;
+            const targetBytes = targetVal ? targetVal * (targetUnit === 'MB' ? 1024 * 1024 : 1024) : 0;
 
             for (let i = 0; i < filesData.length; i++) {
                 const file = filesData[i];
                 const resEl = document.getElementById(`res-${i}`);
-                resEl.innerHTML = '<span style="color:var(--primary)">Processing...</span>';
+                resEl.innerHTML = '<span style="color:var(--primary)">Working...</span>';
                 
                 try {
-                    const arrayBuffer = await file.arrayBuffer();
-                    const pdf = await pdfjsLib.getDocument(arrayBuffer).promise;
-                    const { jsPDF } = window.jspdf;
-                    
-                    const newPdf = new jsPDF();
-                    const pdfWidth = newPdf.internal.pageSize.getWidth();
-                    const pdfHeight = newPdf.internal.pageSize.getHeight();
+                    let resultBlob;
 
-                    // If Target Mode: Calculate rough budget per page
-                    let pageBudget = 0;
-                    if (targetBytes > 0) {
-                        pageBudget = (targetBytes * 0.9) / pdf.numPages; // 90% for images, 10% overhead
-                    }
+                    if (currentEngine === 'lossless') {
+                        // --- LOSSLESS ENGINE (Structure Cleanup) ---
+                        const arrayBuffer = await file.arrayBuffer();
+                        const pdfDoc = await PDFLib.PDFDocument.load(arrayBuffer);
+                        const newPdf = await PDFLib.PDFDocument.create();
+                        const pages = await newPdf.copyPages(pdfDoc, pdfDoc.getPageIndices());
+                        pages.forEach(page => newPdf.addPage(page));
+                        // Save without object streams can sometimes help compatibility, but standard save cleans garbage
+                        const pdfBytes = await newPdf.save();
+                        resultBlob = new Blob([pdfBytes], { type: 'application/pdf' });
 
-                    for (let pageNum = 1; pageNum <= pdf.numPages; pageNum++) {
-                        const page = await pdf.getPage(pageNum);
-                        
-                        // If Target Mode: Dynamically find best quality for this page
-                        let currentQ = quality;
-                        let currentS = scale;
-                        
-                        if (targetBytes > 0) {
-                            // Start reasonably high
-                            currentQ = 0.8;
-                            currentS = 1.0;
-                        }
-
-                        // Helper to render
-                        const renderPage = async (q, s) => {
-                            const viewport = page.getViewport({ scale: s });
-                            const canvas = document.createElement('canvas');
-                            const context = canvas.getContext('2d');
-                            canvas.height = viewport.height;
-                            canvas.width = viewport.width;
-                            await page.render({ canvasContext: context, viewport: viewport }).promise;
-                            return canvas.toDataURL('image/jpeg', q);
-                        };
-
-                        let imgData = await renderPage(currentQ, currentS);
-
-                        // If Target Mode: Check size and reduce if needed
-                        if (targetBytes > 0) {
-                            // Rough estimate of base64 size: len * 0.75 bytes
-                            while (imgData.length * 0.75 > pageBudget && currentQ > 0.2) {
-                                currentQ -= 0.1;
-                                if (currentQ < 0.5) currentS = 0.8; // Also scale down if desperate
-                                imgData = await renderPage(currentQ, currentS);
-                            }
-                        }
-                        
-                        if (pageNum > 1) newPdf.addPage();
-                        newPdf.addImage(imgData, 'JPEG', 0, 0, pdfWidth, pdfHeight);
-                    }
-
-                    const compressedPdfBlob = newPdf.output('blob');
-                    zip.file(`compressed_${file.name}`, compressedPdfBlob);
-                    
-                    const saved = ((file.size - compressedPdfBlob.size) / file.size * 100).toFixed(0);
-                    if(saved > 0) {
-                        resEl.innerHTML = `<span style="color:#10B981">-${saved}% (${(compressedPdfBlob.size/1024).toFixed(0)} KB)</span>`;
                     } else {
-                        resEl.innerHTML = `<span style="color:orange">Already Small</span>`;
+                        // --- STRONG ENGINE (Rasterization) ---
+                        const arrayBuffer = await file.arrayBuffer();
+                        const pdf = await pdfjsLib.getDocument(arrayBuffer).promise;
+                        const { jsPDF } = window.jspdf;
+                        
+                        const newPdf = new jsPDF();
+                        const pdfWidth = newPdf.internal.pageSize.getWidth();
+                        const pdfHeight = newPdf.internal.pageSize.getHeight();
+
+                        // Target Budget Logic
+                        let pageBudget = 0;
+                        if (targetBytes > 0) pageBudget = (targetBytes * 0.9) / pdf.numPages;
+
+                        for (let pageNum = 1; pageNum <= pdf.numPages; pageNum++) {
+                            const page = await pdf.getPage(pageNum);
+                            
+                            // Adaptive Quality Logic
+                            let currentQ = quality;
+                            let currentScale = 1.5; // Default "Good" scale for text readability
+
+                            const renderPage = async (q, s) => {
+                                const viewport = page.getViewport({ scale: s });
+                                const canvas = document.createElement('canvas');
+                                const context = canvas.getContext('2d');
+                                canvas.height = viewport.height;
+                                canvas.width = viewport.width;
+                                await page.render({ canvasContext: context, viewport: viewport }).promise;
+                                return canvas.toDataURL('image/jpeg', q);
+                            };
+
+                            let imgData = await renderPage(currentQ, currentScale);
+
+                            // Shrink loop if target set
+                            if (targetBytes > 0) {
+                                while (imgData.length * 0.75 > pageBudget && currentQ > 0.2) {
+                                    currentQ -= 0.1;
+                                    if(currentQ < 0.4) currentScale = 1.0; // Reduce res if desperate
+                                    imgData = await renderPage(currentQ, currentScale);
+                                }
+                            }
+                            
+                            if (pageNum > 1) newPdf.addPage();
+                            newPdf.addImage(imgData, 'JPEG', 0, 0, pdfWidth, pdfHeight);
+                        }
+                        resultBlob = newPdf.output('blob');
+                    }
+
+                    // Result Check
+                    const sizeDiff = file.size - resultBlob.size;
+                    if(sizeDiff > 0) {
+                        const saved = (sizeDiff / file.size * 100).toFixed(0);
+                        resEl.innerHTML = `<span style="color:#10B981">-${saved}%</span>`;
+                        zip.file(`compressed_${file.name}`, resultBlob);
+                    } else {
+                        // If file grew (common in lossless for already optimized files), retain original
+                        resEl.innerHTML = `<span style="color:orange">No Change</span>`;
+                        zip.file(file.name, file);
                     }
                     processed++;
 
