@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- SEO -->
+    <title>PDF to Word Converter - Online & Free | The Image Toolkit</title>
+    <meta name="description" content="Convert PDF files to editable Word documents (DOC/DOCX) online for free. Extract text and layout securely in your browser. No software required.">
+    <meta name="keywords" content="pdf to word, convert pdf to doc, pdf to docx, online pdf converter, editable pdf, extract text from pdf, free pdf tool">
+    
+    <!-- FAVICON -->
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' fill='%234F46E5' rx='20'/><path d='M30 70 L50 30 L70 70' fill='none' stroke='white' stroke-width='8'/></svg>">
+
+    <!-- FONTS & ICONS -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- LIBRARIES -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
+
+    <!-- ADSENSE -->
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7597066031957006" crossorigin="anonymous"></script>
+
+    <script>
+        // Initialize PDF.js worker
+        pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+    </script>
+
+    <style>
+        :root {
+            --primary: #4F46E5;
+            --bg-body: #F3F4F6;
+            --text-main: #1F2937;
+            --border: #E5E7EB;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
+        body { background-color: var(--bg-body); color: var(--text-main); display: flex; flex-direction: column; min-height: 100vh; }
+        a { text-decoration: none; color: inherit; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+
+        /* Header */
+        header { background: white; border-bottom: 1px solid var(--border); height: 70px; display: flex; align-items: center; position: sticky; top: 0; z-index: 1000; box-shadow: 0 1px 2px rgba(0,0,0,0.05); }
+        .nav-wrapper { display: flex; justify-content: space-between; align-items: center; width: 100%; }
+        .logo { font-weight: 700; font-size: 1.5rem; color: var(--primary); display: flex; align-items: center; gap: 8px; }
+        .nav-links { display: flex; gap: 30px; }
+        .nav-links a { font-weight: 500; font-size: 0.95rem; color: var(--text-main); transition: 0.2s; }
+        .nav-links a:hover { color: var(--primary); }
+        .mobile-toggle { display: none; font-size: 1.5rem; cursor: pointer; color: var(--text-main); }
+
+        /* Ad Wrapper */
+        .ad-wrapper { width: 100%; margin: 20px 0; display: flex; justify-content: center; overflow: hidden; min-height: 90px; background: #fff; border: 1px solid #f0f0f0; border-radius: 8px; align-items: center; }
+
+        /* Workspace */
+        .workspace { background: #F9FAFB; padding: 2rem 0; min-height: 60vh; }
+        .tool-title { text-align: center; margin-bottom: 1.5rem; }
+        .tool-title h1 { font-size: 1.8rem; color: #111827; }
+        .tool-title p { color: #6B7280; font-size: 1rem; }
+
+        /* Drop Zone */
+        .drop-zone {
+            background: white; border: 2px dashed #D1D5DB; border-radius: 12px; padding: 3rem 1rem;
+            text-align: center; cursor: pointer; transition: 0.2s; max-width: 800px; margin: 0 auto;
+        }
+        .drop-zone:hover { border-color: var(--primary); background: #EEF2FF; }
+        .btn-upload {
+            background: var(--primary); color: white; padding: 1rem 2rem; border-radius: 8px;
+            font-weight: 600; font-size: 1.1rem; border: none; cursor: pointer; display: inline-flex;
+            align-items: center; gap: 10px; margin-bottom: 1rem;
+            pointer-events: none;
+        }
+
+        /* Editor Container */
+        .editor-container {
+            display: none; max-width: 800px; margin: 0 auto; background: white;
+            border-radius: 12px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); overflow: hidden; padding: 2rem;
+        }
+        
+        .file-info-card {
+            background: #F9FAFB; border: 1px solid var(--border); border-radius: 8px; padding: 1.5rem;
+            display: flex; align-items: center; gap: 1.5rem; margin-bottom: 2rem;
+        }
+        
+        .file-icon { font-size: 3rem; color: #DC2626; }
+        .file-details h3 { margin-bottom: 0.25rem; font-size: 1.1rem; }
+        .file-details p { color: #6B7280; font-size: 0.9rem; }
+
+        /* Buttons */
+        .btn-action { width: 100%; padding: 1rem; background: var(--primary); color: white; border: none; border-radius: 8px; font-weight: 600; cursor: pointer; font-size: 1.1rem; margin-top: 1rem; }
+        .btn-reset { width: 100%; margin-top: 10px; padding: 0.8rem; background: transparent; color: #EF4444; border: 1px solid #EF4444; border-radius: 8px; font-weight: 600; cursor: pointer; }
+        .btn-reset:hover { background: #FEF2F2; }
+        .btn-action:disabled { background: #9CA3AF; cursor: not-allowed; }
+
+        /* Status Bar */
+        .status-container { margin-top: 1.5rem; }
+        .progress-bar { height: 8px; background: #E5E7EB; border-radius: 4px; overflow: hidden; margin-bottom: 0.5rem; }
+        .progress-fill { height: 100%; background: var(--primary); width: 0%; transition: width 0.3s; }
+        .status-text { text-align: center; font-size: 0.9rem; color: #6B7280; font-weight: 500; }
+
+        /* Content & Footer */
+        .content-section { background: white; padding: 4rem 0; border-top: 1px solid var(--border); }
+        .sidebar-box { border: 1px solid var(--border); border-radius: 8px; padding: 1.5rem; }
+        footer { background: #111827; color: #9CA3AF; padding: 2rem 0; margin-top: auto; text-align: center; }
+
+        @media (max-width: 768px) {
+            .mobile-toggle { display: block; }
+            .nav-links { display: none; flex-direction: column; position: absolute; top: 70px; left: 0; width: 100%; background: white; padding: 1rem; border-bottom: 1px solid var(--border); box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); }
+            .nav-links.active { display: flex; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="container nav-wrapper">
+            <a href="index.html" class="logo">
+                <i class="fas fa-layer-group"></i> The Image Toolkit
+            </a>
+            <div class="mobile-toggle" onclick="toggleMenu()"><i class="fas fa-bars"></i></div>
+            <nav class="nav-links" id="navLinks">
+                <a href="index.html">Home</a>
+                <a href="index.html#tools">All Tools</a>
+                <a href="about.html">About</a>
+                <a href="index.html#guides">Guides</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- AD UNIT 1: TOP -->
+    <div class="container">
+        <div class="ad-wrapper">
+            <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-7597066031957006" data-ad-slot="5194353053" data-ad-format="auto" data-full-width-responsive="true"></ins>
+            <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+        </div>
+    </div>
+
+    <!-- Workspace -->
+    <section class="workspace">
+        <div class="container">
+            <div class="tool-title" id="toolTitle">
+                <h1>PDF to Word</h1>
+                <p>Convert your PDF documents to editable Word files (DOC) instantly.</p>
+            </div>
+
+            <!-- Upload State -->
+            <div class="drop-zone" id="dropZone">
+                <input type="file" id="fileInput" accept=".pdf" style="display:none">
+                <div style="font-size: 3rem; color: #E5E7EB; margin-bottom: 1rem;"><i class="fas fa-file-word"></i></div>
+                <button class="btn-upload" id="uploadBtn">Select PDF File</button>
+                <p>or drop PDF here</p>
+            </div>
+
+            <!-- Editor State -->
+            <div class="editor-container" id="editorContainer">
+                <div class="file-info-card">
+                    <div class="file-icon"><i class="fas fa-file-pdf"></i></div>
+                    <div class="file-details">
+                        <h3 id="fileName">document.pdf</h3>
+                        <p id="fileSize">0 KB</p>
+                    </div>
+                </div>
+
+                <button class="btn-action" id="processBtn">Convert to Word</button>
+                
+                <div class="status-container">
+                    <div class="progress-bar"><div class="progress-fill" id="progressBar"></div></div>
+                    <div class="status-text" id="statusMsg">Ready to convert</div>
+                </div>
+
+                <button class="btn-reset" onclick="resetTool()">Convert Another File</button>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- AD UNIT 2: MIDDLE -->
+    <div class="container">
+        <div class="ad-wrapper">
+            <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-7597066031957006" data-ad-slot="4383834265" data-ad-format="auto" data-full-width-responsive="true"></ins>
+            <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+        </div>
+    </div>
+
+    <!-- Content & Footer -->
+    <section class="content-section">
+        <div class="container" style="display: grid; grid-template-columns: 2fr 1fr; gap: 3rem;">
+            <div>
+                <h2 style="margin-bottom: 1rem;">Convert PDF to Editable Word</h2>
+                <p>Turn your read-only PDF files into editable Word documents with The Image Toolkit. Our converter extracts text and paragraphs, creating a file you can edit in Microsoft Word, Google Docs, or OpenOffice.</p>
+                
+                <h3 style="margin-top: 1.5rem; margin-bottom: 0.5rem;">How it works</h3>
+                <ul style="padding-left: 20px; line-height: 1.8; color: #4B5563;">
+                    <li><strong>Text Extraction:</strong> We scan the PDF text layers to retrieve content.</li>
+                    <li><strong>Layout Preservation:</strong> We attempt to keep paragraphs and structure intact.</li>
+                    <li><strong>Secure:</strong> Conversion happens in your browser. Your confidential documents are never uploaded to any server.</li>
+                </ul>
+            </div>
+            
+            <aside>
+                <div class="sidebar-box">
+                    <h4 style="margin-bottom: 1rem;">Sponsored</h4>
+                    <div style="min-height: 250px;">
+                        <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-7597066031957006" data-ad-slot="7424930571" data-ad-format="auto" data-full-width-responsive="true"></ins>
+                        <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+                    </div>
+                </div>
+            </aside>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <div class="ad-wrapper" style="background: rgba(255,255,255,0.05); border: none;">
+                <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-7597066031957006" data-ad-slot="7424930571" data-ad-format="auto" data-full-width-responsive="true"></ins>
+                <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+            </div>
+            <div class="copyright">&copy; 2025 The Image Toolkit. All rights reserved.</div>
+        </div>
+    </footer>
+
+    <script>
+        // --- Mobile Menu ---
+        function toggleMenu() { document.getElementById('navLinks').classList.toggle('active'); }
+
+        // --- Logic ---
+        const dropZone = document.getElementById('dropZone');
+        const fileInput = document.getElementById('fileInput');
+        const uploadBtn = document.getElementById('uploadBtn');
+        const editorContainer = document.getElementById('editorContainer');
+        const toolTitle = document.getElementById('toolTitle');
+        const processBtn = document.getElementById('processBtn');
+        const statusMsg = document.getElementById('statusMsg');
+        const progressBar = document.getElementById('progressBar');
+        
+        let originalFile = null;
+
+        // Reset
+        function resetTool() {
+            originalFile = null;
+            editorContainer.style.display = 'none';
+            toolTitle.style.display = 'block';
+            dropZone.style.display = 'block';
+            fileInput.value = '';
+            progressBar.style.width = '0%';
+            statusMsg.textContent = 'Ready to convert';
+            statusMsg.style.color = '#6B7280';
+            processBtn.disabled = false;
+            processBtn.textContent = 'Convert to Word';
+        }
+
+        // Upload Handlers
+        uploadBtn.addEventListener('click', (e) => { e.stopPropagation(); fileInput.click(); });
+        dropZone.addEventListener('click', () => fileInput.click());
+        
+        dropZone.addEventListener('dragover', (e) => { e.preventDefault(); dropZone.style.borderColor = 'var(--primary)'; });
+        dropZone.addEventListener('dragleave', () => dropZone.style.borderColor = '#D1D5DB');
+        dropZone.addEventListener('drop', (e) => { 
+            e.preventDefault(); e.stopPropagation(); dropZone.style.borderColor = '#D1D5DB';
+            if (e.dataTransfer.files.length) handleFile(e.dataTransfer.files[0]);
+        });
+        fileInput.addEventListener('change', (e) => { if(e.target.files.length) handleFile(e.target.files[0]); });
+
+        function handleFile(file) {
+            if (file.type !== 'application/pdf') { alert('Please upload a PDF file'); return; }
+            originalFile = file;
+
+            // Update Info
+            document.getElementById('fileName').textContent = file.name;
+            document.getElementById('fileSize').textContent = (file.size / 1024).toFixed(2) + ' KB';
+
+            // UI Switch
+            dropZone.style.display = 'none';
+            toolTitle.style.display = 'none';
+            editorContainer.style.display = 'block';
+        }
+
+        // Process Logic
+        processBtn.addEventListener('click', async () => {
+            if (!originalFile) return;
+            
+            processBtn.disabled = true;
+            processBtn.textContent = "Converting...";
+            progressBar.style.width = '10%';
+            statusMsg.textContent = "Reading PDF structure...";
+
+            try {
+                const arrayBuffer = await originalFile.arrayBuffer();
+                const pdf = await pdfjsLib.getDocument(arrayBuffer).promise;
+                
+                let docContent = '<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:w="urn:schemas-microsoft-com:office:word" xmlns="http://www.w3.org/TR/REC-html40"><head><meta charset="utf-8"><title>Document</title></head><body>';
+                
+                for (let i = 1; i <= pdf.numPages; i++) {
+                    progressBar.style.width = `${Math.round((i / pdf.numPages) * 80)}%`;
+                    statusMsg.textContent = `Processing page ${i} of ${pdf.numPages}...`;
+                    
+                    const page = await pdf.getPage(i);
+                    const textContent = await page.getTextContent();
+                    
+                    // Basic text extraction strategy
+                    // We group items by Y coordinate to form lines/paragraphs
+                    let lastY = -1;
+                    let textBlock = "";
+
+                    textContent.items.forEach(item => {
+                        // If Y changes significantly, treat as new line
+                        if (lastY !== -1 && Math.abs(item.transform[5] - lastY) > 10) {
+                            docContent += `<p>${textBlock}</p>`;
+                            textBlock = "";
+                        }
+                        textBlock += item.str + " ";
+                        lastY = item.transform[5];
+                    });
+                    // Flush last block
+                    docContent += `<p>${textBlock}</p>`;
+                    docContent += "<br style='page-break-before:always'>"; // Page break
+                }
+
+                docContent += '</body></html>';
+                
+                progressBar.style.width = '100%';
+                statusMsg.textContent = "Finalizing document...";
+
+                // Create Blob
+                const blob = new Blob(['\ufeff', docContent], {
+                    type: 'application/msword'
+                });
+
+                // Download
+                saveAs(blob, originalFile.name.replace('.pdf', '.doc'));
+
+                processBtn.disabled = false;
+                processBtn.textContent = "Convert Again";
+                statusMsg.textContent = "Conversion Complete! Download started.";
+                statusMsg.style.color = "#10B981";
+
+            } catch (error) {
+                console.error(error);
+                processBtn.disabled = false;
+                processBtn.textContent = "Convert to Word";
+                statusMsg.textContent = "Error processing file.";
+                statusMsg.style.color = "red";
+            }
+        });
+    </script>
+</body>
+</html>
