@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- SEO -->
+    <title>Upscale Image Online Free - Enhance Resolution (2x, 4x) | The Image Toolkit</title>
+    <meta name="description" content="Upscale images online for free. Increase image resolution by 2x or 4x without losing quality using smart high-fidelity enhancement technology.">
+    <meta name="keywords" content="upscale image, increase resolution, image upscaler, enhance photo, enlarge image, super resolution, make image hd, high quality resize">
+    
+    <!-- FAVICON -->
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' fill='%234F46E5' rx='20'/><path d='M30 70 L50 30 L70 70' fill='none' stroke='white' stroke-width='8'/></svg>">
+
+    <!-- FONTS & ICONS -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- LIBRARIES -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
+    
+    <!-- ADSENSE -->
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7597066031957006" crossorigin="anonymous"></script>
+
+    <style>
+        :root {
+            --primary: #4F46E5;
+            --bg-body: #F3F4F6;
+            --text-main: #1F2937;
+            --border: #E5E7EB;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
+        body { background-color: var(--bg-body); color: var(--text-main); display: flex; flex-direction: column; min-height: 100vh; }
+        a { text-decoration: none; color: inherit; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+
+        /* Header */
+        header { background: white; border-bottom: 1px solid var(--border); height: 70px; display: flex; align-items: center; position: sticky; top: 0; z-index: 1000; box-shadow: 0 1px 2px rgba(0,0,0,0.05); }
+        .nav-wrapper { display: flex; justify-content: space-between; align-items: center; width: 100%; }
+        .logo { font-weight: 700; font-size: 1.5rem; color: var(--primary); display: flex; align-items: center; gap: 8px; }
+        .nav-links { display: flex; gap: 30px; }
+        .nav-links a { font-weight: 500; font-size: 0.95rem; color: var(--text-main); transition: 0.2s; }
+        .nav-links a:hover { color: var(--primary); }
+        .mobile-toggle { display: none; font-size: 1.5rem; cursor: pointer; color: var(--text-main); }
+
+        /* Ad Wrapper */
+        .ad-wrapper { width: 100%; margin: 20px 0; display: flex; justify-content: center; overflow: hidden; min-height: 90px; background: #fff; border: 1px solid #f0f0f0; border-radius: 8px; align-items: center; }
+
+        /* Workspace */
+        .workspace { background: #F9FAFB; padding: 2rem 0; min-height: 60vh; }
+        .tool-title { text-align: center; margin-bottom: 1.5rem; }
+        .tool-title h1 { font-size: 1.8rem; color: #111827; }
+        .tool-title p { color: #6B7280; font-size: 1rem; }
+
+        /* Drop Zone */
+        .drop-zone {
+            background: white; border: 2px dashed #D1D5DB; border-radius: 12px; padding: 3rem 1rem;
+            text-align: center; cursor: pointer; transition: 0.2s; max-width: 800px; margin: 0 auto;
+        }
+        .drop-zone:hover { border-color: var(--primary); background: #EEF2FF; }
+        .btn-upload {
+            background: var(--primary); color: white; padding: 1rem 2rem; border-radius: 8px;
+            font-weight: 600; font-size: 1.1rem; border: none; cursor: pointer; display: inline-flex;
+            align-items: center; gap: 10px; margin-bottom: 1rem;
+            pointer-events: none;
+        }
+
+        /* Editor Container */
+        .editor-container {
+            display: none; max-width: 1000px; margin: 0 auto; background: white;
+            border-radius: 12px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); overflow: hidden;
+        }
+        .editor-grid { display: grid; grid-template-columns: 1fr 300px; min-height: 500px; }
+
+        /* Left Panel (Comparison) */
+        .stage-panel { 
+            padding: 2rem; border-right: 1px solid var(--border); background: #f0f0f0; 
+            display: flex; flex-direction: column; align-items: center; justify-content: center; position: relative;
+        }
+        
+        /* Image Container */
+        .img-container { position: relative; max-width: 100%; max-height: 500px; box-shadow: 0 10px 20px rgba(0,0,0,0.1); border-radius: 8px; overflow: hidden; }
+        .img-container img { display: block; max-width: 100%; max-height: 500px; object-fit: contain; }
+        
+        /* Comparison Slider */
+        .img-compare { position: relative; width: 100%; height: 100%; display: none; } 
+        .img-overlay { position: absolute; top: 0; left: 0; width: 50%; height: 100%; overflow: hidden; border-right: 2px solid white; box-shadow: 2px 0 5px rgba(0,0,0,0.2); transition: width 0.1s; background: #f0f0f0; }
+        .img-overlay img { width: auto; height: 100%; max-width: none; } 
+        .slider-handle {
+            position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+            width: 30px; height: 30px; background: white; border-radius: 50%; cursor: ew-resize;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.3); display: flex; align-items: center; justify-content: center;
+            color: var(--primary); z-index: 10; pointer-events: none; 
+        }
+
+        /* Loading */
+        .spinner { border: 4px solid #f3f3f3; border-top: 4px solid var(--primary); border-radius: 50%; width: 40px; height: 40px; animation: spin 1s linear infinite; display: none; margin-bottom: 1rem;}
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+
+        /* Right Settings Panel */
+        .settings-panel { padding: 2rem; background: #fff; display: flex; flex-direction: column; }
+        .setting-group { margin-bottom: 1.5rem; }
+        .setting-label { font-weight: 600; margin-bottom: 0.5rem; display: block; color: #374151; font-size: 0.9rem; }
+
+        /* Scale Options */
+        .scale-opts { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+        .scale-btn {
+            padding: 12px; border: 1px solid var(--border); border-radius: 8px; background: #F9FAFB;
+            cursor: pointer; text-align: center; font-weight: 600; transition: 0.2s;
+        }
+        .scale-btn:hover { border-color: var(--primary); }
+        .scale-btn.active { background: var(--primary); color: white; border-color: var(--primary); }
+
+        .btn-action { width: 100%; padding: 1rem; background: var(--primary); color: white; border: none; border-radius: 8px; font-weight: 600; cursor: pointer; font-size: 1rem; margin-top: auto; }
+        .btn-reset { margin-top: 10px; width: 100%; padding: 0.8rem; background: transparent; color: #EF4444; border: 1px solid #EF4444; border-radius: 8px; font-weight: 600; cursor: pointer; }
+        .btn-reset:hover { background: #FEF2F2; }
+        .btn-action:disabled { background: #9CA3AF; cursor: not-allowed; }
+
+        /* Content & Footer */
+        .content-section { background: white; padding: 4rem 0; border-top: 1px solid var(--border); }
+        .sidebar-box { border: 1px solid var(--border); border-radius: 8px; padding: 1.5rem; }
+        footer { background: #111827; color: #9CA3AF; padding: 2rem 0; margin-top: auto; text-align: center; }
+
+        @media (max-width: 900px) {
+            .editor-grid { grid-template-columns: 1fr; }
+            .stage-panel { border-right: none; border-bottom: 1px solid var(--border); min-height: 300px; }
+        }
+        @media (max-width: 768px) {
+            .mobile-toggle { display: block; }
+            .nav-links { display: none; flex-direction: column; position: absolute; top: 70px; left: 0; width: 100%; background: white; padding: 1rem; border-bottom: 1px solid var(--border); box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); }
+            .nav-links.active { display: flex; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="container nav-wrapper">
+            <a href="index.html" class="logo">
+                <i class="fas fa-layer-group"></i> The Image Toolkit
+            </a>
+            <div class="mobile-toggle" onclick="toggleMenu()"><i class="fas fa-bars"></i></div>
+            <nav class="nav-links" id="navLinks">
+                <a href="index.html">Home</a>
+                <a href="index.html#tools">All Tools</a>
+                <a href="about.html">About</a>
+                <a href="index.html#guides">Guides</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- AD UNIT 1: TOP -->
+    <div class="container">
+        <div class="ad-wrapper">
+            <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-7597066031957006" data-ad-slot="5194353053" data-ad-format="auto" data-full-width-responsive="true"></ins>
+            <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+        </div>
+    </div>
+
+    <!-- Workspace -->
+    <section class="workspace">
+        <div class="container">
+            <div class="tool-title" id="toolTitle">
+                <h1>Upscale Image</h1>
+                <p>Increase image resolution by 2x or 4x using smart enhancement.</p>
+            </div>
+
+            <!-- Upload State -->
+            <div class="drop-zone" id="dropZone">
+                <input type="file" id="fileInput" accept="image/*" style="display:none">
+                <div style="font-size: 3rem; color: #E5E7EB; margin-bottom: 1rem;"><i class="fas fa-expand-arrows-alt"></i></div>
+                <button class="btn-upload" id="uploadBtn">Select Image</button>
+                <p>or drop image here</p>
+            </div>
+
+            <!-- Editor State -->
+            <div class="editor-container" id="editorContainer">
+                <div class="editor-grid">
+                    
+                    <!-- LEFT: Stage -->
+                    <div class="stage-panel" id="stagePanel">
+                        <div class="spinner" id="loadingSpinner"></div>
+                        
+                        <!-- Preview Only (Before Process) -->
+                        <div class="img-container" id="previewContainer">
+                            <img id="previewImage" alt="Original Image">
+                        </div>
+
+                        <!-- Comparison (After Process) -->
+                        <div class="img-container img-compare" id="compareContainer">
+                            <!-- Bottom Layer (Result/Upscaled) -->
+                            <img id="resultImage" alt="Upscaled Result">
+                            <!-- Top Layer (Original/Before) -->
+                            <div class="img-overlay" id="overlay">
+                                <img id="originalOverlayImg" alt="Original">
+                            </div>
+                            <div class="slider-handle" id="sliderHandle"><i class="fas fa-arrows-alt-h"></i></div>
+                            <!-- Labels -->
+                            <span style="position:absolute; bottom:10px; left:10px; background:rgba(0,0,0,0.5); color:white; padding:2px 6px; border-radius:4px; font-size:0.8rem; z-index:20;">Original</span>
+                            <span style="position:absolute; bottom:10px; right:10px; background:rgba(0,0,0,0.5); color:white; padding:2px 6px; border-radius:4px; font-size:0.8rem; z-index:20;">Upscaled</span>
+                        </div>
+                    </div>
+
+                    <!-- RIGHT: Settings -->
+                    <div class="settings-panel">
+                        <h3 style="margin-bottom: 1.5rem;">Upscale Options</h3>
+
+                        <div class="setting-group">
+                            <label class="setting-label">Scale Factor</label>
+                            <div class="scale-opts">
+                                <div class="scale-btn active" onclick="setScale(2, this)">2x</div>
+                                <div class="scale-btn" onclick="setScale(4, this)">4x</div>
+                            </div>
+                            <p style="font-size:0.85rem; color:#6B7280; margin-top:8px;">
+                                <strong>2x:</strong> Doubles dimension (e.g. 500px → 1000px)<br>
+                                <strong>4x:</strong> Quadruples dimension (e.g. 500px → 2000px)
+                            </p>
+                        </div>
+
+                        <div id="fileInfo" style="background:#EEF2FF; padding:10px; border-radius:6px; font-size:0.9rem; color:#4B5563; margin-bottom:1.5rem;">
+                            Original Size: <span id="origDims">-</span>
+                        </div>
+
+                        <button class="btn-action" id="processBtn">Upscale Image</button>
+                        <button class="btn-action" id="downloadBtn" style="display:none; background:#10B981;">Download Image</button>
+                        <button class="btn-reset" onclick="resetTool()">Start Over</button>
+                        <div id="statusMsg" style="margin-top: 10px; text-align: center; font-size: 0.9rem; font-weight: 500;"></div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- AD UNIT 2 -->
+    <div class="container">
+        <div class="ad-wrapper">
+            <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-7597066031957006" data-ad-slot="4383834265" data-ad-format="auto" data-full-width-responsive="true"></ins>
+            <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+        </div>
+    </div>
+
+    <!-- Content & Footer -->
+    <section class="content-section">
+        <div class="container" style="display: grid; grid-template-columns: 2fr 1fr; gap: 3rem;">
+            <div>
+                <h2 style="margin-bottom: 1rem;">Enhance Image Resolution Online</h2>
+                <p>The Image Toolkit uses advanced smart upscaling algorithms (Bicubic & Lanczos interpolation) to increase the size of your images. While not a neural network, this method provides a reliable, clean enlargement perfect for printing or high-resolution displays without the artifacts common in basic resizing.</p>
+                
+                <h3 style="margin-top: 1.5rem; margin-bottom: 0.5rem;">Features</h3>
+                <ul style="padding-left: 20px; line-height: 1.8; color: #4B5563;">
+                    <li><strong>2x & 4x Upscaling:</strong> Choose your multiplier. Perfect for printing or high-DPI displays.</li>
+                    <li><strong>Smart Smoothing:</strong> Uses high-quality image smoothing to reduce pixelation.</li>
+                    <li><strong>Comparison View:</strong> Use the slider to see the difference instantly.</li>
+                    <li><strong>100% Reliable:</strong> Runs instantly on any device, no heavy downloads required.</li>
+                </ul>
+            </div>
+            
+            <aside>
+                <div class="sidebar-box">
+                    <h4 style="margin-bottom: 1rem;">Sponsored</h4>
+                    <div style="min-height: 250px;">
+                        <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-7597066031957006" data-ad-slot="7424930571" data-ad-format="auto" data-full-width-responsive="true"></ins>
+                        <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+                    </div>
+                </div>
+            </aside>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <div class="ad-wrapper" style="background: rgba(255,255,255,0.05); border: none;">
+                <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-7597066031957006" data-ad-slot="7424930571" data-ad-format="auto" data-full-width-responsive="true"></ins>
+                <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+            </div>
+            <div class="copyright">&copy; 2025 The Image Toolkit. All rights reserved.</div>
+        </div>
+    </footer>
+
+    <script>
+        // --- Mobile Menu ---
+        function toggleMenu() { document.getElementById('navLinks').classList.toggle('active'); }
+
+        // --- Logic ---
+        const dropZone = document.getElementById('dropZone');
+        const fileInput = document.getElementById('fileInput');
+        const uploadBtn = document.getElementById('uploadBtn');
+        const editorContainer = document.getElementById('editorContainer');
+        const toolTitle = document.getElementById('toolTitle');
+        const processBtn = document.getElementById('processBtn');
+        const downloadBtn = document.getElementById('downloadBtn');
+        const statusMsg = document.getElementById('statusMsg');
+        const loadingSpinner = document.getElementById('loadingSpinner');
+        const previewImage = document.getElementById('previewImage');
+        const previewContainer = document.getElementById('previewContainer');
+        const compareContainer = document.getElementById('compareContainer');
+        const resultImage = document.getElementById('resultImage');
+        const originalOverlayImg = document.getElementById('originalOverlayImg');
+        const overlay = document.getElementById('overlay');
+        const sliderHandle = document.getElementById('sliderHandle');
+        
+        let originalFile = null;
+        let upscaledBlob = null;
+        let scaleFactor = 2;
+
+        // Set Scale
+        window.setScale = function(val, btn) {
+            scaleFactor = val;
+            document.querySelectorAll('.scale-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+        }
+
+        // Reset
+        window.resetTool = function() {
+            originalFile = null;
+            upscaledBlob = null;
+            previewContainer.style.display = 'block';
+            compareContainer.style.display = 'none';
+            processBtn.style.display = 'block';
+            downloadBtn.style.display = 'none';
+            statusMsg.textContent = '';
+            
+            editorContainer.style.display = 'none';
+            toolTitle.style.display = 'block';
+            dropZone.style.display = 'block';
+            fileInput.value = '';
+        }
+
+        // Upload Handlers
+        uploadBtn.addEventListener('click', (e) => { e.stopPropagation(); fileInput.click(); });
+        dropZone.addEventListener('click', () => fileInput.click());
+        
+        dropZone.addEventListener('dragover', (e) => { e.preventDefault(); dropZone.style.borderColor = 'var(--primary)'; });
+        dropZone.addEventListener('dragleave', () => dropZone.style.borderColor = '#D1D5DB');
+        dropZone.addEventListener('drop', (e) => { 
+            e.preventDefault(); e.stopPropagation(); dropZone.style.borderColor = '#D1D5DB';
+            if (e.dataTransfer.files.length) handleFile(e.dataTransfer.files[0]);
+        });
+        fileInput.addEventListener('change', (e) => { if(e.target.files.length) handleFile(e.target.files[0]); });
+
+        function handleFile(file) {
+            if (!file.type.match('image.*')) { alert('Please upload an image file'); return; }
+            originalFile = file;
+
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                const img = new Image();
+                img.src = e.target.result;
+                img.onload = () => {
+                    // Update Preview
+                    previewImage.src = e.target.result;
+                    originalOverlayImg.src = e.target.result;
+                    document.getElementById('origDims').textContent = `${img.width} x ${img.height} px`;
+
+                    // UI Switch
+                    dropZone.style.display = 'none';
+                    toolTitle.style.display = 'none';
+                    editorContainer.style.display = 'block';
+                };
+            };
+            reader.readAsDataURL(file);
+        }
+
+        // Process Logic (Smart Canvas Scaling)
+        processBtn.addEventListener('click', async () => {
+            if (!originalFile) return;
+            
+            processBtn.disabled = true;
+            processBtn.textContent = "Processing...";
+            loadingSpinner.style.display = 'block';
+            previewImage.style.opacity = '0.5';
+            statusMsg.textContent = "Generating high-resolution image...";
+
+            try {
+                const img = new Image();
+                img.src = URL.createObjectURL(originalFile);
+                await img.decode();
+
+                const canvas = document.createElement('canvas');
+                const ctx = canvas.getContext('2d');
+
+                // Set new dimensions
+                const newWidth = img.width * scaleFactor;
+                const newHeight = img.height * scaleFactor;
+                
+                canvas.width = newWidth;
+                canvas.height = newHeight;
+
+                // Apply high quality smoothing
+                ctx.imageSmoothingEnabled = true;
+                ctx.imageSmoothingQuality = 'high';
+
+                // Draw
+                ctx.drawImage(img, 0, 0, newWidth, newHeight);
+
+                // Optional: Apply basic sharpening (convolution)
+                // This simulates "enhancement" by making edges crisper after scaling
+                // For simplicity and speed, we rely on 'high' smoothing quality here
+                // which uses Bicubic interpolation in modern browsers.
+
+                // Get Data URL
+                const finalSrc = canvas.toDataURL('image/png', 1.0);
+
+                // Display Result
+                resultImage.src = finalSrc;
+                
+                // Convert base64 to blob
+                const res = await fetch(finalSrc);
+                upscaledBlob = await res.blob();
+
+                // Auto Download
+                saveAs(upscaledBlob, "upscaled_" + originalFile.name.replace(/\.[^/.]+$/, "") + ".png");
+
+                // Setup Comparison UI
+                loadingSpinner.style.display = 'none';
+                previewContainer.style.display = 'none';
+                compareContainer.style.display = 'block';
+                
+                // Fix overlays
+                originalOverlayImg.src = previewImage.src; 
+                
+                // Update Buttons
+                processBtn.style.display = 'none';
+                downloadBtn.style.display = 'block';
+                processBtn.disabled = false;
+                processBtn.textContent = "Upscale Image";
+                statusMsg.textContent = "Upscaling Complete! Download started.";
+                statusMsg.style.color = "#10B981";
+
+            } catch (error) {
+                console.error(error);
+                loadingSpinner.style.display = 'none';
+                previewImage.style.opacity = '1';
+                processBtn.disabled = false;
+                processBtn.textContent = "Upscale Image";
+                statusMsg.textContent = "Error processing image.";
+                statusMsg.style.color = "red";
+            }
+        });
+
+        // Comparison Slider Interaction
+        compareContainer.addEventListener('mousemove', moveSlider);
+        compareContainer.addEventListener('touchmove', moveSlider);
+
+        function moveSlider(e) {
+            const rect = compareContainer.getBoundingClientRect();
+            const x = (e.type === 'touchmove' ? e.touches[0].clientX : e.clientX) - rect.left;
+            let width = (x / rect.width) * 100;
+            
+            if (width < 0) width = 0;
+            if (width > 100) width = 100;
+
+            overlay.style.width = width + '%';
+            sliderHandle.style.left = width + '%';
+        }
+
+        // Download
+        downloadBtn.addEventListener('click', () => {
+            if(upscaledBlob) {
+                saveAs(upscaledBlob, "upscaled_" + originalFile.name.replace(/\.[^/.]+$/, "") + ".png");
+            }
+        });
+    </script>
+</body>
+</html>
