@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <title>How to Make Images Smaller for the Web | The Image Toolkit</title>
+    <meta name="description" content="A simple guide to compressing images for websites and emails. Learn how to reduce file size without losing quality.">
+    
+    <!-- FAVICON -->
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' fill='%234F46E5' rx='20'/><path d='M30 70 L50 30 L70 70' fill='none' stroke='white' stroke-width='8'/></svg>">
+
+    <!-- FONTS & ICONS -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- ADSENSE -->
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7597066031957006" crossorigin="anonymous"></script>
+
+    <style>
+        :root {
+            --primary: #4F46E5;
+            --bg-body: #F3F4F6;
+            --text-main: #1F2937;
+            --border: #E5E7EB;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
+        body { background-color: var(--bg-body); color: var(--text-main); display: flex; flex-direction: column; min-height: 100vh; line-height: 1.6; }
+        a { text-decoration: none; color: inherit; }
+        .container { max-width: 800px; margin: 0 auto; padding: 0 20px; }
+
+        /* Header */
+        header { background: white; border-bottom: 1px solid var(--border); height: 70px; display: flex; align-items: center; position: sticky; top: 0; z-index: 1000; }
+        .nav-wrapper { display: flex; justify-content: space-between; align-items: center; width: 100%; max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+        .logo { font-weight: 700; font-size: 1.5rem; color: var(--primary); display: flex; align-items: center; gap: 8px; }
+        .nav-links { display: flex; gap: 30px; }
+        .nav-links a { font-weight: 500; font-size: 0.95rem; color: var(--text-main); }
+        .nav-links a:hover { color: var(--primary); }
+        .mobile-toggle { display: none; font-size: 1.5rem; cursor: pointer; }
+
+        /* Article Styles */
+        .article-content { background: white; padding: 40px; border-radius: 12px; margin: 40px 0; border: 1px solid var(--border); }
+        h1 { font-size: 2.5rem; margin-bottom: 1rem; color: #111827; line-height: 1.2; }
+        h2 { font-size: 1.8rem; margin-top: 2rem; margin-bottom: 1rem; color: #374151; }
+        p { margin-bottom: 1.5rem; font-size: 1.1rem; color: #4B5563; }
+        ul { margin-bottom: 1.5rem; padding-left: 20px; }
+        li { margin-bottom: 0.8rem; color: #4B5563; font-size: 1.1rem; }
+        
+        .highlight-box { background: #EEF2FF; border-left: 4px solid var(--primary); padding: 20px; margin: 20px 0; border-radius: 4px; }
+        .btn-primary { display: inline-block; background: var(--primary); color: white; padding: 12px 24px; border-radius: 6px; font-weight: 600; margin-top: 10px; }
+        .btn-primary:hover { background: #4338ca; }
+
+        /* Footer */
+        footer { background: #111827; color: #9CA3AF; padding: 2rem 0; margin-top: auto; text-align: center; }
+
+        @media (max-width: 768px) {
+            .nav-links { display: none; }
+            .mobile-toggle { display: block; }
+            .article-content { padding: 20px; }
+            h1 { font-size: 2rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="nav-wrapper">
+            <a href="index.html" class="logo">
+                <i class="fas fa-layer-group"></i> The Image Toolkit
+            </a>
+            <div class="mobile-toggle"><i class="fas fa-bars"></i></div>
+            <nav class="nav-links">
+                <a href="index.html">Home</a>
+                <a href="index.html#tools">All Tools</a>
+                <a href="about.html">About</a>
+                <a href="index.html#guides">Guides</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container">
+        <article class="article-content">
+            <h1>How to Make Images Smaller for the Web</h1>
+            <p>Do you have photos you want to put on a website or send in an email? Sometimes, these photos are too big. They take a long time to send, and they make websites load slowly.</p>
+            
+            <p>We can fix this by "compressing" them. Think of it like squeezing a sponge. The sponge is still a sponge, but it takes up less space.</p>
+
+            <div class="highlight-box">
+                <strong>What does "Compress" mean?</strong><br>
+                It simply means making the file size smaller without changing how the picture looks to the human eye.
+            </div>
+
+            <h2>Why should I compress images?</h2>
+            <ul>
+                <li><strong>Faster Websites:</strong> If you own a website, small images make it load very fast. Visitors like fast websites.</li>
+                <li><strong>Save Space:</strong> Compressed images take up less room on your computer or phone.</li>
+                <li><strong>Easier Sharing:</strong> It is much faster to email or text a small photo than a large one.</li>
+            </ul>
+
+            <h2>How to do it (Step-by-Step)</h2>
+            <p>You do not need expensive software. You can do this right here, for free.</p>
+
+            <ol style="padding-left: 20px; font-size: 1.1rem; color: #4B5563; margin-bottom: 2rem;">
+                <li style="margin-bottom: 15px;"><strong>Open the Tool:</strong> Go to our Image Compressor tool.</li>
+                <li style="margin-bottom: 15px;"><strong>Select Your Photos:</strong> Click the big blue button that says "Select Images". Pick the photos from your computer.</li>
+                <li style="margin-bottom: 15px;"><strong>Wait a Moment:</strong> The tool will automatically squeeze the file size down.</li>
+                <li style="margin-bottom: 15px;"><strong>Download:</strong> Click "Download" to save your new, smaller photos.</li>
+            </ol>
+
+            <p>That is all there is to it. Your photos will look the same, but they will be much lighter and easier to handle.</p>
+
+            <a href="image-compressor.html" class="btn-primary">Go to Image Compressor</a>
+        </article>
+
+        <!-- Ad Unit -->
+        <div style="margin: 40px 0; text-align: center;">
+            <ins class="adsbygoogle"
+                 style="display:block"
+                 data-ad-client="ca-pub-7597066031957006"
+                 data-ad-slot="7424930571"
+                 data-ad-format="auto"
+                 data-full-width-responsive="true"></ins>
+            <script>
+                 (adsbygoogle = window.adsbygoogle || []).push({});
+            </script>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <div class="copyright">&copy; 2025 The Image Toolkit. All rights reserved.</div>
+        </div>
+    </footer>
+
+</body>
+</html>
