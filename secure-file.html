@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- SEO -->
+    <title>Secure File Locker - Password Protect Any File | The Image Toolkit</title>
+    <meta name="description" content="Secure any file (PDF, JPG, DOCX, etc.) by wrapping it in an encrypted ZIP archive. Fast, free, and runs entirely in your browser.">
+    <meta name="keywords" content="password protect zip, encrypt file, secure file transfer, zip with password, protect any file, free online encryption">
+    
+    <!-- FAVICON -->
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' fill='%234F46E5' rx='20'/><path d='M30 70 L50 30 L70 70' fill='none' stroke='white' stroke-width='8'/></svg>">
+
+    <!-- FONTS & ICONS -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- LIBRARIES -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
+    <!-- zip.js for Password Protected ZIPs -->
+    <script src="https://unpkg.com/@zip.js/zip.js/dist/zip.min.js"></script>
+
+    <!-- ADSENSE -->
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7597066031957006" crossorigin="anonymous"></script>
+
+    <style>
+        :root {
+            --primary: #4F46E5;
+            --bg-body: #F3F4F6;
+            --text-main: #1F2937;
+            --border: #E5E7EB;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
+        body { background-color: var(--bg-body); color: var(--text-main); display: flex; flex-direction: column; min-height: 100vh; }
+        a { text-decoration: none; color: inherit; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+
+        /* Header */
+        header { background: white; border-bottom: 1px solid var(--border); height: 70px; display: flex; align-items: center; position: sticky; top: 0; z-index: 1000; box-shadow: 0 1px 2px rgba(0,0,0,0.05); }
+        .nav-wrapper { display: flex; justify-content: space-between; align-items: center; width: 100%; }
+        .logo { font-weight: 700; font-size: 1.5rem; color: var(--primary); display: flex; align-items: center; gap: 8px; }
+        .nav-links { display: flex; gap: 30px; }
+        .nav-links a { font-weight: 500; font-size: 0.95rem; color: var(--text-main); transition: 0.2s; }
+        .nav-links a:hover { color: var(--primary); }
+        .mobile-toggle { display: none; font-size: 1.5rem; cursor: pointer; color: var(--text-main); }
+
+        /* Ad Wrapper */
+        .ad-wrapper { width: 100%; margin: 20px 0; display: flex; justify-content: center; overflow: hidden; min-height: 90px; background: #fff; border: 1px solid #f0f0f0; border-radius: 8px; align-items: center; }
+
+        /* Workspace */
+        .workspace { background: #F9FAFB; padding: 2rem 0; min-height: 60vh; }
+        .tool-title { text-align: center; margin-bottom: 1.5rem; }
+        .tool-title h1 { font-size: 1.8rem; color: #111827; }
+        .tool-title p { color: #6B7280; font-size: 1rem; }
+
+        /* Drop Zone */
+        .drop-zone {
+            background: white; border: 2px dashed #D1D5DB; border-radius: 12px; padding: 3rem 1rem;
+            text-align: center; cursor: pointer; transition: 0.2s; max-width: 800px; margin: 0 auto;
+        }
+        .drop-zone:hover { border-color: var(--primary); background: #EEF2FF; }
+        .btn-upload {
+            background: var(--primary); color: white; padding: 1rem 2rem; border-radius: 8px;
+            font-weight: 600; font-size: 1.1rem; border: none; cursor: pointer; display: inline-flex;
+            align-items: center; gap: 10px; margin-bottom: 1rem;
+            pointer-events: none;
+        }
+
+        /* Editor Container */
+        .editor-container {
+            display: none; max-width: 900px; margin: 0 auto; background: white;
+            border-radius: 12px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); overflow: hidden;
+        }
+        .editor-grid { display: grid; grid-template-columns: 1fr 1fr; min-height: 400px; }
+
+        /* Left Panel */
+        .file-panel { 
+            padding: 2rem; border-right: 1px solid var(--border); background: #fff; 
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+        }
+        .file-icon { font-size: 4rem; color: #FBBF24; margin-bottom: 1rem; } /* Yellow for ZIP */
+        .file-name { font-weight: 600; margin-bottom: 0.5rem; text-align: center; word-break: break-all; max-width: 100%; }
+
+        /* Right Panel (Settings) */
+        .settings-panel { padding: 2rem; background: #F9FAFB; display: flex; flex-direction: column; justify-content: center; }
+        .setting-group { margin-bottom: 1.5rem; }
+        .setting-label { font-weight: 600; margin-bottom: 0.5rem; display: block; color: #374151; font-size: 0.9rem; }
+        
+        .input-wrapper { position: relative; }
+        .input-box { width: 100%; padding: 12px; padding-right: 40px; border: 1px solid var(--border); border-radius: 6px; font-size: 1rem; }
+        .toggle-password { position: absolute; right: 12px; top: 50%; transform: translateY(-50%); color: #9CA3AF; cursor: pointer; }
+        .toggle-password:hover { color: var(--primary); }
+
+        /* Checkbox */
+        .checkbox-wrapper { display: flex; align-items: center; gap: 8px; font-size: 0.9rem; color: #4B5563; margin-bottom: 1rem; }
+        .checkbox-wrapper input { accent-color: var(--primary); width: 16px; height: 16px; }
+
+        .btn-action { width: 100%; padding: 1rem; background: var(--primary); color: white; border: none; border-radius: 8px; font-weight: 600; cursor: pointer; font-size: 1rem; margin-top: 1rem; }
+        .btn-reset { width: 100%; margin-top: 10px; padding: 0.8rem; background: transparent; color: #EF4444; border: 1px solid #EF4444; border-radius: 8px; font-weight: 600; cursor: pointer; }
+        .btn-reset:hover { background: #FEF2F2; }
+        .btn-action:disabled { background: #9CA3AF; cursor: not-allowed; }
+
+        /* Compatibility Warning */
+        .compat-note {
+            font-size: 0.8rem; color: #D97706; background: #FFFBEB; padding: 10px; 
+            border-radius: 6px; border: 1px solid #FCD34D; display: none; margin-bottom: 1rem;
+        }
+
+        /* Content & Footer */
+        .content-section { background: white; padding: 4rem 0; border-top: 1px solid var(--border); }
+        .sidebar-box { border: 1px solid var(--border); border-radius: 8px; padding: 1.5rem; }
+        footer { background: #111827; color: #9CA3AF; padding: 2rem 0; margin-top: auto; text-align: center; }
+
+        @media (max-width: 768px) {
+            .mobile-toggle { display: block; }
+            .nav-links { display: none; flex-direction: column; position: absolute; top: 70px; left: 0; width: 100%; background: white; padding: 1rem; border-bottom: 1px solid var(--border); box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); }
+            .nav-links.active { display: flex; }
+            .editor-grid { grid-template-columns: 1fr; }
+            .file-panel { border-right: none; border-bottom: 1px solid var(--border); }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="container nav-wrapper">
+            <a href="index.html" class="logo">
+                <i class="fas fa-layer-group"></i> The Image Toolkit
+            </a>
+            <div class="mobile-toggle" onclick="toggleMenu()"><i class="fas fa-bars"></i></div>
+            <nav class="nav-links" id="navLinks">
+                <a href="index.html">Home</a>
+                <a href="index.html#tools">All Tools</a>
+                <a href="about.html">About</a>
+                <a href="index.html#guides">Guides</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- AD UNIT 1: TOP -->
+    <div class="container">
+        <div class="ad-wrapper">
+            <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-7597066031957006" data-ad-slot="5194353053" data-ad-format="auto" data-full-width-responsive="true"></ins>
+            <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+        </div>
+    </div>
+
+    <!-- Workspace -->
+    <section class="workspace">
+        <div class="container">
+            <div class="tool-title" id="toolTitle">
+                <h1>Secure File Locker</h1>
+                <p>Protect any file (PDF, JPG, Word, etc.) by wrapping it in an encrypted ZIP archive.</p>
+            </div>
+
+            <!-- Upload State -->
+            <div class="drop-zone" id="dropZone">
+                <!-- Accept ALL files -->
+                <input type="file" id="fileInput" style="display:none">
+                <div style="font-size: 3rem; color: #E5E7EB; margin-bottom: 1rem;"><i class="fas fa-shield-alt"></i></div>
+                <button class="btn-upload" id="uploadBtn">Select File</button>
+                <p>Drop any file here to lock it</p>
+            </div>
+
+            <!-- Editor State -->
+            <div class="editor-container" id="editorContainer">
+                <div class="editor-grid">
+                    <!-- Left: File Info -->
+                    <div class="file-panel">
+                        <div class="file-icon"><i class="fas fa-file-archive"></i></div>
+                        <div class="file-name" id="fileName">document.pdf</div>
+                        <div style="color: #6B7280; font-size: 0.9rem;">Ready to Encrypt</div>
+                    </div>
+
+                    <!-- Right: Password Settings -->
+                    <div class="settings-panel">
+                        <h3 style="margin-bottom: 1.5rem;">Security Settings</h3>
+
+                        <div class="setting-group">
+                            <label class="setting-label">Set Password</label>
+                            <div class="input-wrapper">
+                                <input type="password" id="pass1" class="input-box" placeholder="Password">
+                                <i class="fas fa-eye toggle-password" onclick="togglePass('pass1')"></i>
+                            </div>
+                        </div>
+
+                        <div class="setting-group">
+                            <label class="setting-label">Confirm Password</label>
+                            <div class="input-wrapper">
+                                <input type="password" id="pass2" class="input-box" placeholder="Repeat Password">
+                                <i class="fas fa-eye toggle-password" onclick="togglePass('pass2')"></i>
+                            </div>
+                        </div>
+
+                        <!-- Compatibility Option -->
+                        <label class="checkbox-wrapper">
+                            <input type="checkbox" id="compatMode" onchange="toggleCompatInfo()"> 
+                            Windows Compatibility Mode (ZipCrypto)
+                        </label>
+                        
+                        <div id="compatInfo" class="compat-note">
+                            <i class="fas fa-info-circle"></i> <strong>Note:</strong> Standard AES encryption is safer, but Windows' default zipper sometimes gives "Error 0x80004005". Check this box if you get that error, or use 7-Zip/WinRAR.
+                        </div>
+
+                        <button class="btn-action" id="processBtn">Download Secure ZIP</button>
+                        <button class="btn-reset" onclick="resetTool()">Select Different File</button>
+                        <div id="statusMsg" style="margin-top: 10px; text-align: center; font-size: 0.9rem; font-weight: 500;"></div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- AD UNIT 2: MIDDLE -->
+    <div class="container">
+        <div class="ad-wrapper">
+            <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-7597066031957006" data-ad-slot="4383834265" data-ad-format="auto" data-full-width-responsive="true"></ins>
+            <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+        </div>
+    </div>
+
+    <!-- Content & Footer -->
+    <section class="content-section">
+        <div class="container" style="display: grid; grid-template-columns: 2fr 1fr; gap: 3rem;">
+            <div>
+                <h2 style="margin-bottom: 1rem;">Universal File Protection</h2>
+                <p>The Image Toolkit's File Locker protects your digital assets by wrapping them in an industry-standard encrypted ZIP archive. This works for ANY file type—images, documents, executables, or videos.</p>
+                
+                <h3 style="margin-top: 1.5rem; margin-bottom: 0.5rem;">Encryption Modes</h3>
+                <ul style="padding-left: 20px; line-height: 1.8; color: #4B5563;">
+                    <li><strong>Standard (AES-256):</strong> Military-grade security. Recommended for maximum protection. Requires modern tools like 7-Zip or WinRAR on Windows.</li>
+                    <li><strong>Compatibility (ZipCrypto):</strong> Compatible with the default Windows "Extract All" feature, but slightly less secure. Use this if you see Error 0x80004005.</li>
+                </ul>
+            </div>
+            
+            <aside>
+                <div class="sidebar-box">
+                    <h4 style="margin-bottom: 1rem;">Sponsored</h4>
+                    <div style="min-height: 250px;">
+                        <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-7597066031957006" data-ad-slot="7424930571" data-ad-format="auto" data-full-width-responsive="true"></ins>
+                        <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+                    </div>
+                </div>
+            </aside>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <div class="ad-wrapper" style="background: rgba(255,255,255,0.05); border: none;">
+                <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-7597066031957006" data-ad-slot="7424930571" data-ad-format="auto" data-full-width-responsive="true"></ins>
+                <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+            </div>
+            <div class="copyright">&copy; 2025 The Image Toolkit. All rights reserved.</div>
+        </div>
+    </footer>
+
+    <script>
+        // --- Mobile Menu ---
+        function toggleMenu() { document.getElementById('navLinks').classList.toggle('active'); }
+
+        // --- Logic ---
+        const dropZone = document.getElementById('dropZone');
+        const fileInput = document.getElementById('fileInput');
+        const uploadBtn = document.getElementById('uploadBtn');
+        const editorContainer = document.getElementById('editorContainer');
+        const toolTitle = document.getElementById('toolTitle');
+        const processBtn = document.getElementById('processBtn');
+        const statusMsg = document.getElementById('statusMsg');
+        
+        let originalFile = null;
+
+        // Configure zip.js
+        zip.configure({
+            useWebWorkers: false
+        });
+
+        // Reset
+        function resetTool() {
+            originalFile = null;
+            editorContainer.style.display = 'none';
+            toolTitle.style.display = 'block';
+            dropZone.style.display = 'block';
+            fileInput.value = '';
+            document.getElementById('pass1').value = '';
+            document.getElementById('pass2').value = '';
+            statusMsg.textContent = '';
+            processBtn.disabled = false;
+            processBtn.textContent = 'Create Secure ZIP';
+        }
+
+        // Toggle Password Visibility
+        window.togglePass = function(id) {
+            const input = document.getElementById(id);
+            const icon = input.nextElementSibling;
+            if (input.type === "password") {
+                input.type = "text";
+                icon.classList.remove('fa-eye');
+                icon.classList.add('fa-eye-slash');
+            } else {
+                input.type = "password";
+                icon.classList.remove('fa-eye-slash');
+                icon.classList.add('fa-eye');
+            }
+        }
+        
+        // Toggle Info
+        window.toggleCompatInfo = function() {
+            const check = document.getElementById('compatMode');
+            const info = document.getElementById('compatInfo');
+            info.style.display = check.checked ? 'block' : 'none';
+        }
+
+        // Upload Handlers
+        uploadBtn.addEventListener('click', (e) => { e.stopPropagation(); fileInput.click(); });
+        dropZone.addEventListener('click', () => fileInput.click());
+        
+        dropZone.addEventListener('dragover', (e) => { e.preventDefault(); dropZone.style.borderColor = 'var(--primary)'; });
+        dropZone.addEventListener('dragleave', () => dropZone.style.borderColor = '#D1D5DB');
+        dropZone.addEventListener('drop', (e) => { 
+            e.preventDefault(); e.stopPropagation(); dropZone.style.borderColor = '#D1D5DB';
+            if (e.dataTransfer.files.length) handleFile(e.dataTransfer.files[0]);
+        });
+        fileInput.addEventListener('change', (e) => { if(e.target.files.length) handleFile(e.target.files[0]); });
+
+        function handleFile(file) {
+            originalFile = file;
+            document.getElementById('fileName').textContent = file.name;
+            dropZone.style.display = 'none';
+            toolTitle.style.display = 'none';
+            editorContainer.style.display = 'block';
+        }
+
+        // Process Logic (Zip with Password)
+        processBtn.addEventListener('click', async () => {
+            const p1 = document.getElementById('pass1').value;
+            const p2 = document.getElementById('pass2').value;
+            const useZipCrypto = document.getElementById('compatMode').checked;
+
+            if (!p1) {
+                statusMsg.textContent = "Please enter a password.";
+                statusMsg.style.color = "red";
+                return;
+            }
+            if (p1 !== p2) {
+                statusMsg.textContent = "Passwords do not match.";
+                statusMsg.style.color = "red";
+                return;
+            }
+            
+            processBtn.disabled = true;
+            processBtn.textContent = "Encrypting...";
+            statusMsg.textContent = "Creating secure archive...";
+
+            try {
+                // Create a BlobWriter to store the zip file
+                const blobWriter = new zip.BlobWriter("application/zip");
+                
+                // Create a ZipWriter with the BlobWriter
+                const zipWriter = new zip.ZipWriter(blobWriter, {
+                    password: p1,
+                    zipCrypto: useZipCrypto 
+                });
+
+                await zipWriter.add(originalFile.name, new zip.BlobReader(originalFile));
+
+                const blob = await zipWriter.close();
+                const zipName = originalFile.name.replace(/\.[^/.]+$/, "") + "_secure.zip";
+                
+                saveAs(blob, zipName);
+
+                processBtn.disabled = false;
+                processBtn.textContent = "Create Secure ZIP";
+                statusMsg.textContent = "Download Started!";
+                statusMsg.style.color = "#10B981";
+
+            } catch (error) {
+                console.error(error);
+                processBtn.disabled = false;
+                processBtn.textContent = "Create Secure ZIP";
+                statusMsg.textContent = "Error: " + error.message;
+                statusMsg.style.color = "red";
+            }
+        });
+    </script>
+</body>
+</html>
