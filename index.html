@@ -4,121 +4,180 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
-    <!-- SEO -->
-    <title>ToolKit Pro - Merge PDF, Compress Image, Edit Photo & More</title>
-    <meta name="description" content="Free online tools to merge PDF, split PDF, compress PDF, convert PDF to Word, resize image, crop image, remove background, and more.">
-    <meta name="keywords" content="ilovepdf, iloveimg, merge pdf, split pdf, compress pdf, pdf to word, image compressor, resize image, crop image, photo editor, remove background">
+    <title>ToolKit Pro - Secure Image & PDF Tools</title>
+    <meta name="description" content="Edit images and manage PDFs securely in your browser. Resize, compress, convert, and merge files instantly. No software installation required.">
     
-    <!-- FAVICON -->
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' fill='%234F46E5' rx='20'/><path d='M30 70 L50 30 L70 70' fill='none' stroke='white' stroke-width='8'/></svg>">
 
-    <!-- FONTS & ICONS -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
-    <!-- ADSENSE -->
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7597066031957006" crossorigin="anonymous"></script>
 
     <style>
         :root {
-            --primary: #4F46E5; /* Indigo */
-            --bg-body: #F3F4F6; /* Light Gray */
-            --bg-card: #ffffff;
-            --text-main: #1F2937;
-            --text-light: #6B7280;
-            --border: #E5E7EB;
-            --radius: 12px;
+            /* Premium Color Palette */
+            --primary: #4F46E5;       /* Indigo 600 */
+            --primary-dark: #4338ca;  /* Indigo 700 */
+            --bg-body: #F9FAFB;       /* Gray 50 */
+            --bg-card: #FFFFFF;
+            --text-main: #111827;     /* Gray 900 */
+            --text-light: #6B7280;    /* Gray 500 */
+            --border: #E5E7EB;        /* Gray 200 */
+            --radius: 16px;           /* Softer corners */
+            --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
             --shadow-card: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
-            --shadow-hover: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            --shadow-hover: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
-        body { background-color: var(--bg-body); color: var(--text-main); line-height: 1.5; }
-        a { text-decoration: none; color: inherit; }
+        body { background-color: var(--bg-body); color: var(--text-main); line-height: 1.6; -webkit-font-smoothing: antialiased; }
+        a { text-decoration: none; color: inherit; transition: 0.2s; }
         
-        .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
 
-        /* --- Header --- */
-        header { background: white; border-bottom: 1px solid var(--border); height: 70px; display: flex; align-items: center; position: sticky; top: 0; z-index: 1000; box-shadow: 0 1px 3px rgba(0,0,0,0.05); }
+        /* --- Glass Header --- */
+        header { 
+            background: rgba(255, 255, 255, 0.9); 
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--border); 
+            height: 72px; 
+            display: flex; 
+            align-items: center; 
+            position: sticky; 
+            top: 0; 
+            z-index: 1000; 
+        }
         .nav-wrapper { display: flex; justify-content: space-between; align-items: center; width: 100%; }
-        .logo { font-weight: 700; font-size: 1.5rem; color: var(--primary); display: flex; align-items: center; gap: 8px; }
-        .nav-links { display: flex; gap: 30px; }
-        .nav-links a { font-weight: 500; color: var(--text-main); font-size: 0.95rem; transition: 0.2s; }
+        .logo { font-weight: 800; font-size: 1.25rem; color: var(--text-main); display: flex; align-items: center; gap: 10px; letter-spacing: -0.025em; }
+        .logo i { color: var(--primary); }
+        
+        .nav-links { display: flex; gap: 32px; }
+        .nav-links a { font-weight: 500; color: var(--text-light); font-size: 0.95rem; }
         .nav-links a:hover { color: var(--primary); }
-
         .mobile-toggle { display: none; font-size: 1.4rem; cursor: pointer; color: var(--text-main); }
 
-        /* --- Minimal Hero --- */
-        .page-title { text-align: center; padding: 3rem 0 1.5rem; }
-        .page-title h1 { font-size: 2.2rem; margin-bottom: 0.5rem; color: #111827; letter-spacing: -0.025em; }
-        .page-title p { color: var(--text-light); font-size: 1.1rem; }
+        /* --- Premium Hero Section --- */
+        .hero { 
+            text-align: center; 
+            padding: 5rem 0 3rem; 
+            background: radial-gradient(circle at top, #EEF2FF 0%, transparent 40%);
+        }
+        
+        /* Privacy Badge */
+        .privacy-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: #DEF7EC;
+            color: #03543F;
+            padding: 6px 16px;
+            border-radius: 9999px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            border: 1px solid #BCF0DA;
+        }
+
+        .hero h1 { 
+            font-size: 3rem; 
+            font-weight: 800; 
+            color: var(--text-main); 
+            letter-spacing: -0.03em; 
+            line-height: 1.2;
+            margin-bottom: 1rem;
+        }
+        .hero p { 
+            color: var(--text-light); 
+            font-size: 1.2rem; 
+            max-width: 600px; 
+            margin: 0 auto 2.5rem; 
+        }
 
         /* --- Search Bar --- */
-        .search-container { max-width: 600px; margin: 0 auto 2rem; position: relative; }
-        .search-container input { width: 100%; padding: 0.9rem 1rem 0.9rem 2.8rem; border: 1px solid var(--border); border-radius: 8px; font-size: 1rem; background: white; transition: border-color 0.2s; }
-        .search-container input:focus { outline: none; border-color: var(--primary); box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1); }
-        .search-container i { position: absolute; left: 1rem; top: 50%; transform: translateY(-50%); color: #9CA3AF; }
+        .search-container { max-width: 500px; margin: 0 auto; position: relative; }
+        .search-container input { 
+            width: 100%; 
+            padding: 1rem 1rem 1rem 3rem; 
+            border: 2px solid var(--border); 
+            border-radius: 12px; 
+            font-size: 1rem; 
+            background: white; 
+            transition: all 0.2s; 
+            box-shadow: var(--shadow-sm);
+        }
+        .search-container input:focus { 
+            outline: none; 
+            border-color: var(--primary); 
+            box-shadow: 0 0 0 4px #E0E7FF; 
+        }
+        .search-container i { position: absolute; left: 1.2rem; top: 50%; transform: translateY(-50%); color: #9CA3AF; }
 
         /* --- Ad Wrapper --- */
-        .ad-wrapper { width: 100%; margin: 1rem 0 2rem; display: flex; justify-content: center; overflow: hidden; min-height: 90px; }
+        .ad-wrapper { width: 100%; margin: 2rem 0; display: flex; justify-content: center; min-height: 100px; overflow: hidden; }
 
         /* --- Tools Grid --- */
-        .tools-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 20px; padding-bottom: 4rem; }
+        .tools-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 24px; padding-bottom: 4rem; }
+        
         .tool-card {
             background: var(--bg-card);
-            padding: 1.5rem;
+            padding: 2rem;
             border-radius: var(--radius);
             display: flex;
             flex-direction: column;
             align-items: flex-start;
             text-align: left;
-            transition: all 0.2s ease;
-            box-shadow: var(--shadow-card);
-            border: 1px solid transparent;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            border: 1px solid var(--border);
             position: relative;
             height: 100%;
         }
         .tool-card:hover {
             transform: translateY(-4px);
             box-shadow: var(--shadow-hover);
-            border-color: #E0E7FF;
+            border-color: #C7D2FE;
         }
         
-        .icon-box { font-size: 2rem; margin-bottom: 1rem; color: var(--primary); }
-        .tool-card h3 { font-size: 1.1rem; font-weight: 700; margin-bottom: 0.5rem; color: #111827; }
-        .tool-card p { font-size: 0.9rem; color: #6B7280; line-height: 1.4; }
-        .badge { position: absolute; top: 12px; right: 12px; font-size: 0.7rem; background: #EEF2FF; color: var(--primary); padding: 2px 8px; border-radius: 4px; font-weight: 600; }
-
-        /* --- Content Below Tools --- */
-        .content-section { background: white; padding: 4rem 0; border-top: 1px solid var(--border); }
-        .section-header { text-align: center; margin-bottom: 3rem; }
+        .icon-box { 
+            width: 48px; height: 48px; 
+            background: #EEF2FF; 
+            color: var(--primary); 
+            border-radius: 12px; 
+            display: flex; align-items: center; justify-content: center; 
+            font-size: 1.4rem; 
+            margin-bottom: 1.25rem; 
+        }
+        .tool-card h3 { font-size: 1.1rem; font-weight: 700; margin-bottom: 0.5rem; color: var(--text-main); }
+        .tool-card p { font-size: 0.9rem; color: var(--text-light); line-height: 1.5; }
         
-        /* Blog Grid */
-        .blog-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; }
+        /* Badges */
+        .tag { position: absolute; top: 16px; right: 16px; font-size: 0.75rem; padding: 4px 10px; border-radius: 6px; font-weight: 600; }
+        .tag-hot { background: #FEF3C7; color: #D97706; }
+        .tag-ai { background: #FCE7F3; color: #DB2777; }
 
-        /* How To & FAQ */
-        .steps-row { display: flex; justify-content: space-around; flex-wrap: wrap; gap: 2rem; text-align: center; margin-top: 2rem; }
-        .step-item h3 { margin: 1rem 0 0.5rem; }
-        
-        .faq-item { border-bottom: 1px solid var(--border); padding: 1rem 0; }
-        .faq-question { font-weight: 600; cursor: pointer; display: flex; justify-content: space-between; }
-        .faq-answer { max-height: 0; overflow: hidden; transition: 0.3s; color: var(--text-light); }
+        /* --- "Why Choose Us" (Crucial for AdSense) --- */
+        .feature-section { background: white; padding: 5rem 0; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+        .feature-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 3rem; }
+        .feature-item h3 { font-size: 1.2rem; margin-bottom: 0.75rem; display: flex; align-items: center; gap: 10px; }
+        .feature-item h3 i { color: var(--primary); }
+        .feature-item p { color: var(--text-light); font-size: 1rem; }
 
-        /* Footer */
-        footer { background: #111827; color: #9CA3AF; padding: 3rem 0; font-size: 0.9rem; }
-        .footer-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 2rem; }
-        .footer-col h4 { color: white; margin-bottom: 1rem; }
-        .footer-col ul li { margin-bottom: 0.5rem; }
+        /* --- Footer --- */
+        footer { background: #111827; color: #9CA3AF; padding: 4rem 0; font-size: 0.95rem; }
+        .footer-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 3rem; }
+        .footer-col h4 { color: white; margin-bottom: 1.5rem; font-weight: 600; }
+        .footer-col ul { list-style: none; }
+        .footer-col ul li { margin-bottom: 0.8rem; }
         .footer-col a:hover { color: white; }
 
         @media (max-width: 768px) {
+            .hero h1 { font-size: 2.25rem; }
             .mobile-toggle { display: block; }
-            .nav-links { display: none; flex-direction: column; position: absolute; top: 70px; left: 0; width: 100%; background: white; padding: 1rem; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1); }
+            .nav-links { display: none; flex-direction: column; position: absolute; top: 72px; left: 0; width: 100%; background: white; padding: 1.5rem; border-bottom: 1px solid var(--border); }
             .nav-links.active { display: flex; }
-            .page-title h1 { font-size: 1.8rem; }
-            .tools-grid, .blog-grid { grid-template-columns: 1fr; }
+            .feature-grid { grid-template-columns: 1fr; }
         }
     </style>
 </head>
@@ -134,21 +193,30 @@
 
             <nav class="nav-links" id="navLinks">
                 <a href="https://theimagetoolkit.com">Home</a>
-                <a href="#tools">All Tools</a>
+                <a href="#tools">Tools</a>
+                <a href="#features">Privacy & Speed</a>
                 <a href="#guides">Guides</a>
                 <a href="https://theimagetoolkit.com/about.html">About</a>
             </nav>
         </div>
     </header>
 
-    <div class="page-title">
+    <section class="hero">
         <div class="container">
-            <h1>Every tool you need to edit images</h1>
-            <p>Resize, Compress, Convert, and Edit. All in one place.</p>
+            <div class="privacy-badge">
+                <i class="fas fa-shield-alt"></i> Private & Secure • Files deleted automatically
+            </div>
+            
+            <h1>Smart tools for your<br>images and documents</h1>
+            <p>Compress, convert, and edit files directly in your browser. We focus on speed and privacy, so you can work safely.</p>
+            
+            <div class="search-container">
+                <i class="fas fa-search"></i>
+                <input type="text" id="searchInput" placeholder="Search (e.g., 'Compress PDF')...">
+            </div>
         </div>
-    </div>
+    </section>
 
-    <!-- AD UNIT 1: Top Banner -->
     <div class="container">
         <div class="ad-wrapper">
             <ins class="adsbygoogle"
@@ -163,68 +231,48 @@
         </div>
     </div>
 
-    <!-- Tools Grid -->
     <div class="container" id="tools">
-        
-        <div class="search-container">
-            <i class="fas fa-search"></i>
-            <input type="text" id="searchInput" placeholder="Search for tools...">
-        </div>
-
         <div class="tools-grid">
-            <!-- Image Tools -->
             <a href="image-compressor.html" class="tool-card">
                 <div class="icon-box"><i class="fas fa-compress-arrows-alt"></i></div>
                 <h3>Compress Image</h3>
-                <p>Compress JPG, PNG, and WebP while saving space.</p>
-                <span class="badge">Hot</span>
+                <p>Reduce file size for JPG, PNG, and WebP images without losing quality.</p>
+                <span class="tag tag-hot">Popular</span>
             </a>
 
             <a href="image-resizer.html" class="tool-card">
                 <div class="icon-box"><i class="fas fa-expand"></i></div>
                 <h3>Resize Image</h3>
-                <p>Define dimensions by percentage or pixels.</p>
+                <p>Change image dimensions by percentage or specific pixel counts.</p>
             </a>
 
             <a href="image-cropper.html" class="tool-card">
                 <div class="icon-box"><i class="fas fa-crop-alt"></i></div>
                 <h3>Crop Image</h3>
-                <p>Crop JPG or PNG images with ease.</p>
+                <p>Trim unwanted areas from your photos effortlessly.</p>
             </a>
 
             <a href="image-converter.html" class="tool-card">
                 <div class="icon-box"><i class="fas fa-file-image"></i></div>
                 <h3>Convert to JPG</h3>
-                <p>Turn PNG, GIF, and WEBP into JPG format.</p>
+                <p>Transform PNG, GIF, and WEBP files into standard JPG format.</p>
             </a>
 
             <a href="photo-editor.html" class="tool-card">
                 <div class="icon-box"><i class="fas fa-magic"></i></div>
                 <h3>Photo Editor</h3>
-                <p>Adjust brightness, contrast, and add filters.</p>
+                <p>Apply filters and adjust brightness or contrast instantly.</p>
             </a>
 
-            <a href="watermark-image.html" class="tool-card">
-                <div class="icon-box"><i class="fas fa-tint"></i></div>
-                <h3>Watermark Image</h3>
-                <p>Stamp text or logo over your images.</p>
+            <a href="background-remover.html" class="tool-card">
+                <div class="icon-box"><i class="fas fa-eraser"></i></div>
+                <h3>Remove Background</h3>
+                <p>Use AI to automatically strip the background from any photo.</p>
+                <span class="tag tag-ai">AI New</span>
             </a>
 
-            <a href="meme-generator.html" class="tool-card">
-                <div class="icon-box"><i class="fas fa-laugh-squint"></i></div>
-                <h3>Meme Generator</h3>
-                <p>Create viral memes with custom text.</p>
-            </a>
-
-            <a href="image-rotator.html" class="tool-card">
-                <div class="icon-box"><i class="fas fa-redo"></i></div>
-                <h3>Rotate Image</h3>
-                <p>Rotate images left, right, or custom angles.</p>
-            </a>
-
-            <!-- AD UNIT 2: In-Feed (Spans Full Width) -->
-            <div style="grid-column: 1 / -1; margin: 10px 0;">
-                <div class="ad-wrapper" style="border: 1px dashed #E5E7EB; background: #fff;">
+            <div style="grid-column: 1 / -1;">
+                <div class="ad-wrapper" style="background: #f3f4f6; border: 1px dashed #d1d5db; border-radius: 12px;">
                     <ins class="adsbygoogle"
                          style="display:block"
                          data-ad-client="ca-pub-7597066031957006"
@@ -237,207 +285,88 @@
                 </div>
             </div>
 
-            <a href="html-to-image.html" class="tool-card">
-                <div class="icon-box"><i class="fas fa-code"></i></div>
-                <h3>HTML to Image</h3>
-                <p>Convert HTML code snippets to image files.</p>
-            </a>
-
-            <a href="background-remover.html" class="tool-card">
-                <div class="icon-box"><i class="fas fa-eraser"></i></div>
-                <h3>Remove Background</h3>
-                <p>Remove image backgrounds automatically with AI.</p>
-                <span class="badge">AI</span>
-            </a>
-
-            <a href="image-upscaler.html" class="tool-card">
-                <div class="icon-box"><i class="fas fa-expand-arrows-alt"></i></div>
-                <h3>Upscale Image</h3>
-                <p>Increase image resolution without losing quality.</p>
-            </a>
-
-            <!-- PDF Tools -->
             <a href="pdf-compressor.html" class="tool-card">
                 <div class="icon-box"><i class="fas fa-file-pdf"></i></div>
                 <h3>Compress PDF</h3>
-                <p>Reduce PDF file size efficiently.</p>
+                <p>Shrink PDF documents for easier emailing and sharing.</p>
             </a>
 
             <a href="pdf-merger.html" class="tool-card">
                 <div class="icon-box"><i class="fas fa-object-group"></i></div>
                 <h3>Merge PDF</h3>
-                <p>Combine multiple PDFs into one file.</p>
-            </a>
-
-            <a href="pdf-splitter.html" class="tool-card">
-                <div class="icon-box"><i class="fas fa-cut"></i></div>
-                <h3>Split PDF</h3>
-                <p>Extract specific pages from a PDF.</p>
+                <p>Combine multiple PDF documents into a single file.</p>
             </a>
 
             <a href="pdf-to-word.html" class="tool-card">
                 <div class="icon-box"><i class="fas fa-file-word"></i></div>
                 <h3>PDF to Word</h3>
-                <p>Convert PDF documents to editable Word files.</p>
-            </a>
-
-            <a href="word-to-pdf.html" class="tool-card">
-                <div class="icon-box"><i class="fas fa-file-import"></i></div>
-                <h3>Word to PDF</h3>
-                <p>Convert DOCX files to professional PDFs.</p>
+                <p>Convert read-only PDFs into editable Word documents.</p>
             </a>
 
             <a href="pdf-protect.html" class="tool-card">
                 <div class="icon-box"><i class="fas fa-lock"></i></div>
                 <h3>Protect PDF</h3>
-                <p>Encrypt PDF with a password.</p>
+                <p>Encrypt your sensitive PDF files with a secure password.</p>
             </a>
 
             <a href="secure-file.html" class="tool-card">
                 <div class="icon-box"><i class="fas fa-file-archive"></i></div>
-                <h3>Universal File Locker</h3>
-                <p>Encrypt any file in a secure ZIP archive.</p>
+                <h3>File Locker</h3>
+                <p>Secure any file type inside an encrypted ZIP archive.</p>
+            </a>
+            
+            <a href="meme-generator.html" class="tool-card">
+                <div class="icon-box"><i class="fas fa-laugh-squint"></i></div>
+                <h3>Meme Generator</h3>
+                <p>Add custom text to popular meme templates.</p>
             </a>
         </div>
     </div>
 
-    <!-- Guides Section -->
-    <section class="content-section" id="guides" style="background: #F9FAFB;">
+    <section class="feature-section" id="features">
         <div class="container">
-            <div class="section-header">
-                <h2>Guides & Resources</h2>
-                <p>Tips to get the most out of your files.</p>
+            <div style="text-align: center; margin-bottom: 3rem;">
+                <h2 style="font-size: 2rem; margin-bottom: 1rem;">Why use ToolKit Pro?</h2>
+                <p style="color: var(--text-light);">We built this suite to be the safest place to edit files online.</p>
             </div>
             
-            <!-- 2-Column Layout -->
-            <div style="display: grid; grid-template-columns: 3fr 1fr; gap: 2rem;">
-                
-                <!-- Guide Cards Grid -->
-                <div class="blog-grid">
-                    <div style="background: white; padding: 1.5rem; border-radius: 8px; border: 1px solid var(--border);">
-                        <h4>How to Compress Images</h4>
-                        <p style="font-size: 0.9rem; color: #6B7280; margin: 0.5rem 0;">Learn about lossy vs lossless compression.</p>
-                        <a href="how-to-compress-images.html" style="color: var(--primary); font-size: 0.9rem;">Read Article &rarr;</a>
-                    </div>
-
-                    <div style="background: white; padding: 1.5rem; border-radius: 8px; border: 1px solid var(--border);">
-                        <h4>PDF Merging 101</h4>
-                        <p style="font-size: 0.9rem; color: #6B7280; margin: 0.5rem 0;">A guide to combining documents securely.</p>
-                        <a href="pdf-merging-101.html" style="color: var(--primary); font-size: 0.9rem;">Read Article &rarr;</a>
-                    </div>
-
-                    <div style="background: white; padding: 1.5rem; border-radius: 8px; border: 1px solid var(--border);">
-                        <h4>Remove Backgrounds with AI</h4>
-                        <p style="font-size: 0.9rem; color: #6B7280; margin: 0.5rem 0;">Make transparent images instantly.</p>
-                        <a href="guide-remove-background.html" style="color: var(--primary); font-size: 0.9rem;">Read Article &rarr;</a>
-                    </div>
-
-                    <div style="background: white; padding: 1.5rem; border-radius: 8px; border: 1px solid var(--border);">
-                        <h4>Password Protect Files</h4>
-                        <p style="font-size: 0.9rem; color: #6B7280; margin: 0.5rem 0;">Secure sensitive documents.</p>
-                        <a href="guide-password-protect.html" style="color: var(--primary); font-size: 0.9rem;">Read Article &rarr;</a>
-                    </div>
-
-                    <div style="background: white; padding: 1.5rem; border-radius: 8px; border: 1px solid var(--border);">
-                        <h4>JPG vs PNG Guide</h4>
-                        <p style="font-size: 0.9rem; color: #6B7280; margin: 0.5rem 0;">Which format is right for you?</p>
-                        <a href="guide-jpg-vs-png.html" style="color: var(--primary); font-size: 0.9rem;">Read Article &rarr;</a>
-                    </div>
-
-                    <div style="background: white; padding: 1.5rem; border-radius: 8px; border: 1px solid var(--border);">
-                        <h4>Resize for Email</h4>
-                        <p style="font-size: 0.9rem; color: #6B7280; margin: 0.5rem 0;">Fix "file too large" errors.</p>
-                        <a href="guide-resize-for-email.html" style="color: var(--primary); font-size: 0.9rem;">Read Article &rarr;</a>
-                    </div>
-                    
-                    <div style="background: white; padding: 1.5rem; border-radius: 8px; border: 1px solid var(--border);">
-                        <h4>Webpage to Image</h4>
-                        <p style="font-size: 0.9rem; color: #6B7280; margin: 0.5rem 0;">Capture full page screenshots.</p>
-                        <a href="guide-webpage-to-image.html" style="color: var(--primary); font-size: 0.9rem;">Read Article &rarr;</a>
-                    </div>
-
-                    <div style="background: white; padding: 1.5rem; border-radius: 8px; border: 1px solid var(--border);">
-                        <h4>Secure Large File Transfer</h4>
-                        <p style="font-size: 0.9rem; color: #6B7280; margin: 0.5rem 0;">How to send big files safely.</p>
-                        <a href="guide-secure-file-transfer.html" style="color: var(--primary); font-size: 0.9rem;">Read Article &rarr;</a>
-                    </div>
-                    
-                    <div style="background: white; padding: 1.5rem; border-radius: 8px; border: 1px solid var(--border);">
-                        <h4>Extract PDF Pages</h4>
-                        <p style="font-size: 0.9rem; color: #6B7280; margin: 0.5rem 0;">Save only what you need.</p>
-                        <a href="guide-extract-pdf-pages.html" style="color: var(--primary); font-size: 0.9rem;">Read Article &rarr;</a>
-                    </div>
-                    
-                    <div style="background: white; padding: 1.5rem; border-radius: 8px; border: 1px solid var(--border);">
-                        <h4>Make Memes Online</h4>
-                        <p style="font-size: 0.9rem; color: #6B7280; margin: 0.5rem 0;">Create viral content easily.</p>
-                        <a href="guide-make-memes.html" style="color: var(--primary); font-size: 0.9rem;">Read Article &rarr;</a>
-                    </div>
-                    
-                    <div style="background: white; padding: 1.5rem; border-radius: 8px; border: 1px solid var(--border);">
-                        <h4>Convert Word to PDF</h4>
-                        <p style="font-size: 0.9rem; color: #6B7280; margin: 0.5rem 0;">Preserve document formatting.</p>
-                        <a href="guide-word-to-pdf.html" style="color: var(--primary); font-size: 0.9rem;">Read Article &rarr;</a>
-                    </div>
-                    
-                    <div style="background: white; padding: 1.5rem; border-radius: 8px; border: 1px solid var(--border);">
-                        <h4>Best Social Media Sizes</h4>
-                        <p style="font-size: 0.9rem; color: #6B7280; margin: 0.5rem 0;">Cheat sheet for Instagram & FB.</p>
-                        <a href="guide-social-media-sizes.html" style="color: var(--primary); font-size: 0.9rem;">Read Article &rarr;</a>
-                    </div>
+            <div class="feature-grid">
+                <div class="feature-item">
+                    <h3><i class="fas fa-user-shield"></i> Privacy Guaranteed</h3>
+                    <p>We do not look at your files. All processing happens either in your browser or on a secure server that deletes uploads automatically after one hour.</p>
                 </div>
-
-                <!-- AD UNIT 3: Sidebar -->
-                <div style="background: white; padding: 1rem; border: 1px solid var(--border); border-radius: 8px; height: fit-content;">
-                    <span style="font-size: 0.8rem; color: #9CA3AF; display: block; margin-bottom: 0.5rem;">Advertisement</span>
-                    <div class="ad-wrapper" style="min-height: 250px;">
-                        <ins class="adsbygoogle"
-                             style="display:block"
-                             data-ad-client="ca-pub-7597066031957006"
-                             data-ad-slot="7424930571"
-                             data-ad-format="auto"
-                             data-full-width-responsive="true"></ins>
-                        <script>
-                             (adsbygoogle = window.adsbygoogle || []).push({});
-                        </script>
-                    </div>
+                <div class="feature-item">
+                    <h3><i class="fas fa-bolt"></i> Lightning Fast</h3>
+                    <p>Our tools are optimized for speed. Compress 1GB PDFs or resize high-resolution photos in seconds without installing heavy software.</p>
+                </div>
+                <div class="feature-item">
+                    <h3><i class="fas fa-laptop"></i> Works Everywhere</h3>
+                    <p>ToolKit Pro works on Windows, Mac, Linux, iPhone, and Android. You only need a web browser to get the job done.</p>
                 </div>
             </div>
         </div>
     </section>
 
-    <section class="content-section">
+    <section style="padding: 4rem 0;" id="guides">
         <div class="container">
-            <div class="section-header">
-                <h2>How to use ToolKit Pro</h2>
-            </div>
-            <div class="steps-row">
-                <div class="step-item">
-                    <div style="width: 48px; height: 48px; background: #EEF2FF; color: var(--primary); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto; font-weight: bold; font-size: 1.2rem;">1</div>
-                    <h3>Select a Tool</h3>
-                    <p style="color: #6B7280;">Choose from our list of 18 image and PDF tools.</p>
+            <h2 style="margin-bottom: 2rem;">Helpful Guides</h2>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem;">
+                <div style="background: white; padding: 1.5rem; border-radius: 12px; border: 1px solid var(--border);">
+                    <h4 style="margin-bottom: 0.5rem;">How to Compress Images</h4>
+                    <p style="font-size: 0.9rem; color: var(--text-light); margin-bottom: 1rem;">Understand the difference between lossy and lossless compression.</p>
+                    <a href="how-to-compress-images.html" style="color: var(--primary); font-weight: 500;">Read Article &rarr;</a>
                 </div>
-                <div class="step-item">
-                    <div style="width: 48px; height: 48px; background: #EEF2FF; color: var(--primary); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto; font-weight: bold; font-size: 1.2rem;">2</div>
-                    <h3>Upload File</h3>
-                    <p style="color: #6B7280;">Upload your file from your computer or mobile.</p>
+
+                <div style="background: white; padding: 1.5rem; border-radius: 12px; border: 1px solid var(--border);">
+                    <h4 style="margin-bottom: 0.5rem;">Secure PDF Merging</h4>
+                    <p style="font-size: 0.9rem; color: var(--text-light); margin-bottom: 1rem;">How to combine contracts and documents safely.</p>
+                    <a href="pdf-merging-101.html" style="color: var(--primary); font-weight: 500;">Read Article &rarr;</a>
                 </div>
-                <div class="step-item">
-                    <div style="width: 48px; height: 48px; background: #EEF2FF; color: var(--primary); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto; font-weight: bold; font-size: 1.2rem;">3</div>
-                    <h3>Download</h3>
-                    <p style="color: #6B7280;">Process the file instantly and download the result.</p>
-                </div>
-            </div>
-            
-            <div style="margin-top: 4rem; max-width: 800px; margin-left: auto; margin-right: auto;">
-                <h3 style="text-align: center; margin-bottom: 1.5rem;">FAQ</h3>
-                <div class="faq-item">
-                    <div class="faq-question">Is this service free? <i class="fas fa-chevron-down"></i></div>
-                    <div class="faq-answer">Yes, ToolKit Pro is completely free to use.</div>
-                </div>
-                <div class="faq-item">
-                    <div class="faq-question">Is it safe? <i class="fas fa-chevron-down"></i></div>
-                    <div class="faq-answer">Yes. All files are processed securely and deleted automatically.</div>
+
+                <div style="background: white; padding: 1.5rem; border-radius: 12px; border: 1px solid var(--border);">
+                    <h4 style="margin-bottom: 0.5rem;">Remove Backgrounds</h4>
+                    <p style="font-size: 0.9rem; color: var(--text-light); margin-bottom: 1rem;">Create transparent product photos using AI.</p>
+                    <a href="guide-remove-background.html" style="color: var(--primary); font-weight: 500;">Read Article &rarr;</a>
                 </div>
             </div>
         </div>
@@ -447,29 +376,30 @@
         <div class="container">
             <div class="footer-grid">
                 <div class="footer-col">
-                    <h4 style="font-size: 1.2rem; display: flex; align-items: center; gap: 8px;"><i class="fas fa-layer-group"></i> The Image Toolkit</h4>
+                    <h4 style="display: flex; align-items: center; gap: 10px;">
+                        <i class="fas fa-layer-group"></i> The Image Toolkit
+                    </h4>
                     <p>&copy; 2025 The Image Toolkit.</p>
                     <p>All rights reserved.</p>
                 </div>
                 <div class="footer-col">
-                    <h4>Company</h4>
+                    <h4>Legal</h4>
                     <ul>
-                        <li><a href="https://theimagetoolkit.com/about.html">About Us</a></li>
-                        <li><a href="https://theimagetoolkit.com/privacy-policy.html">Privacy Policy</a></li>
-                        <li><a href="#">Contact</a></li>
+                        <li><a href="privacy-policy.html">Privacy Policy</a></li>
+                        <li><a href="terms.html">Terms of Service</a></li>
+                        <li><a href="cookies.html">Cookie Policy</a></li>
                     </ul>
                 </div>
                 <div class="footer-col">
-                    <h4>Product</h4>
+                    <h4>Support</h4>
                     <ul>
-                        <li><a href="#">Pricing</a></li>
-                        <li><a href="#">API</a></li>
+                        <li><a href="contact.html">Contact Us</a></li>
+                        <li><a href="about.html">About</a></li>
                     </ul>
                 </div>
             </div>
             
-            <!-- AD UNIT 4: Footer -->
-            <div class="ad-wrapper" style="margin-top: 2rem; background: rgba(255,255,255,0.05); border: none;">
+            <div class="ad-wrapper" style="margin-top: 3rem; background: rgba(255,255,255,0.05); border: none;">
                 <ins class="adsbygoogle"
                      style="display:block"
                      data-ad-client="ca-pub-7597066031957006"
@@ -484,25 +414,24 @@
     </footer>
 
     <script>
-        // --- Mobile Menu Toggle ---
+        // --- Mobile Menu ---
         function toggleMenu() { document.getElementById('navLinks').classList.toggle('active'); }
 
-        // --- Search ---
+        // --- Search Functionality ---
         const searchInput = document.getElementById('searchInput');
         searchInput.addEventListener('input', function(e) {
             const term = e.target.value.toLowerCase();
             document.querySelectorAll('.tool-card').forEach(card => {
                 const title = card.querySelector('h3').textContent.toLowerCase();
                 const desc = card.querySelector('p').textContent.toLowerCase();
-                card.style.display = (title.includes(term) || desc.includes(term)) ? 'flex' : 'none';
+                // Simple show/hide based on search term
+                if (title.includes(term) || desc.includes(term)) {
+                    card.style.display = 'flex';
+                } else {
+                    card.style.display = 'none';
+                }
             });
         });
-        
-        // FAQ
-        document.querySelectorAll('.faq-question').forEach(i => i.addEventListener('click', () => {
-            const ans = i.nextElementSibling;
-            ans.style.maxHeight = ans.style.maxHeight ? null : "200px";
-        }));
     </script>
 </body>
 </html>
