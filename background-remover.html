@@ -4,195 +4,180 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
-    <!-- SEO -->
-    <title>Remove Background from Image Free - AI Background Remover | The Image Toolkit</title>
-    <meta name="description" content="Remove image backgrounds automatically with AI. Free online background remover for JPG, PNG, and WebP. Transparent backgrounds in seconds.">
-    <meta name="keywords" content="remove background, bg remover, transparent background, delete background, ai background remover, free photo editor">
+    <title>Free AI Background Remover | The Image Toolkit</title>
+    <meta name="description" content="Remove image backgrounds instantly with AI. Secure, client-side processing for JPG, PNG, and WebP. No uploads to server required.">
     
-    <!-- FAVICON -->
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' fill='%234F46E5' rx='20'/><path d='M30 70 L50 30 L70 70' fill='none' stroke='white' stroke-width='8'/></svg>">
 
-    <!-- FONTS & ICONS -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
-    <!-- LIBRARIES -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
-    
-    <!-- TensorFlow.js -->
     <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@3.18.0"></script>
-    <!-- BodyPix model -->
     <script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/body-pix@2.2.0"></script>
 
-    <!-- ADSENSE -->
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7597066031957006" crossorigin="anonymous"></script>
 
     <style>
         :root {
+            /* Premium Theme Variables */
             --primary: #4F46E5;
             --primary-dark: #4338ca;
-            --primary-light: #818cf8;
-            --secondary: #6366f1;
-            --accent: #10B981;
-            --bg-body: #F3F4F6;
-            --text-main: #1F2937;
+            --bg-body: #F9FAFB;
+            --bg-card: #FFFFFF;
+            --text-main: #111827;
             --text-light: #6B7280;
             --border: #E5E7EB;
-            --border-radius: 12px;
-            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-            --transition: all 0.3s ease;
+            --radius: 16px;
+            --shadow-card: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+            --shadow-hover: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
-        body { background-color: var(--bg-body); color: var(--text-main); display: flex; flex-direction: column; min-height: 100vh; }
-        a { text-decoration: none; color: inherit; }
-        .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+        body { background-color: var(--bg-body); color: var(--text-main); line-height: 1.6; display: flex; flex-direction: column; min-height: 100vh; }
+        a { text-decoration: none; color: inherit; transition: 0.2s; }
+        
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
 
-        /* Header */
-        header { background: white; border-bottom: 1px solid var(--border); height: 70px; display: flex; align-items: center; position: sticky; top: 0; z-index: 1000; box-shadow: 0 1px 2px rgba(0,0,0,0.05); }
+        /* --- Glass Header (Matches Index) --- */
+        header { 
+            background: rgba(255, 255, 255, 0.9); 
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--border); 
+            height: 72px; 
+            display: flex; 
+            align-items: center; 
+            position: sticky; 
+            top: 0; 
+            z-index: 1000; 
+        }
         .nav-wrapper { display: flex; justify-content: space-between; align-items: center; width: 100%; }
-        .logo { font-weight: 700; font-size: 1.5rem; color: var(--primary); display: flex; align-items: center; gap: 8px; }
-        .nav-links { display: flex; gap: 30px; }
-        .nav-links a { font-weight: 500; font-size: 0.95rem; color: var(--text-main); transition: 0.2s; }
+        .logo { font-weight: 800; font-size: 1.25rem; color: var(--text-main); display: flex; align-items: center; gap: 10px; letter-spacing: -0.025em; }
+        .logo i { color: var(--primary); }
+        .nav-links { display: flex; gap: 32px; }
+        .nav-links a { font-weight: 500; color: var(--text-light); font-size: 0.95rem; }
         .nav-links a:hover { color: var(--primary); }
-        .mobile-toggle { display: none; font-size: 1.5rem; cursor: pointer; color: var(--text-main); }
+        .mobile-toggle { display: none; font-size: 1.4rem; cursor: pointer; color: var(--text-main); }
 
-        /* Ad Wrapper */
-        .ad-wrapper { width: 100%; margin: 20px 0; display: flex; justify-content: center; overflow: hidden; min-height: 90px; background: #fff; border: 1px solid #f0f0f0; border-radius: 8px; align-items: center; }
+        /* --- Workspace / Hero --- */
+        .workspace { 
+            background: radial-gradient(circle at top, #EEF2FF 0%, transparent 40%); 
+            padding: 4rem 0 2rem; 
+        }
+        .tool-title { text-align: center; margin-bottom: 2.5rem; }
+        .tool-title h1 { font-size: 2.5rem; font-weight: 800; margin-bottom: 0.5rem; letter-spacing: -0.03em; }
+        .tool-title p { color: var(--text-light); font-size: 1.1rem; }
 
-        /* Workspace */
-        .workspace { background: #F9FAFB; padding: 2rem 0; min-height: 60vh; }
-        .tool-title { text-align: center; margin-bottom: 1.5rem; }
-        .tool-title h1 { font-size: 1.8rem; color: #111827; }
-        .tool-title p { color: #6B7280; font-size: 1rem; }
-
-        /* Main Tool Card */
+        /* --- Tool Card --- */
         .main-tool {
             background: white;
-            border-radius: var(--border-radius);
-            box-shadow: var(--shadow);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow-card);
+            border: 1px solid var(--border);
             overflow: hidden;
-            margin-bottom: 3rem;
             max-width: 900px;
-            margin: 0 auto;
+            margin: 0 auto 3rem;
+            position: relative;
         }
 
         /* Upload Area */
         .upload-area {
             border: 2px dashed #D1D5DB;
-            border-radius: var(--border-radius);
-            padding: 3rem 2rem;
+            border-radius: 12px;
+            padding: 4rem 2rem;
             text-align: center;
             cursor: pointer;
-            transition: var(--transition);
+            transition: all 0.2s;
             margin: 2rem;
             background: #FAFAFA;
         }
-
         .upload-area:hover, .upload-area.dragover {
             border-color: var(--primary);
             background: #EEF2FF;
         }
-
-        .upload-icon {
-            font-size: 3rem;
-            margin-bottom: 1rem;
-            color: var(--primary);
-        }
-
+        .upload-icon { font-size: 3.5rem; margin-bottom: 1.5rem; color: var(--primary); opacity: 0.8; }
+        
+        /* Buttons */
         .btn {
             background: var(--primary);
             color: white;
             border: none;
-            padding: 0.875rem 2rem;
-            border-radius: 50px;
+            padding: 0.8rem 2rem;
+            border-radius: 99px;
             cursor: pointer;
             font-weight: 600;
-            transition: var(--transition);
+            transition: all 0.2s;
             font-size: 1rem;
             display: inline-flex;
             align-items: center;
             gap: 0.5rem;
+            box-shadow: 0 4px 6px -1px rgba(79, 70, 229, 0.2);
         }
-
-        .btn:hover { background: var(--primary-dark); transform: translateY(-2px); }
-        .btn:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
-        .btn-outline { background: transparent; border: 2px solid var(--primary); color: var(--primary); }
-        .btn-outline:hover { background: var(--primary); color: white; }
+        .btn:hover { background: var(--primary-dark); transform: translateY(-1px); }
+        .btn-outline { background: white; border: 2px solid var(--border); color: var(--text-main); box-shadow: none; }
+        .btn-outline:hover { border-color: var(--text-main); background: #F9FAFB; }
 
         /* Processing Steps */
-        .processing-section { text-align: center; margin: 2rem; }
-        .processing-steps {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 1rem;
-            margin: 2rem 0;
+        .processing-section { padding: 3rem 2rem; text-align: center; }
+        .steps-grid { 
+            display: grid; 
+            grid-template-columns: repeat(3, 1fr); 
+            gap: 1.5rem; 
+            margin: 2rem 0; 
         }
-
-        .step {
-            padding: 1rem;
-            border: 2px solid var(--border);
-            border-radius: var(--border-radius);
-            text-align: center;
-            transition: var(--transition);
-            background: white;
+        .step { 
+            padding: 1.5rem; 
+            border: 1px solid var(--border); 
+            border-radius: 12px; 
+            background: white; 
+            opacity: 0.5;
+            transition: 0.3s;
         }
-
-        .step.active { border-color: var(--primary); background: #EEF2FF; }
-        .step.completed { border-color: var(--accent); background: #ECFDF5; }
-
-        .step-icon { font-size: 1.5rem; margin-bottom: 0.5rem; }
-        .step h4 { font-size: 0.9rem; margin-bottom: 0.2rem; color: var(--text-main); }
-        .step p { font-size: 0.8rem; color: var(--text-light); }
-
-        /* Progress Bar */
-        .progress-container { margin: 2rem 0; }
-        .progress-bar { height: 8px; background: var(--border); border-radius: 4px; overflow: hidden; margin-bottom: 0.5rem; }
+        .step.active { opacity: 1; border-color: var(--primary); box-shadow: 0 4px 12px rgba(79, 70, 229, 0.1); }
+        .step.completed { opacity: 1; background: #ECFDF5; border-color: #10B981; color: #065F46; }
+        
+        .progress-bar { height: 8px; background: #E5E7EB; border-radius: 99px; overflow: hidden; margin: 0 auto; max-width: 400px; }
         .progress { height: 100%; background: var(--primary); width: 0%; transition: width 0.4s ease; }
-        .progress-text { text-align: center; font-size: 0.875rem; color: var(--text-light); }
 
         /* Preview */
-        .preview-section { margin-top: 2rem; border-top: 1px solid var(--border); padding-top: 2rem; }
-        .preview-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin: 0 2rem 2rem; }
+        .preview-section { border-top: 1px solid var(--border); padding: 2rem; background: #F9FAFB; }
+        .preview-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin-bottom: 2rem; }
         
-        .preview-card {
-            border: 1px solid var(--border);
-            border-radius: var(--border-radius);
-            overflow: hidden;
-            background: white;
+        .preview-card { background: white; border-radius: 12px; overflow: hidden; border: 1px solid var(--border); }
+        .preview-header { padding: 0.8rem; border-bottom: 1px solid var(--border); font-weight: 600; text-align: center; font-size: 0.9rem; color: var(--text-light); }
+        .preview-content { 
+            min-height: 300px; 
+            padding: 1rem; 
+            display: flex; justify-content: center; align-items: center; 
+            background-image: linear-gradient(45deg, #f0f0f0 25%, transparent 25%), linear-gradient(-45deg, #f0f0f0 25%, transparent 25%), linear-gradient(45deg, transparent 75%, #f0f0f0 75%), linear-gradient(-45deg, transparent 75%, #f0f0f0 75%);
+            background-size: 20px 20px;
+            background-position: 0 0, 0 10px, 10px -10px, -10px 0px;
         }
-
-        .preview-header { background: #F9FAFB; padding: 1rem; border-bottom: 1px solid var(--border); font-weight: 600; text-align: center; }
-        
-        .preview-content {
-            padding: 1rem;
-            text-align: center;
-            min-height: 300px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            background-image: url('data:image/svg+xml;utf8,<svg width="20" height="20" xmlns="http://www.w3.org/2000/svg"><rect width="10" height="10" fill="%23eee"/><rect x="10" y="10" width="10" height="10" fill="%23eee"/></svg>');
-        }
-
-        .preview-content img, .preview-content canvas {
-            max-width: 100%;
-            max-height: 300px;
-            object-fit: contain;
-        }
+        .preview-content img { max-width: 100%; max-height: 350px; object-fit: contain; }
 
         .hidden { display: none !important; }
 
-        /* Content & Footer */
+        /* --- Content & Sidebar (Fixes Low Value Content) --- */
         .content-section { background: white; padding: 4rem 0; border-top: 1px solid var(--border); }
-        .sidebar-box { border: 1px solid var(--border); border-radius: 8px; padding: 1.5rem; }
-        footer { background: #111827; color: #9CA3AF; padding: 2rem 0; margin-top: auto; text-align: center; }
+        .content-grid { display: grid; grid-template-columns: 2fr 1fr; gap: 4rem; }
+        
+        .article h2 { font-size: 1.8rem; margin-bottom: 1rem; color: var(--text-main); }
+        .article h3 { font-size: 1.3rem; margin: 2rem 0 0.8rem; color: var(--text-main); }
+        .article p { margin-bottom: 1rem; color: var(--text-light); font-size: 1.05rem; }
+        .article ul { margin-bottom: 1.5rem; padding-left: 1.5rem; color: var(--text-light); }
+        .article li { margin-bottom: 0.5rem; }
 
+        .sidebar-box { background: #F9FAFB; border: 1px solid var(--border); border-radius: 12px; padding: 1.5rem; margin-bottom: 2rem; }
+
+        /* --- Footer --- */
+        footer { background: #111827; color: #9CA3AF; padding: 3rem 0; font-size: 0.9rem; margin-top: auto; }
+        
         @media (max-width: 768px) {
             .mobile-toggle { display: block; }
-            .nav-links { display: none; flex-direction: column; position: absolute; top: 70px; left: 0; width: 100%; background: white; padding: 1rem; border-bottom: 1px solid var(--border); box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); }
+            .nav-links { display: none; flex-direction: column; position: absolute; top: 72px; left: 0; width: 100%; background: white; padding: 1.5rem; border-bottom: 1px solid var(--border); }
             .nav-links.active { display: flex; }
-            .preview-grid { grid-template-columns: 1fr; }
-            .processing-steps { grid-template-columns: 1fr; }
+            .content-grid { grid-template-columns: 1fr; }
+            .preview-grid, .steps-grid { grid-template-columns: 1fr; }
         }
     </style>
 </head>
@@ -207,76 +192,77 @@
             <nav class="nav-links" id="navLinks">
                 <a href="index.html">Home</a>
                 <a href="index.html#tools">All Tools</a>
-                <a href="about.html">About</a>
+                <a href="index.html#features">Privacy</a>
                 <a href="index.html#guides">Guides</a>
+                <a href="about.html">About</a>
             </nav>
         </div>
     </header>
 
-    <!-- AD UNIT 1: TOP -->
-    <div class="container">
-        <div class="ad-wrapper">
-            <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-7597066031957006" data-ad-slot="5194353053" data-ad-format="auto" data-full-width-responsive="true"></ins>
-            <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+    <div class="container" style="margin-top: 2rem;">
+        <div class="ad-wrapper" style="min-height: 100px; display:flex; justify-content:center;">
+             <ins class="adsbygoogle"
+                 style="display:block"
+                 data-ad-client="ca-pub-7597066031957006"
+                 data-ad-slot="5194353053"
+                 data-ad-format="auto"
+                 data-full-width-responsive="true"></ins>
+            <script>
+                 (adsbygoogle = window.adsbygoogle || []).push({});
+            </script>
         </div>
     </div>
 
-    <!-- Workspace -->
     <section class="workspace">
         <div class="container">
             <div class="tool-title">
-                <h1>AI Background Remover</h1>
-                <p>Remove image backgrounds automatically using TensorFlow.js technology.</p>
+                <h1>Remove Background from Image</h1>
+                <p>AI-powered transparency. 100% Free and Private.</p>
             </div>
 
             <div class="main-tool">
-                <!-- Upload Section -->
                 <div class="upload-area" id="uploadArea">
                     <div class="upload-icon"><i class="fas fa-magic"></i></div>
-                    <h3>Drag & Drop Your Image</h3>
-                    <p>or click to browse files (JPG, PNG, WebP)</p>
+                    <h3 style="font-size: 1.5rem; margin-bottom: 0.5rem;">Drop your image here</h3>
+                    <p style="color: #9CA3AF; margin-bottom: 1.5rem;">Supports JPG, PNG, and WebP</p>
                     <button class="btn" id="browseBtn">
-                        <span>Choose Image</span>
+                        <i class="fas fa-folder-open"></i> Select File
                     </button>
                     <input type="file" id="fileInput" accept="image/*" class="hidden">
-                </div>
-
-                <!-- Warning Message -->
-                <div class="warning-message hidden" id="warningMessage" style="background: #FEF3C7; color: #92400E; padding: 1rem; margin: 1rem; border-radius: 8px; text-align: center;">
-                    <i class="fas fa-info-circle"></i> <strong>First Time Setup:</strong> Loading AI models (50MB+). This may take 1-2 minutes. Please be patient.
-                </div>
-
-                <!-- Processing Section -->
-                <div class="processing-section hidden" id="processingSection">
-                    <h3>AI Processing...</h3>
                     
-                    <div class="processing-steps">
-                        <div class="step active" id="step1">
-                            <div class="step-icon">📥</div>
-                            <h4>Loading AI</h4>
-                            <p>Initializing TensorFlow</p>
+                    <div style="margin-top: 2rem; display: inline-flex; align-items: center; gap: 8px; font-size: 0.85rem; color: #059669; background: #ECFDF5; padding: 4px 12px; border-radius: 99px;">
+                        <i class="fas fa-shield-alt"></i> Images are processed locally. No server upload.
+                    </div>
+                </div>
+
+                <div class="hidden" id="warningMessage" style="background: #FFFBEB; color: #92400E; padding: 1rem; border-bottom: 1px solid #FEF3C7; text-align: center; font-size: 0.9rem;">
+                    <i class="fas fa-spinner fa-spin"></i> <strong>Setting up AI:</strong> Downloading the model (50MB). This only happens once.
+                </div>
+
+                <div class="processing-section hidden" id="processingSection">
+                    <h3 style="margin-bottom: 1rem;">Working Magic...</h3>
+                    
+                    <div class="steps-grid">
+                        <div class="step" id="step1">
+                            <i class="fas fa-download fa-lg" style="margin-bottom: 10px; display:block;"></i>
+                            <strong>Load Model</strong>
                         </div>
                         <div class="step" id="step2">
-                            <div class="step-icon">🤖</div>
-                            <h4>Analysing</h4>
-                            <p>Detecting Subject</p>
+                            <i class="fas fa-brain fa-lg" style="margin-bottom: 10px; display:block;"></i>
+                            <strong>Analyze</strong>
                         </div>
                         <div class="step" id="step3">
-                            <div class="step-icon">✨</div>
-                            <h4>Removing BG</h4>
-                            <p>Creating Transparency</p>
+                            <i class="fas fa-eraser fa-lg" style="margin-bottom: 10px; display:block;"></i>
+                            <strong>Remove BG</strong>
                         </div>
                     </div>
                     
-                    <div class="progress-container" style="max-width: 400px; margin: 0 auto;">
-                        <div class="progress-bar">
-                            <div class="progress" id="progress"></div>
-                        </div>
-                        <div class="progress-text" id="progressText">Initializing...</div>
+                    <div class="progress-bar">
+                        <div class="progress" id="progress"></div>
                     </div>
+                    <p id="progressText" style="margin-top: 1rem; font-size: 0.9rem; color: var(--text-light);">Initializing...</p>
                 </div>
 
-                <!-- Preview Section -->
                 <div class="preview-section hidden" id="previewSection">
                     <div class="preview-grid">
                         <div class="preview-card">
@@ -284,16 +270,18 @@
                             <div class="preview-content" id="originalPreview"></div>
                         </div>
                         <div class="preview-card">
-                            <div class="preview-header">Background Removed</div>
-                            <div class="preview-content" id="processedPreview"></div>
+                            <div class="preview-header">Transparent Result</div>
+                            <div class="preview-content" id="processedPreview">
+                                
+                            </div>
                         </div>
                     </div>
 
-                    <div style="text-align: center; padding-bottom: 2rem;">
-                        <button class="btn" id="downloadBtn" style="background: #10B981;">
-                            <i class="fas fa-download"></i> Download PNG
+                    <div style="text-align: center; display: flex; justify-content: center; gap: 1rem; flex-wrap: wrap;">
+                        <button class="btn" id="downloadBtn">
+                            <i class="fas fa-download"></i> Download HD PNG
                         </button>
-                        <button class="btn btn-outline" id="newImageBtn" style="margin-left: 10px;">
+                        <button class="btn btn-outline" id="newImageBtn">
                             <i class="fas fa-redo"></i> Start Over
                         </button>
                     </div>
@@ -302,36 +290,62 @@
         </div>
     </section>
 
-    <!-- AD UNIT 2: MIDDLE -->
-    <div class="container">
-        <div class="ad-wrapper">
-            <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-7597066031957006" data-ad-slot="4383834265" data-ad-format="auto" data-full-width-responsive="true"></ins>
-            <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
-        </div>
-    </div>
-
-    <!-- Content & Sidebar -->
     <section class="content-section">
-        <div class="container" style="display: grid; grid-template-columns: 2fr 1fr; gap: 3rem;">
-            <div>
-                <h2 style="margin-bottom: 1rem;">Free AI Background Remover</h2>
-                <p>The Image Toolkit uses Google's TensorFlow.js technology to bring powerful AI background removal directly to your browser. Unlike other services that upload your photos to a server, our tool processes everything locally on your device.</p>
-                
-                <h3 style="margin-top: 1.5rem; margin-bottom: 0.5rem;">How it works</h3>
-                <ul style="padding-left: 20px; line-height: 1.8; color: #4B5563;">
-                    <li><strong>AI Detection:</strong> We use the BodyPix model to identify people and objects in your photo.</li>
-                    <li><strong>Smart Masking:</strong> The AI creates a precise mask separating the subject from the background.</li>
-                    <li><strong>Instant Transparency:</strong> The background pixels are removed, leaving you with a clean PNG ready for use.</li>
-                </ul>
-            </div>
+        <div class="container content-grid">
             
+            <article class="article">
+                <h2>How our AI Background Remover works</h2>
+                <p>Removing backgrounds from images used to require complex software like Photoshop and hours of manual work. The Image Toolkit changes that by bringing powerful Machine Learning directly to your browser using BodyPix technology.</p>
+                
+
+                <h3>Why is this better?</h3>
+                <ul>
+                    <li><strong>100% Private:</strong> Unlike other tools, your photos are never sent to a server. The AI runs inside your browser (Client-Side), meaning your personal photos stay on your device.</li>
+                    <li><strong>Free & Unlimited:</strong> We don't charge credits. You can process as many photos as you like.</li>
+                    <li><strong>High Precision:</strong> Our model detects human edges and objects to create a clean cut-out.</li>
+                </ul>
+
+                <h3>Common Use Cases</h3>
+                <p><strong>E-Commerce Photography:</strong> Create clean, white-background product shots for Amazon, eBay, or Shopify listings instantly.</p>
+                <p><strong>Marketing Materials:</strong> Isolate subjects to place them on banners, flyers, or YouTube thumbnails.</p>
+                <p><strong>Profile Pictures:</strong> Remove messy backgrounds to create professional headshots for LinkedIn or CVs.</p>
+
+                <h3>Frequently Asked Questions</h3>
+                <div style="margin-top: 1.5rem;">
+                    <details style="margin-bottom: 1rem; border: 1px solid var(--border); border-radius: 8px; padding: 1rem; cursor: pointer;">
+                        <summary style="font-weight: 600;">Is it really free?</summary>
+                        <p style="margin-top: 0.5rem; font-size: 0.9rem;">Yes, this tool is completely free to use supported by ads.</p>
+                    </details>
+                    <details style="margin-bottom: 1rem; border: 1px solid var(--border); border-radius: 8px; padding: 1rem; cursor: pointer;">
+                        <summary style="font-weight: 600;">Does it work on mobile?</summary>
+                        <p style="margin-top: 0.5rem; font-size: 0.9rem;">Yes, because it uses TensorFlow.js, it works on modern Android and iOS browsers.</p>
+                    </details>
+                </div>
+            </article>
+
             <aside>
                 <div class="sidebar-box">
-                    <h4 style="margin-bottom: 1rem;">Sponsored</h4>
-                    <div style="min-height: 250px;">
-                        <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-7597066031957006" data-ad-slot="7424930571" data-ad-format="auto" data-full-width-responsive="true"></ins>
-                        <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+                    <h4 style="margin-bottom: 1rem; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-light);">Advertisement</h4>
+                    <div style="min-height: 250px; background: white; display: flex; align-items: center; justify-content: center;">
+                        <ins class="adsbygoogle"
+                             style="display:block"
+                             data-ad-client="ca-pub-7597066031957006"
+                             data-ad-slot="7424930571"
+                             data-ad-format="auto"
+                             data-full-width-responsive="true"></ins>
+                        <script>
+                             (adsbygoogle = window.adsbygoogle || []).push({});
+                        </script>
                     </div>
+                </div>
+
+                <div class="sidebar-box">
+                    <h4 style="margin-bottom: 1rem;">Other Tools</h4>
+                    <ul style="list-style: none; padding: 0;">
+                        <li style="margin-bottom: 0.8rem;"><a href="image-compressor.html" style="color: var(--primary);">Compress Image &rarr;</a></li>
+                        <li style="margin-bottom: 0.8rem;"><a href="image-resizer.html" style="color: var(--primary);">Resize Image &rarr;</a></li>
+                        <li style="margin-bottom: 0.8rem;"><a href="pdf-merger.html" style="color: var(--primary);">Merge PDF &rarr;</a></li>
+                    </ul>
                 </div>
             </aside>
         </div>
@@ -339,11 +353,18 @@
 
     <footer>
         <div class="container">
-            <div class="ad-wrapper" style="background: rgba(255,255,255,0.05); border: none;">
-                <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-7597066031957006" data-ad-slot="7424930571" data-ad-format="auto" data-full-width-responsive="true"></ins>
-                <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+            <div class="ad-wrapper" style="margin-bottom: 2rem; background: rgba(255,255,255,0.05);">
+                <ins class="adsbygoogle"
+                     style="display:block"
+                     data-ad-client="ca-pub-7597066031957006"
+                     data-ad-slot="7424930571"
+                     data-ad-format="auto"
+                     data-full-width-responsive="true"></ins>
+                <script>
+                     (adsbygoogle = window.adsbygoogle || []).push({});
+                </script>
             </div>
-            <div class="copyright">&copy; 2025 The Image Toolkit. All rights reserved.</div>
+            <p>&copy; 2025 The Image Toolkit. All rights reserved.</p>
         </div>
     </footer>
 
@@ -351,13 +372,13 @@
         // --- Mobile Menu ---
         function toggleMenu() { document.getElementById('navLinks').classList.toggle('active'); }
 
-        // --- Global Variables ---
+        // --- Logic Variables ---
         let net = null;
         let isModelLoaded = false;
         let originalImage = null;
         let processedCanvas = null;
 
-        // --- Elements ---
+        // --- DOM Elements ---
         const fileInput = document.getElementById('fileInput');
         const browseBtn = document.getElementById('browseBtn');
         const uploadArea = document.getElementById('uploadArea');
@@ -382,12 +403,10 @@
         uploadArea.addEventListener('dragover', (e) => { 
             e.preventDefault(); 
             uploadArea.classList.add('dragover');
-            uploadArea.style.borderColor = 'var(--primary)';
         });
         
         uploadArea.addEventListener('dragleave', () => { 
             uploadArea.classList.remove('dragover');
-            uploadArea.style.borderColor = '#D1D5DB';
         });
         
         uploadArea.addEventListener('drop', (e) => { 
@@ -406,12 +425,12 @@
         downloadBtn.addEventListener('click', () => {
             if (processedCanvas) {
                 processedCanvas.toBlob(blob => {
-                    saveAs(blob, 'nobg_image.png');
+                    saveAs(blob, 'transparent_image_theimagetoolkit.png');
                 });
             }
         });
 
-        // --- Main Logic ---
+        // --- Processing Logic ---
         function handleFile(file) {
             if (!file.type.match('image.*')) {
                 alert('Please upload an image file (JPG, PNG)');
@@ -423,13 +442,13 @@
                 originalImage = new Image();
                 originalImage.src = e.target.result;
                 originalImage.onload = () => {
-                    // Show Image in preview box
+                    // Preview Original
                     originalPreview.innerHTML = '';
                     const imgClone = originalImage.cloneNode();
                     imgClone.style.maxWidth = '100%';
                     originalPreview.appendChild(imgClone);
                     
-                    // Start Process
+                    // Switch to processing view
                     uploadArea.classList.add('hidden');
                     startProcessing();
                 };
@@ -440,7 +459,7 @@
         async function startProcessing() {
             processingSection.classList.remove('hidden');
             
-            // Check if model needs loading
+            // Show warning if model isn't cached yet
             if (!isModelLoaded) {
                 warningMessage.classList.remove('hidden');
             }
@@ -457,16 +476,17 @@
         async function updateProgress(val, text) {
             progress.style.width = val + '%';
             progressText.textContent = text;
-            return new Promise(r => setTimeout(r, 500)); // Visual delay
+            return new Promise(r => setTimeout(r, 300));
         }
 
         async function processWithAI() {
             // STEP 1: Load Model
             step1.classList.add('active');
-            await updateProgress(10, "Initializing TensorFlow...");
+            await updateProgress(10, "Initializing Neural Network...");
             
             if (!net) {
-                await updateProgress(20, "Downloading AI Model (This happens once)...");
+                await updateProgress(20, "Downloading AI Model (Please wait)...");
+                // Load BodyPix
                 net = await bodyPix.load({
                     architecture: 'MobileNetV1',
                     outputStride: 16,
@@ -482,7 +502,7 @@
 
             // STEP 2: Segmentation
             step2.classList.add('active');
-            await updateProgress(50, "Analyzing Image Structure...");
+            await updateProgress(50, "Scanning image for subjects...");
             
             const segmentation = await net.segmentPerson(originalImage, {
                 internalResolution: 'medium',
@@ -495,7 +515,7 @@
 
             // STEP 3: Remove Background
             step3.classList.add('active');
-            await updateProgress(80, "Applying Transparency Mask...");
+            await updateProgress(80, "Applying transparency...");
 
             const canvas = document.createElement('canvas');
             canvas.width = originalImage.width;
@@ -505,22 +525,22 @@
             // Draw original
             ctx.drawImage(originalImage, 0, 0);
             
-            // Apply Mask
+            // Get data
             const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
             const pixel = imageData.data;
-            const mask = segmentation.data; // 0 or 1 per pixel
+            const mask = segmentation.data; 
 
+            // Apply Mask (0 = Background)
             for (let i = 0; i < mask.length; i++) {
-                // If mask is 0 (background), set alpha to 0
                 if (mask[i] === 0) {
-                    pixel[i * 4 + 3] = 0;
+                    pixel[i * 4 + 3] = 0; // Set Alpha to 0
                 }
             }
             
             ctx.putImageData(imageData, 0, 0);
             processedCanvas = canvas;
 
-            await updateProgress(100, "Finished!");
+            await updateProgress(100, "Done!");
             step3.classList.remove('active');
             step3.classList.add('completed');
 
@@ -532,9 +552,8 @@
                 processedPreview.innerHTML = '';
                 const finalImg = new Image();
                 finalImg.src = canvas.toDataURL();
-                finalImg.style.maxWidth = '100%';
                 processedPreview.appendChild(finalImg);
-            }, 1000);
+            }, 800);
         }
     </script>
 </body>
