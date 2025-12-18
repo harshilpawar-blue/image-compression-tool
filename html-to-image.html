@@ -4,112 +4,141 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
-    <!-- SEO -->
-    <title>HTML to Image Converter - Convert Code to JPG/PNG | The Image Toolkit</title>
-    <meta name="description" content="Convert HTML code and CSS to high-quality JPG or PNG images online. Free tool to render and snapshot HTML snippets instantly.">
-    <meta name="keywords" content="html to image, code to image, html to jpg, html to png, snippet generator, convert web to image, free html converter">
+    <title>HTML to Image Converter - Save Code as JPG/PNG | The Image Toolkit</title>
+    <meta name="description" content="Convert HTML snippets and CSS into high-quality images. Render code to PNG or JPG instantly in your browser. Perfect for sharing code on social media.">
     
-    <!-- FAVICON -->
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' fill='%234F46E5' rx='20'/><path d='M30 70 L50 30 L70 70' fill='none' stroke='white' stroke-width='8'/></svg>">
 
-    <!-- FONTS & ICONS -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Fira+Code:wght@400&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
-    <!-- LIBRARIES -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
 
-    <!-- ADSENSE -->
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7597066031957006" crossorigin="anonymous"></script>
 
     <style>
         :root {
+            /* Premium Theme Variables */
             --primary: #4F46E5;
-            --bg-body: #F3F4F6;
-            --text-main: #1F2937;
+            --primary-dark: #4338ca;
+            --bg-body: #F9FAFB;
+            --bg-card: #FFFFFF;
+            --text-main: #111827;
+            --text-light: #6B7280;
             --border: #E5E7EB;
+            --radius: 16px;
+            --shadow-card: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
-        body { background-color: var(--bg-body); color: var(--text-main); display: flex; flex-direction: column; min-height: 100vh; }
-        a { text-decoration: none; color: inherit; }
-        .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+        body { background-color: var(--bg-body); color: var(--text-main); line-height: 1.6; display: flex; flex-direction: column; min-height: 100vh; }
+        a { text-decoration: none; color: inherit; transition: 0.2s; }
+        
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
 
-        /* Header */
-        header { background: white; border-bottom: 1px solid var(--border); height: 70px; display: flex; align-items: center; position: sticky; top: 0; z-index: 1000; box-shadow: 0 1px 2px rgba(0,0,0,0.05); }
+        /* --- Glass Header --- */
+        header { 
+            background: rgba(255, 255, 255, 0.9); 
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--border); 
+            height: 72px; 
+            display: flex; 
+            align-items: center; 
+            position: sticky; 
+            top: 0; 
+            z-index: 1000; 
+        }
         .nav-wrapper { display: flex; justify-content: space-between; align-items: center; width: 100%; }
-        .logo { font-weight: 700; font-size: 1.5rem; color: var(--primary); display: flex; align-items: center; gap: 8px; }
-        .nav-links { display: flex; gap: 30px; }
-        .nav-links a { font-weight: 500; font-size: 0.95rem; color: var(--text-main); transition: 0.2s; }
+        .logo { font-weight: 800; font-size: 1.25rem; color: var(--text-main); display: flex; align-items: center; gap: 10px; letter-spacing: -0.025em; }
+        .logo i { color: var(--primary); }
+        .nav-links { display: flex; gap: 32px; }
+        .nav-links a { font-weight: 500; color: var(--text-light); font-size: 0.95rem; }
         .nav-links a:hover { color: var(--primary); }
-        .mobile-toggle { display: none; font-size: 1.5rem; cursor: pointer; color: var(--text-main); }
+        .mobile-toggle { display: none; font-size: 1.4rem; cursor: pointer; color: var(--text-main); }
 
-        /* Ad Wrapper */
-        .ad-wrapper { width: 100%; margin: 20px 0; display: flex; justify-content: center; overflow: hidden; min-height: 90px; background: #fff; border: 1px solid #f0f0f0; border-radius: 8px; align-items: center; }
+        /* --- Workspace --- */
+        .workspace { 
+            background: radial-gradient(circle at top, #EEF2FF 0%, transparent 40%); 
+            padding: 4rem 0 2rem; 
+        }
+        .tool-title { text-align: center; margin-bottom: 2.5rem; }
+        .tool-title h1 { font-size: 2.5rem; font-weight: 800; margin-bottom: 0.5rem; letter-spacing: -0.03em; }
+        .tool-title p { color: var(--text-light); font-size: 1.1rem; }
 
-        /* Workspace */
-        .workspace { background: #F9FAFB; padding: 2rem 0; min-height: 60vh; }
-        .tool-title { text-align: center; margin-bottom: 1.5rem; }
-        .tool-title h1 { font-size: 1.8rem; color: #111827; }
-        .tool-title p { color: #6B7280; font-size: 1rem; }
-
-        /* Editor Grid */
+        /* --- Editor Grid --- */
         .editor-container {
-            display: grid; grid-template-columns: 1fr 1fr; gap: 20px; max-width: 1200px; margin: 0 auto;
+            display: grid; grid-template-columns: 1fr 1fr; gap: 24px; max-width: 1200px; margin: 0 auto;
         }
 
-        /* Code Input Panel */
-        .input-panel {
-            background: white; padding: 1.5rem; border-radius: 12px; border: 1px solid var(--border);
-            display: flex; flex-direction: column; gap: 1rem;
+        /* Panels */
+        .panel {
+            background: white; padding: 1.5rem; border-radius: var(--radius); border: 1px solid var(--border);
+            box-shadow: var(--shadow-card); display: flex; flex-direction: column; gap: 1rem;
         }
-        .panel-header { font-weight: 600; font-size: 1.1rem; margin-bottom: 0.5rem; color: #374151; display: flex; justify-content: space-between; align-items: center; }
+        .panel-header { font-weight: 700; font-size: 1rem; color: var(--text-main); display: flex; justify-content: space-between; align-items: center; }
         
+        /* Code Inputs */
         textarea {
-            width: 100%; height: 200px; padding: 1rem; border: 1px solid var(--border); border-radius: 8px;
-            font-family: 'Fira Code', monospace; font-size: 0.9rem; background: #F9FAFB; resize: vertical;
+            width: 100%; padding: 1rem; border: 1px solid var(--border); border-radius: 8px;
+            font-family: 'Fira Code', monospace; font-size: 0.9rem; background: #111827; color: #E5E7EB;
+            resize: vertical; line-height: 1.5;
         }
-        textarea:focus { outline: 1px solid var(--primary); background: white; }
+        textarea:focus { outline: 2px solid var(--primary); border-color: transparent; }
 
-        /* Preview Panel */
-        .preview-panel {
-            background: white; padding: 1.5rem; border-radius: 12px; border: 1px solid var(--border);
-            display: flex; flex-direction: column;
-        }
-        
+        /* Preview Area */
         .preview-box {
-            flex-grow: 1; border: 2px dashed #E5E7EB; border-radius: 8px; padding: 20px;
-            background: #fff; overflow: auto; min-height: 300px; display: flex; align-items: center; justify-content: center;
+            flex-grow: 1; border: 2px dashed #D1D5DB; border-radius: 12px; padding: 24px;
+            background-color: #f9fafb;
+            background-image: linear-gradient(45deg, #e5e7eb 25%, transparent 25%), linear-gradient(-45deg, #e5e7eb 25%, transparent 25%), linear-gradient(45deg, transparent 75%, #e5e7eb 75%), linear-gradient(-45deg, transparent 75%, #e5e7eb 75%);
+            background-size: 20px 20px;
+            background-position: 0 0, 0 10px, 10px -10px, -10px 0px;
+            overflow: auto; min-height: 350px; display: flex; align-items: center; justify-content: center;
         }
         
-        /* The actual div that gets captured */
-        #captureArea {
-            background: white; padding: 20px; width: 100%; min-height: 200px;
-        }
+        #captureArea { background: white; padding: 0; box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1); }
 
         /* Controls */
-        .controls { display: flex; gap: 10px; align-items: center; margin-top: 1rem; flex-wrap: wrap; }
-        select { padding: 0.8rem; border: 1px solid var(--border); border-radius: 6px; font-size: 0.9rem; background: white; cursor: pointer; }
+        .controls { display: flex; gap: 12px; align-items: center; margin-top: auto; }
         
-        .btn-action { padding: 0.8rem 1.5rem; background: var(--primary); color: white; border: none; border-radius: 8px; font-weight: 600; cursor: pointer; font-size: 1rem; flex-grow: 1; text-align: center; }
-        .btn-action:hover { background: #4338ca; }
-        .btn-render { background: #10B981; }
-        .btn-render:hover { background: #059669; }
+        select { 
+            padding: 0.8rem 1rem; border: 1px solid var(--border); border-radius: 99px; 
+            font-size: 0.9rem; background: white; cursor: pointer; outline: none;
+        }
+        
+        .btn {
+            padding: 0.8rem 1.5rem; background: var(--primary); color: white; border: none; 
+            border-radius: 99px; font-weight: 600; cursor: pointer; font-size: 0.95rem; 
+            flex-grow: 1; display: flex; align-items: center; justify-content: center; gap: 8px;
+            transition: 0.2s;
+        }
+        .btn:hover { background: var(--primary-dark); transform: translateY(-1px); }
+        .btn-secondary { background: white; border: 1px solid var(--border); color: var(--text-main); }
+        .btn-secondary:hover { background: #F3F4F6; }
 
-        /* Content & Footer */
+        /* --- Content & Sidebar --- */
         .content-section { background: white; padding: 4rem 0; border-top: 1px solid var(--border); }
-        .sidebar-box { border: 1px solid var(--border); border-radius: 8px; padding: 1.5rem; }
-        footer { background: #111827; color: #9CA3AF; padding: 2rem 0; margin-top: auto; text-align: center; }
+        .content-grid { display: grid; grid-template-columns: 2fr 1fr; gap: 4rem; }
+        
+        .article h2 { font-size: 1.8rem; margin-bottom: 1rem; color: var(--text-main); }
+        .article h3 { font-size: 1.3rem; margin: 2rem 0 0.8rem; color: var(--text-main); }
+        .article p { margin-bottom: 1rem; color: var(--text-light); font-size: 1.05rem; }
+        .article ul, .article ol { margin-bottom: 1.5rem; padding-left: 1.5rem; color: var(--text-light); }
+        .article li { margin-bottom: 0.5rem; }
+
+        .sidebar-box { background: #F9FAFB; border: 1px solid var(--border); border-radius: 12px; padding: 1.5rem; margin-bottom: 2rem; }
+
+        /* --- Footer --- */
+        footer { background: #111827; color: #9CA3AF; padding: 3rem 0; font-size: 0.9rem; margin-top: auto; }
 
         @media (max-width: 900px) {
             .editor-container { grid-template-columns: 1fr; }
+            .content-grid { grid-template-columns: 1fr; }
         }
         @media (max-width: 768px) {
             .mobile-toggle { display: block; }
-            .nav-links { display: none; flex-direction: column; position: absolute; top: 70px; left: 0; width: 100%; background: white; padding: 1rem; border-bottom: 1px solid var(--border); box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); }
+            .nav-links { display: none; flex-direction: column; position: absolute; top: 72px; left: 0; width: 100%; background: white; padding: 1.5rem; border-bottom: 1px solid var(--border); }
             .nav-links.active { display: flex; }
-            .nav-links a { padding: 10px 0; border-bottom: 1px solid #f3f4f6; width: 100%; text-align: center; }
         }
     </style>
 </head>
@@ -124,61 +153,65 @@
             <nav class="nav-links" id="navLinks">
                 <a href="index.html">Home</a>
                 <a href="index.html#tools">All Tools</a>
-                <a href="about.html">About</a>
+                <a href="index.html#features">Privacy</a>
                 <a href="index.html#guides">Guides</a>
+                <a href="about.html">About</a>
             </nav>
         </div>
     </header>
 
-    <!-- AD UNIT 1: TOP -->
-    <div class="container">
-        <div class="ad-wrapper">
-            <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-7597066031957006" data-ad-slot="5194353053" data-ad-format="auto" data-full-width-responsive="true"></ins>
-            <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+    <div class="container" style="margin-top: 2rem;">
+        <div class="ad-wrapper" style="min-height: 100px; display:flex; justify-content:center;">
+             <ins class="adsbygoogle"
+                 style="display:block"
+                 data-ad-client="ca-pub-7597066031957006"
+                 data-ad-slot="5194353053"
+                 data-ad-format="auto"
+                 data-full-width-responsive="true"></ins>
+            <script>
+                 (adsbygoogle = window.adsbygoogle || []).push({});
+            </script>
         </div>
     </div>
 
-    <!-- Workspace -->
     <section class="workspace">
         <div class="container">
             <div class="tool-title">
-                <h1>HTML to Image</h1>
-                <p>Render HTML code and save it as a high-quality image instantly.</p>
+                <h1>HTML to Image Converter</h1>
+                <p>Turn code snippets into shareable images instantly.</p>
             </div>
 
             <div class="editor-container">
-                <!-- Left: Input -->
-                <div class="input-panel">
+                <div class="panel">
                     <div class="panel-header">
-                        <i class="fas fa-code"></i> HTML Code
+                        <span><i class="fas fa-code"></i> HTML</span>
+                        <span style="font-size: 0.8rem; color: var(--text-light);">Paste code here</span>
                     </div>
-                    <textarea id="htmlInput" placeholder="<div>Hello World</div>">
-<div style="background: linear-gradient(135deg, #4F46E5, #818cf8); color: white; padding: 40px; border-radius: 12px; text-align: center; font-family: sans-serif;">
-    <h1 style="margin: 0; font-size: 2.5rem;">Hello World</h1>
-    <p style="font-size: 1.2rem;">Converted from HTML!</p>
+                    <textarea id="htmlInput" style="height: 200px;" placeholder="<div>Hello World</div>">
+<div style="background: linear-gradient(135deg, #4F46E5, #ec4899); color: white; padding: 40px; width: 400px; border-radius: 12px; text-align: center; font-family: sans-serif; box-shadow: 0 10px 25px rgba(0,0,0,0.2);">
+    <h1 style="margin: 0; font-size: 2.5rem; text-shadow: 0 2px 4px rgba(0,0,0,0.2);">Hello World</h1>
+    <p style="font-size: 1.2rem; opacity: 0.9;">Converted from HTML!</p>
 </div></textarea>
                     
                     <div class="panel-header" style="margin-top: 10px;">
-                        <i class="fab fa-css3"></i> Custom CSS (Optional)
+                        <span><i class="fab fa-css3"></i> CSS (Optional)</span>
                     </div>
-                    <textarea id="cssInput" placeholder=".my-class { color: red; }" style="height: 100px;"></textarea>
+                    <textarea id="cssInput" style="height: 100px;" placeholder=".my-class { color: red; }"></textarea>
 
-                    <button class="btn-action btn-render" onclick="renderPreview()">
-                        <i class="fas fa-play"></i> Render Preview
+                    <button class="btn btn-secondary" onclick="renderPreview()">
+                        <i class="fas fa-sync-alt"></i> Refresh Preview
                     </button>
                 </div>
 
-                <!-- Right: Preview -->
-                <div class="preview-panel">
+                <div class="panel">
                     <div class="panel-header">
-                        <span><i class="fas fa-eye"></i> Preview</span>
-                        <span style="font-size: 0.8rem; color: #6B7280; font-weight: normal;">What you see is what you get</span>
+                        <span><i class="fas fa-image"></i> Preview</span>
+                        <span style="font-size: 0.8rem; color: var(--text-light);">Right-click to save or use button</span>
                     </div>
                     
                     <div class="preview-box">
                         <div id="captureArea">
-                            <!-- Rendered Content Goes Here -->
-                        </div>
+                            </div>
                     </div>
 
                     <div class="controls">
@@ -186,7 +219,7 @@
                             <option value="png">PNG (Transparent)</option>
                             <option value="jpeg">JPG (Small Size)</option>
                         </select>
-                        <button class="btn-action" onclick="downloadImage()">
+                        <button class="btn" onclick="downloadImage()">
                             <i class="fas fa-download"></i> Download Image
                         </button>
                     </div>
@@ -196,37 +229,67 @@
         </div>
     </section>
 
-    <!-- AD UNIT 2: MIDDLE -->
-    <div class="container">
-        <div class="ad-wrapper">
-            <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-7597066031957006" data-ad-slot="4383834265" data-ad-format="auto" data-full-width-responsive="true"></ins>
-            <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
-        </div>
-    </div>
-
-    <!-- Content & Sidebar -->
     <section class="content-section">
-        <div class="container" style="display: grid; grid-template-columns: 2fr 1fr; gap: 3rem;">
-            <div>
-                <h2 style="margin-bottom: 1rem;">Convert HTML to Image Free</h2>
-                <p>The Image Toolkit allows developers and designers to quickly snapshot HTML code into an image file. This is perfect for creating social media previews from code snippets, saving email templates as images, or debugging layout issues visually.</p>
-                
-                <h3 style="margin-top: 1.5rem; margin-bottom: 0.5rem;">How it works</h3>
-                <ol style="padding-left: 20px; line-height: 1.8; color: #4B5563;">
-                    <li><strong>Enter HTML:</strong> Paste your raw HTML structure in the top box. Inline styles (style="...") work best.</li>
-                    <li><strong>Add CSS:</strong> If you have a separate CSS block, paste it in the bottom box.</li>
-                    <li><strong>Render:</strong> Click "Render Preview" to see how it looks.</li>
-                    <li><strong>Download:</strong> Click "Download Image" to save the result as a PNG or JPG file.</li>
-                </ol>
-            </div>
+        <div class="container content-grid">
             
+            <article class="article">
+                <h2>Convert HTML and CSS to Image Online</h2>
+                <p>Developers often need to share code snippets, email templates, or UI components with clients and colleagues. Taking a screenshot is easy, but it often lacks resolution control or includes unwanted screen elements.</p>
+                <p>The Image Toolkit's <strong>HTML to Image</strong> tool renders your raw code into a clean canvas and snapshots it as a high-definition PNG or JPG file.</p>
+                
+                
+
+                <h3>How it works</h3>
+                <ol>
+                    <li><strong>Input HTML:</strong> Paste your HTML structure into the top editor. You can use inline styles (e.g., <code>style="color: red;"</code>) for the best results.</li>
+                    <li><strong>Add CSS:</strong> If you have classes defined, paste your CSS block in the bottom editor.</li>
+                    <li><strong>Preview:</strong> The tool instantly renders the DOM element in the preview window.</li>
+                    <li><strong>Download:</strong> Click download to process the element using the html2canvas library and save it to your device.</li>
+                </ol>
+
+                <h3>Features</h3>
+                <ul>
+                    <li><strong>High Resolution:</strong> We scale the render by 2x to ensure your text remains crisp on Retina displays.</li>
+                    <li><strong>Transparency Support:</strong> Select "PNG" to keep the background transparent (perfect for logo rendering).</li>
+                    <li><strong>Client-Side Privacy:</strong> Your code is rendered in your browser. We do not send your code to any server.</li>
+                </ul>
+
+                <h3>Frequently Asked Questions</h3>
+                <div style="margin-top: 1.5rem;">
+                    <details style="margin-bottom: 1rem; border: 1px solid var(--border); border-radius: 8px; padding: 1rem; cursor: pointer;">
+                        <summary style="font-weight: 600;">Does it support external images?</summary>
+                        <p style="margin-top: 0.5rem; font-size: 0.9rem;">Yes, but due to browser security (CORS), images hosted on other servers must have "Access-Control-Allow-Origin" headers enabled to be captured in the screenshot.</p>
+                    </details>
+                    <details style="margin-bottom: 1rem; border: 1px solid var(--border); border-radius: 8px; padding: 1rem; cursor: pointer;">
+                        <summary style="font-weight: 600;">Can I use Flexbox and Grid?</summary>
+                        <p style="margin-top: 0.5rem; font-size: 0.9rem;">Yes! The tool uses your browser's rendering engine, so modern CSS features like Flexbox and Grid work perfectly.</p>
+                    </details>
+                </div>
+            </article>
+
             <aside>
                 <div class="sidebar-box">
-                    <h4 style="margin-bottom: 1rem;">Sponsored</h4>
-                    <div style="min-height: 250px;">
-                        <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-7597066031957006" data-ad-slot="7424930571" data-ad-format="auto" data-full-width-responsive="true"></ins>
-                        <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+                    <h4 style="margin-bottom: 1rem; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-light);">Advertisement</h4>
+                    <div style="min-height: 250px; background: white; display: flex; align-items: center; justify-content: center;">
+                        <ins class="adsbygoogle"
+                             style="display:block"
+                             data-ad-client="ca-pub-7597066031957006"
+                             data-ad-slot="7424930571"
+                             data-ad-format="auto"
+                             data-full-width-responsive="true"></ins>
+                        <script>
+                             (adsbygoogle = window.adsbygoogle || []).push({});
+                        </script>
                     </div>
+                </div>
+
+                <div class="sidebar-box">
+                    <h4 style="margin-bottom: 1rem;">Related Tools</h4>
+                    <ul style="list-style: none; padding: 0;">
+                        <li style="margin-bottom: 0.8rem;"><a href="image-compressor.html" style="color: var(--primary);">Compress Images &rarr;</a></li>
+                        <li style="margin-bottom: 0.8rem;"><a href="background-remover.html" style="color: var(--primary);">Remove Background &rarr;</a></li>
+                        <li style="margin-bottom: 0.8rem;"><a href="meme-generator.html" style="color: var(--primary);">Meme Generator &rarr;</a></li>
+                    </ul>
                 </div>
             </aside>
         </div>
@@ -234,11 +297,18 @@
 
     <footer>
         <div class="container">
-            <div class="ad-wrapper" style="background: rgba(255,255,255,0.05); border: none;">
-                <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-7597066031957006" data-ad-slot="7424930571" data-ad-format="auto" data-full-width-responsive="true"></ins>
-                <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+            <div class="ad-wrapper" style="margin-bottom: 2rem; background: rgba(255,255,255,0.05);">
+                <ins class="adsbygoogle"
+                     style="display:block"
+                     data-ad-client="ca-pub-7597066031957006"
+                     data-ad-slot="7424930571"
+                     data-ad-format="auto"
+                     data-full-width-responsive="true"></ins>
+                <script>
+                     (adsbygoogle = window.adsbygoogle || []).push({});
+                </script>
             </div>
-            <div class="copyright">&copy; 2025 The Image Toolkit. All rights reserved.</div>
+            <p>&copy; 2025 The Image Toolkit. All rights reserved.</p>
         </div>
     </footer>
 
@@ -265,25 +335,31 @@
 
         function downloadImage() {
             const format = document.getElementById('formatSelect').value;
-            const btn = document.querySelector('.btn-action:not(.btn-render)');
+            // Select button inside controls that has download functionality
+            const btn = document.querySelector('.controls .btn');
+            const originalText = btn.innerHTML;
             
-            btn.textContent = "Processing...";
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Processing...';
+            btn.style.opacity = "0.7";
             btn.disabled = true;
 
             html2canvas(captureArea, {
                 scale: 2, // Retina quality
                 backgroundColor: format === 'jpeg' ? '#ffffff' : null, // Transparent for PNG
-                logging: false
+                logging: false,
+                useCORS: true // Attempt to load external images
             }).then(canvas => {
                 canvas.toBlob(blob => {
                     saveAs(blob, `html_converted.${format}`);
-                    btn.textContent = "Download Image";
+                    btn.innerHTML = originalText;
+                    btn.style.opacity = "1";
                     btn.disabled = false;
                 }, `image/${format}`);
             }).catch(err => {
                 console.error(err);
                 alert("Error generating image. Check your HTML syntax.");
-                btn.textContent = "Download Image";
+                btn.innerHTML = originalText;
+                btn.style.opacity = "1";
                 btn.disabled = false;
             });
         }
