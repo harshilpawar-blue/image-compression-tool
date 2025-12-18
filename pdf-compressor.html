@@ -4,26 +4,20 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
-    <!-- SEO -->
-    <title>Compress PDF Online - Lossless & Strong Compression | The Image Toolkit</title>
-    <meta name="description" content="Compress PDF files online. Choose 'Lossless' to preserve text quality or 'Strong' to drastically reduce file size. Bulk processing available.">
-    <meta name="keywords" content="compress pdf, lossless pdf compression, reduce pdf size, shrink pdf, optimize pdf, pdf optimizer, free pdf tool">
+    <title>Compress PDF Online - Reduce File Size Free | The Image Toolkit</title>
+    <meta name="description" content="Shrink PDF file size securely in your browser. Choose 'Lossless' for text documents or 'Strong' compression for scanned images. No file limits.">
     
-    <!-- FAVICON -->
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' fill='%234F46E5' rx='20'/><path d='M30 70 L50 30 L70 70' fill='none' stroke='white' stroke-width='8'/></svg>">
 
-    <!-- FONTS & ICONS -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
-    <!-- LIBRARIES -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <script src="https://unpkg.com/pdf-lib/dist/pdf-lib.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
 
-    <!-- ADSENSE -->
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7597066031957006" crossorigin="anonymous"></script>
 
     <script>
@@ -33,122 +27,157 @@
 
     <style>
         :root {
+            /* Premium Theme Variables */
             --primary: #4F46E5;
-            --bg-body: #F3F4F6;
-            --text-main: #1F2937;
+            --primary-dark: #4338ca;
+            --bg-body: #F9FAFB;
+            --bg-card: #FFFFFF;
+            --text-main: #111827;
+            --text-light: #6B7280;
             --border: #E5E7EB;
+            --radius: 16px;
+            --shadow-card: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+            --shadow-hover: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
-        body { background-color: var(--bg-body); color: var(--text-main); display: flex; flex-direction: column; min-height: 100vh; }
-        a { text-decoration: none; color: inherit; }
-        .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+        body { background-color: var(--bg-body); color: var(--text-main); line-height: 1.6; display: flex; flex-direction: column; min-height: 100vh; }
+        a { text-decoration: none; color: inherit; transition: 0.2s; }
+        
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
 
-        /* Header */
-        header { background: white; border-bottom: 1px solid var(--border); height: 70px; display: flex; align-items: center; position: sticky; top: 0; z-index: 1000; box-shadow: 0 1px 2px rgba(0,0,0,0.05); }
+        /* --- Glass Header --- */
+        header { 
+            background: rgba(255, 255, 255, 0.9); 
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--border); 
+            height: 72px; 
+            display: flex; 
+            align-items: center; 
+            position: sticky; 
+            top: 0; 
+            z-index: 1000; 
+        }
         .nav-wrapper { display: flex; justify-content: space-between; align-items: center; width: 100%; }
-        .logo { font-weight: 700; font-size: 1.5rem; color: var(--primary); display: flex; align-items: center; gap: 8px; }
-        .nav-links { display: flex; gap: 30px; }
-        .nav-links a { font-weight: 500; font-size: 0.95rem; color: var(--text-main); transition: 0.2s; }
+        .logo { font-weight: 800; font-size: 1.25rem; color: var(--text-main); display: flex; align-items: center; gap: 10px; letter-spacing: -0.025em; }
+        .logo i { color: var(--primary); }
+        .nav-links { display: flex; gap: 32px; }
+        .nav-links a { font-weight: 500; color: var(--text-light); font-size: 0.95rem; }
         .nav-links a:hover { color: var(--primary); }
-        .mobile-toggle { display: none; font-size: 1.5rem; cursor: pointer; color: var(--text-main); }
+        .mobile-toggle { display: none; font-size: 1.4rem; cursor: pointer; color: var(--text-main); }
 
-        /* Ad Wrapper */
-        .ad-wrapper { width: 100%; margin: 20px 0; display: flex; justify-content: center; overflow: hidden; min-height: 90px; background: #fff; border: 1px solid #f0f0f0; border-radius: 8px; align-items: center; }
-
-        /* Workspace */
-        .workspace { background: #F9FAFB; padding: 2rem 0; min-height: 60vh; }
-        .tool-title { text-align: center; margin-bottom: 1.5rem; }
-        .tool-title h1 { font-size: 1.8rem; color: #111827; }
-        .tool-title p { color: #6B7280; font-size: 1rem; }
+        /* --- Workspace --- */
+        .workspace { 
+            background: radial-gradient(circle at top, #EEF2FF 0%, transparent 40%); 
+            padding: 4rem 0 2rem; 
+        }
+        .tool-title { text-align: center; margin-bottom: 2.5rem; }
+        .tool-title h1 { font-size: 2.5rem; font-weight: 800; margin-bottom: 0.5rem; letter-spacing: -0.03em; }
+        .tool-title p { color: var(--text-light); font-size: 1.1rem; }
 
         /* Drop Zone */
         .drop-zone {
-            background: white; border: 2px dashed #D1D5DB; border-radius: 12px; padding: 3rem 1rem;
-            text-align: center; cursor: pointer; transition: 0.2s; max-width: 800px; margin: 0 auto;
+            background: white; border: 2px dashed #D1D5DB; border-radius: var(--radius); padding: 4rem 2rem;
+            text-align: center; cursor: pointer; transition: all 0.2s; max-width: 800px; margin: 0 auto;
+            box-shadow: var(--shadow-card);
         }
-        .drop-zone:hover { border-color: var(--primary); background: #EEF2FF; }
+        .drop-zone:hover, .drop-zone.dragover { border-color: var(--primary); background: #EEF2FF; transform: translateY(-2px); }
+        
         .btn-upload {
-            background: var(--primary); color: white; padding: 1rem 2rem; border-radius: 8px;
+            background: var(--primary); color: white; padding: 1rem 2.5rem; border-radius: 99px;
             font-weight: 600; font-size: 1.1rem; border: none; cursor: pointer; display: inline-flex;
-            align-items: center; gap: 10px; margin-bottom: 1rem;
+            align-items: center; gap: 10px; margin-bottom: 1.5rem; box-shadow: 0 4px 6px -1px rgba(79, 70, 229, 0.3);
+            transition: 0.2s;
         }
+        .btn-upload:hover { background: var(--primary-dark); transform: translateY(-1px); }
 
-        /* Editor Container */
+        /* Editor */
         .editor-container {
             display: none; max-width: 1000px; margin: 0 auto; background: white;
-            border-radius: 12px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); overflow: hidden;
+            border-radius: var(--radius); box-shadow: var(--shadow-hover); overflow: hidden; border: 1px solid var(--border);
         }
         .editor-grid { display: grid; grid-template-columns: 1.5fr 1fr; min-height: 500px; }
 
-        /* Left Panel */
+        /* Left Panel: Files */
         .file-list-panel { padding: 2rem; border-right: 1px solid var(--border); background: #fff; display: flex; flex-direction: column; }
         .file-list { flex-grow: 1; overflow-y: auto; max-height: 400px; margin-bottom: 1rem; }
-        .file-item {
-            display: flex; justify-content: space-between; align-items: center; padding: 12px;
-            border: 1px solid var(--border); border-radius: 8px; margin-bottom: 10px;
-        }
-        .file-meta { display: flex; align-items: center; gap: 10px; }
-        .file-icon { font-size: 1.5rem; color: #DC2626; }
         
+        .file-item {
+            display: flex; justify-content: space-between; align-items: center; padding: 1rem;
+            border: 1px solid var(--border); border-radius: 12px; margin-bottom: 12px; background: #F9FAFB;
+        }
+        .file-meta { display: flex; align-items: center; gap: 12px; }
+        .file-icon { font-size: 1.8rem; color: #EF4444; background: #FEF2F2; width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; border-radius: 8px; }
+
         .add-more-btn {
-            background: #F3F4F6; color: var(--text-main); border: 1px dashed var(--border);
-            width: 100%; padding: 10px; border-radius: 8px; cursor: pointer; font-weight: 500;
+            background: white; color: var(--text-main); border: 2px dashed var(--border);
+            width: 100%; padding: 12px; border-radius: 12px; cursor: pointer; font-weight: 600;
             display: flex; align-items: center; justify-content: center; gap: 8px; transition: 0.2s;
         }
         .add-more-btn:hover { border-color: var(--primary); color: var(--primary); background: #EEF2FF; }
 
-        /* Right Panel */
-        .settings-panel { padding: 2rem; background: #F9FAFB; display: flex; flex-direction: column; }
-        
-        /* Engine Tabs */
-        .engine-tabs { display: flex; gap: 10px; margin-bottom: 1.5rem; }
-        .engine-tab { 
-            flex: 1; text-align: center; padding: 12px; cursor: pointer; border: 1px solid var(--border); 
-            border-radius: 8px; font-weight: 600; font-size: 0.95rem; background: white;
-        }
-        .engine-tab.active { background: #EEF2FF; border-color: var(--primary); color: var(--primary); }
-        .engine-info { font-size: 0.8rem; color: #6B7280; margin-top: 5px; font-weight: normal; display: block; }
+        /* Right Panel: Settings */
+        .settings-panel { padding: 2rem; background: #FAFAFA; display: flex; flex-direction: column; }
+        .setting-label { font-weight: 600; margin-bottom: 0.8rem; display: block; color: var(--text-main); font-size: 0.95rem; }
 
-        /* Settings Area */
-        .settings-content { flex-grow: 1; }
-        .setting-group { margin-bottom: 1.5rem; }
-        .setting-label { font-weight: 600; margin-bottom: 0.5rem; display: block; color: #374151; font-size: 0.9rem; }
-        
-        input[type=range] { width: 100%; height: 6px; background: #d1d5db; border-radius: 5px; outline: none; accent-color: var(--primary); }
-        .input-group { display: flex; gap: 10px; }
-        .input-box { width: 100%; padding: 10px; border: 1px solid var(--border); border-radius: 6px; }
+        /* Tabs */
+        .engine-tabs { display: flex; gap: 8px; margin-bottom: 1.5rem; background: #E5E7EB; padding: 4px; border-radius: 12px; }
+        .engine-tab { 
+            flex: 1; text-align: center; padding: 12px; cursor: pointer; border-radius: 8px; font-weight: 600; font-size: 0.9rem; transition: 0.2s; display: flex; flex-direction: column; gap: 4px;
+        }
+        .engine-tab span { font-size: 0.75rem; font-weight: normal; opacity: 0.8; }
+        .engine-tab.active { background: white; color: var(--primary); box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
+
+        /* Controls */
+        input[type=range] { width: 100%; height: 6px; background: #E5E7EB; border-radius: 99px; outline: none; -webkit-appearance: none; }
+        input[type=range]::-webkit-slider-thumb { -webkit-appearance: none; width: 22px; height: 22px; background: var(--primary); border-radius: 50%; cursor: pointer; border: 3px solid white; box-shadow: 0 2px 4px rgba(0,0,0,0.15); }
 
         /* Preset Pills */
-        .preset-pills { display: flex; gap: 8px; margin-top: 10px; flex-wrap: wrap; }
+        .preset-pills { display: flex; gap: 8px; margin-top: 15px; }
         .preset-pill {
-            padding: 6px 12px; background: white; border: 1px solid var(--border); border-radius: 20px;
-            font-size: 0.85rem; cursor: pointer; transition: 0.2s;
+            flex: 1; padding: 8px; background: white; border: 1px solid var(--border); border-radius: 8px;
+            font-size: 0.85rem; cursor: pointer; transition: 0.2s; text-align: center; font-weight: 500;
         }
-        .preset-pill:hover { border-color: var(--primary); }
+        .preset-pill:hover { border-color: var(--primary); color: var(--primary); }
         .preset-pill.active { background: var(--primary); color: white; border-color: var(--primary); }
 
-        /* Actions */
-        .actions-row { display: flex; gap: 10px; margin-top: 20px; }
-        .btn-action { flex: 2; padding: 1rem; background: var(--primary); color: white; border: none; border-radius: 8px; font-weight: 600; cursor: pointer; font-size: 1rem; }
-        .btn-reset { flex: 1; background: transparent; color: #EF4444; border: 1px solid #EF4444; border-radius: 8px; font-weight: 600; cursor: pointer; }
-        .btn-reset:hover { background: #FEF2F2; }
-        .btn-action:disabled { background: #9CA3AF; cursor: not-allowed; }
+        .btn-action { 
+            width: 100%; padding: 1rem; background: var(--primary); color: white; border: none; 
+            border-radius: 12px; font-weight: 600; cursor: pointer; font-size: 1rem; margin-top: 2rem; 
+            transition: 0.2s; box-shadow: 0 4px 6px -1px rgba(79, 70, 229, 0.3);
+        }
+        .btn-action:hover { background: var(--primary-dark); transform: translateY(-1px); }
+        .btn-action:disabled { background: #E5E7EB; color: #9CA3AF; cursor: not-allowed; box-shadow: none; transform: none; }
 
-        /* Footer & Content */
-        .content-section { background: white; padding: 4rem 0; border-top: 1px solid var(--border); }
-        .sidebar-box { border: 1px solid var(--border); border-radius: 8px; padding: 1.5rem; }
-        footer { background: #111827; color: #9CA3AF; padding: 2rem 0; margin-top: auto; text-align: center; }
+        .btn-reset { 
+            width: 100%; padding: 0.8rem; background: transparent; border: none; 
+            color: var(--text-light); margin-top: 10px; font-weight: 500; cursor: pointer; 
+        }
+        .btn-reset:hover { color: var(--text-main); text-decoration: underline; }
+
+        /* Content Section */
+        .content-section { background: white; padding: 5rem 0; border-top: 1px solid var(--border); }
+        .content-grid { display: grid; grid-template-columns: 2fr 1fr; gap: 4rem; }
+        
+        .article h2 { font-size: 1.8rem; margin-bottom: 1rem; color: var(--text-main); }
+        .article h3 { font-size: 1.3rem; margin: 2rem 0 0.8rem; color: var(--text-main); }
+        .article p { margin-bottom: 1rem; color: var(--text-light); font-size: 1.05rem; }
+        .article ul { margin-bottom: 1.5rem; padding-left: 1.5rem; color: var(--text-light); }
+        .article li { margin-bottom: 0.5rem; }
+
+        .sidebar-box { background: #F9FAFB; border: 1px solid var(--border); border-radius: 12px; padding: 1.5rem; margin-bottom: 2rem; }
+
+        /* Footer */
+        footer { background: #111827; color: #9CA3AF; padding: 3rem 0; font-size: 0.9rem; margin-top: auto; }
 
         @media (max-width: 900px) {
             .editor-grid { grid-template-columns: 1fr; }
-            .file-list-panel { border-right: none; border-bottom: 1px solid var(--border); }
+            .content-grid { grid-template-columns: 1fr; }
         }
         @media (max-width: 768px) {
             .mobile-toggle { display: block; }
-            .nav-links { display: none; flex-direction: column; position: absolute; top: 70px; left: 0; width: 100%; background: white; padding: 1rem; border-bottom: 1px solid var(--border); box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); }
+            .nav-links { display: none; flex-direction: column; position: absolute; top: 72px; left: 0; width: 100%; background: white; padding: 1.5rem; border-bottom: 1px solid var(--border); }
             .nav-links.active { display: flex; }
-            .nav-links a { padding: 10px 0; border-bottom: 1px solid #f3f4f6; width: 100%; text-align: center; }
         }
     </style>
 </head>
@@ -163,113 +192,104 @@
             <nav class="nav-links" id="navLinks">
                 <a href="index.html">Home</a>
                 <a href="index.html#tools">All Tools</a>
-                <a href="about.html">About</a>
+                <a href="index.html#features">Privacy</a>
                 <a href="index.html#guides">Guides</a>
+                <a href="about.html">About</a>
             </nav>
         </div>
     </header>
 
-    <!-- AD UNIT 1 -->
-    <div class="container">
-        <div class="ad-wrapper">
-            <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-7597066031957006" data-ad-slot="5194353053" data-ad-format="auto" data-full-width-responsive="true"></ins>
-            <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+    <div class="container" style="margin-top: 2rem;">
+        <div class="ad-wrapper" style="min-height: 100px; display:flex; justify-content:center;">
+             <ins class="adsbygoogle"
+                 style="display:block"
+                 data-ad-client="ca-pub-7597066031957006"
+                 data-ad-slot="5194353053"
+                 data-ad-format="auto"
+                 data-full-width-responsive="true"></ins>
+            <script>
+                 (adsbygoogle = window.adsbygoogle || []).push({});
+            </script>
         </div>
     </div>
 
-    <!-- Workspace -->
     <section class="workspace">
         <div class="container">
             <div class="tool-title" id="toolTitle">
-                <h1>Compress PDF</h1>
-                <p>Reduce file size efficiently. Choose Lossless for text or Strong for images.</p>
+                <h1>Compress PDF Online</h1>
+                <p>Reduce PDF file size efficiently. Choose Lossless or Strong mode.</p>
             </div>
 
-            <!-- Upload State -->
             <div class="drop-zone" id="dropZone" onclick="document.getElementById('fileInput').click()">
                 <input type="file" id="fileInput" multiple accept=".pdf" style="display:none">
-                <div style="font-size: 3rem; color: #E5E7EB; margin-bottom: 1rem;"><i class="fas fa-file-pdf"></i></div>
-                <button class="btn-upload">Select PDF Files</button>
-                <p>or drop PDFs here</p>
+                <div style="font-size: 3.5rem; color: #E5E7EB; margin-bottom: 1.5rem;"><i class="fas fa-file-pdf"></i></div>
+                <button class="btn-upload"><i class="fas fa-folder-open"></i> Select PDF Files</button>
+                <p style="color: #9CA3AF;">or drop files here</p>
+                <div style="margin-top: 2rem; display: inline-flex; align-items: center; gap: 6px; font-size: 0.85rem; color: #059669; background: #ECFDF5; padding: 4px 12px; border-radius: 99px;">
+                    <i class="fas fa-shield-alt"></i> Private & Secure
+                </div>
             </div>
 
-            <!-- Editor State -->
             <div class="editor-container" id="editorContainer">
                 <div class="editor-grid">
-                    <!-- Left: File List -->
                     <div class="file-list-panel">
-                        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1rem;">
-                            <h3 style="margin:0;">Files</h3>
+                        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 1.5rem;">
+                            <h3 style="margin:0;">Selected Files</h3>
                             <span id="fileCount" style="color:#6B7280; font-size:0.9rem;">0 files</span>
                         </div>
-                        
                         <div id="fileList" class="file-list"></div>
-                        
                         <button class="add-more-btn" onclick="document.getElementById('fileInput').click()">
-                            <i class="fas fa-plus"></i> Add More Files
+                            <i class="fas fa-plus"></i> Add More PDFs
                         </button>
                     </div>
 
-                    <!-- Right: Settings -->
                     <div class="settings-panel">
-                        
-                        <!-- Engine Selection -->
-                        <label class="setting-label">Compression Mode</label>
-                        <div class="engine-tabs">
-                            <div class="engine-tab active" onclick="setEngine('lossless')">
-                                Lossless
-                                <span class="engine-info">Clean Structure</span>
-                            </div>
-                            <div class="engine-tab" onclick="setEngine('strong')">
-                                Strong
-                                <span class="engine-info">Rasterize Images</span>
-                            </div>
-                        </div>
-
-                        <div class="settings-content">
-                            <!-- LOSSLESS SETTINGS -->
-                            <div id="losslessSettings">
-                                <p style="font-size:0.9rem; color:#4B5563; line-height:1.5; background:#EEF2FF; padding:10px; border-radius:6px;">
-                                    <strong>Best for:</strong> Text documents, CVs, Invoices.<br>
-                                    Removes unused data, metadata, and redundant objects without affecting visual quality. File size reduction is moderate (10-30%).
-                                </p>
-                            </div>
-
-                            <!-- STRONG SETTINGS -->
-                            <div id="strongSettings" style="display:none;">
-                                <p style="font-size:0.85rem; color:#EF4444; margin-bottom:1rem;">
-                                    <i class="fas fa-exclamation-triangle"></i> Converts pages to images. Text will no longer be selectable. Best for scans or huge files.
-                                </p>
-
-                                <div class="setting-group">
-                                    <label class="setting-label">Image Quality: <span id="qualityVal">70</span>%</label>
-                                    <input type="range" id="qualityRange" min="10" max="100" value="70" oninput="updateQuality(this.value)">
-                                    <div class="preset-pills">
-                                        <div class="preset-pill" onclick="setPreset(30)">Low</div>
-                                        <div class="preset-pill active" onclick="setPreset(70)">Medium</div>
-                                        <div class="preset-pill" onclick="setPreset(90)">High</div>
-                                    </div>
+                        <div class="setting-group">
+                            <label class="setting-label">Compression Mode</label>
+                            <div class="engine-tabs">
+                                <div class="engine-tab active" onclick="setEngine('lossless')">
+                                    Lossless
+                                    <span>Preserve Quality</span>
                                 </div>
-
-                                <div class="setting-group">
-                                    <label class="setting-label">Target File Size (Optional)</label>
-                                    <div class="input-group">
-                                        <input type="number" id="targetInput" class="input-box" placeholder="e.g. 1">
-                                        <select id="unitSelect" class="input-box" style="width:80px;">
-                                            <option value="MB">MB</option>
-                                            <option value="KB">KB</option>
-                                        </select>
-                                    </div>
-                                    <p style="font-size:0.8rem; color:#6B7280; margin-top:5px;">We'll try to fit the PDF into this size.</p>
+                                <div class="engine-tab" onclick="setEngine('strong')">
+                                    Strong
+                                    <span>Max Reduction</span>
                                 </div>
                             </div>
                         </div>
 
-                        <div class="actions-row">
-                            <button class="btn-reset" onclick="resetTool()">Reset</button>
-                            <button class="btn-action" id="processBtn">Compress PDF</button>
+                        <div id="losslessSettings">
+                            <div style="background:#EEF2FF; padding:15px; border-radius:12px; border:1px solid #C7D2FE;">
+                                <p style="font-size:0.9rem; color:#4338ca; margin:0; line-height:1.5;">
+                                    <strong>Best for:</strong> Resumes, Contracts, and Text Documents.<br>
+                                    Optimizes internal structure and removes metadata. Text remains 100% sharp.
+                                </p>
+                            </div>
                         </div>
-                        <div id="statusMsg" style="margin-top: 10px; text-align: center; font-size: 0.9rem; font-weight: 500;"></div>
+
+                        <div id="strongSettings" style="display:none;">
+                            <div style="background:#FEF2F2; padding:15px; border-radius:12px; border:1px solid #FECACA; margin-bottom:1.5rem;">
+                                <p style="font-size:0.9rem; color:#991B1B; margin:0; line-height:1.5;">
+                                    <strong>Warning:</strong> Flattens content into images. Text may become non-selectable.
+                                </p>
+                            </div>
+
+                            <div class="setting-group">
+                                <label class="setting-label">Image Quality: <span id="qualityVal" style="color:var(--primary);">70</span>%</label>
+                                <input type="range" id="qualityRange" min="10" max="90" value="70" oninput="updateQuality(this.value)">
+                                <div class="preset-pills">
+                                    <div class="preset-pill" onclick="setPreset(30)">Low</div>
+                                    <div class="preset-pill active" onclick="setPreset(70)">Medium</div>
+                                    <div class="preset-pill" onclick="setPreset(90)">High</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <button class="btn-action" id="processBtn">
+                            <i class="fas fa-compress-arrows-alt"></i> Compress PDF
+                        </button>
+                        <button class="btn-reset" onclick="resetTool()">Start Over</button>
+                        <div id="statusMsg" style="margin-top: 15px; text-align: center; font-size: 0.9rem; font-weight: 500; color: var(--primary);"></div>
                     </div>
                 </div>
             </div>
@@ -277,35 +297,52 @@
         </div>
     </section>
 
-    <!-- AD UNIT 2 -->
-    <div class="container">
-        <div class="ad-wrapper">
-            <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-7597066031957006" data-ad-slot="4383834265" data-ad-format="auto" data-full-width-responsive="true"></ins>
-            <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
-        </div>
-    </div>
-
-    <!-- Content & Footer -->
     <section class="content-section">
-        <div class="container" style="display: grid; grid-template-columns: 2fr 1fr; gap: 3rem;">
-            <div>
-                <h2 style="margin-bottom: 1rem;">Smart PDF Compression</h2>
-                <p>The Image Toolkit gives you two powerful ways to shrink your PDFs. Use <strong>Lossless Mode</strong> to clean up the internal structure of documents without affecting text clarity. Use <strong>Strong Mode</strong> to drastically reduce file size by converting pages into optimized images.</p>
-                
-                <h3 style="margin-top: 1.5rem; margin-bottom: 0.5rem;">Which mode should I choose?</h3>
-                <ul style="padding-left: 20px; line-height: 1.8; color: #4B5563;">
-                    <li><strong>Lossless:</strong> Perfect for Word documents saved as PDF, resumes, and contracts where text sharpness is critical.</li>
-                    <li><strong>Strong:</strong> Ideal for scanned documents, heavy reports with many photos, or when you have a strict file size limit (e.g. "Max 2MB").</li>
-                </ul>
-            </div>
+        <div class="container content-grid">
             
+            <article class="article">
+                <h2>Optimize PDFs for Email and Web</h2>
+                <p>PDF files often contain redundant data, uncompressed images, and hidden metadata that bloat their file size. The Image Toolkit provides two specialized engines to fix this.</p>
+                
+                
+
+                <h3>1. Lossless Compression (Standard)</h3>
+                <p>This mode reorganizes the PDF's internal code structure. It removes unused objects and optimizes fonts without touching the visual content. Use this for <strong>legal documents, CVs, and invoices</strong> where clarity is paramount.</p>
+
+                <h3>2. Strong Compression (Rasterization)</h3>
+                <p>Sometimes you just need the file to be small (e.g., under 2MB for an upload portal). Strong mode converts each page into a highly optimized image and rebuilds the PDF. This yields massive size reductions but makes text non-searchable.</p>
+
+                <h3>Why compress PDFs?</h3>
+                <ul>
+                    <li><strong>Faster Uploads:</strong> Small files upload in seconds, even on slow connections.</li>
+                    <li><strong>Email Limits:</strong> Most email providers block attachments larger than 25MB. Compression solves this.</li>
+                    <li><strong>Storage:</strong> Save space on your cloud drive or hard disk.</li>
+                </ul>
+            </article>
+
             <aside>
                 <div class="sidebar-box">
-                    <h4 style="margin-bottom: 1rem;">Sponsored</h4>
-                    <div style="min-height: 250px;">
-                        <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-7597066031957006" data-ad-slot="7424930571" data-ad-format="auto" data-full-width-responsive="true"></ins>
-                        <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+                    <h4 style="margin-bottom: 1rem; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-light);">Advertisement</h4>
+                    <div style="min-height: 250px; background: white; display: flex; align-items: center; justify-content: center;">
+                        <ins class="adsbygoogle"
+                             style="display:block"
+                             data-ad-client="ca-pub-7597066031957006"
+                             data-ad-slot="7424930571"
+                             data-ad-format="auto"
+                             data-full-width-responsive="true"></ins>
+                        <script>
+                             (adsbygoogle = window.adsbygoogle || []).push({});
+                        </script>
                     </div>
+                </div>
+
+                <div class="sidebar-box">
+                    <h4 style="margin-bottom: 1rem;">Other Tools</h4>
+                    <ul style="list-style: none; padding: 0;">
+                        <li style="margin-bottom: 0.8rem;"><a href="pdf-merger.html" style="color: var(--primary);">Merge PDF &rarr;</a></li>
+                        <li style="margin-bottom: 0.8rem;"><a href="pdf-to-word.html" style="color: var(--primary);">PDF to Word &rarr;</a></li>
+                        <li style="margin-bottom: 0.8rem;"><a href="image-compressor.html" style="color: var(--primary);">Compress Images &rarr;</a></li>
+                    </ul>
                 </div>
             </aside>
         </div>
@@ -313,16 +350,23 @@
 
     <footer>
         <div class="container">
-            <div class="ad-wrapper" style="background: rgba(255,255,255,0.05); border: none;">
-                <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-7597066031957006" data-ad-slot="7424930571" data-ad-format="auto" data-full-width-responsive="true"></ins>
-                <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+            <div class="ad-wrapper" style="margin-bottom: 2rem; background: rgba(255,255,255,0.05);">
+                <ins class="adsbygoogle"
+                     style="display:block"
+                     data-ad-client="ca-pub-7597066031957006"
+                     data-ad-slot="7424930571"
+                     data-ad-format="auto"
+                     data-full-width-responsive="true"></ins>
+                <script>
+                     (adsbygoogle = window.adsbygoogle || []).push({});
+                </script>
             </div>
-            <div class="copyright">&copy; 2025 The Image Toolkit. All rights reserved.</div>
+            <p>&copy; 2025 The Image Toolkit. All rights reserved.</p>
         </div>
     </footer>
 
     <script>
-        // --- Menu ---
+        // --- Mobile Menu ---
         function toggleMenu() { document.getElementById('navLinks').classList.toggle('active'); }
 
         // --- Logic ---
@@ -335,7 +379,7 @@
         const statusMsg = document.getElementById('statusMsg');
         
         let filesData = [];
-        let currentEngine = 'lossless'; // 'lossless' or 'strong'
+        let currentEngine = 'lossless';
 
         // Engine Toggle
         function setEngine(engine) {
@@ -348,7 +392,7 @@
             document.getElementById('strongSettings').style.display = engine === 'strong' ? 'block' : 'none';
         }
 
-        // Quality Sliders (Strong Mode)
+        // Quality Sliders
         function updateQuality(val) {
             document.getElementById('qualityVal').textContent = val;
             document.querySelectorAll('.preset-pill').forEach(p => p.classList.remove('active'));
@@ -357,7 +401,6 @@
         function setPreset(val) {
             document.getElementById('qualityRange').value = val;
             updateQuality(val);
-            // Highlight specific pill logic
             const pills = document.querySelectorAll('.preset-pill');
             pills.forEach(p => p.classList.remove('active'));
             if(val === 30) pills[0].classList.add('active');
@@ -375,13 +418,22 @@
             dropZone.style.display = 'block';
             statusMsg.textContent = '';
             processBtn.disabled = false;
-            processBtn.textContent = 'Compress PDF';
+            processBtn.innerHTML = '<i class="fas fa-compress-arrows-alt"></i> Compress PDF';
         }
 
-        // Upload
-        dropZone.addEventListener('dragover', (e) => { e.preventDefault(); dropZone.style.borderColor = 'var(--primary)'; });
-        dropZone.addEventListener('dragleave', () => dropZone.style.borderColor = '#D1D5DB');
-        dropZone.addEventListener('drop', (e) => { e.preventDefault(); handleFiles(e.dataTransfer.files); });
+        // Upload Handlers
+        dropZone.addEventListener('dragover', (e) => { 
+            e.preventDefault(); 
+            dropZone.classList.add('dragover');
+        });
+        dropZone.addEventListener('dragleave', () => { 
+            dropZone.classList.remove('dragover');
+        });
+        dropZone.addEventListener('drop', (e) => { 
+            e.preventDefault(); 
+            dropZone.classList.remove('dragover');
+            handleFiles(e.dataTransfer.files); 
+        });
         fileInput.addEventListener('change', (e) => handleFiles(e.target.files));
 
         function handleFiles(files) {
@@ -389,7 +441,6 @@
             const newFiles = Array.from(files);
             filesData = [...filesData, ...newFiles];
 
-            // UI Transition
             dropZone.style.display = 'none';
             toolTitle.style.display = 'none';
             editorContainer.style.display = 'block';
@@ -406,16 +457,16 @@
                 div.className = 'file-item';
                 div.innerHTML = `
                     <div class="file-meta">
-                        <i class="fas fa-file-pdf file-icon"></i>
+                        <div class="file-icon"><i class="fas fa-file-pdf"></i></div>
                         <div>
-                            <div style="font-weight:500;">${file.name.length > 20 ? file.name.substring(0, 20) + '...' : file.name}</div>
-                            <div style="font-size:0.8rem; color:#6B7280;">${(file.size/1024).toFixed(1)} KB</div>
+                            <div style="font-weight:600; color:var(--text-main);">${file.name.length > 20 ? file.name.substring(0, 20) + '...' : file.name}</div>
+                            <div style="font-size:0.85rem; color:#6B7280;">${(file.size/1024).toFixed(1)} KB</div>
                         </div>
                     </div>
                     <div style="display:flex; align-items:center; gap:10px;">
-                        <div id="res-${index}" style="font-size:0.8rem; font-weight:600; color:var(--text-light);">Pending</div>
-                        <button onclick="removeFile(${index})" style="background:none; border:none; color:#EF4444; cursor:pointer;" title="Remove file">
-                            <i class="fas fa-trash"></i>
+                        <div id="res-${index}" style="font-size:0.85rem; font-weight:600; color:#9CA3AF; background:white; padding:4px 8px; border-radius:6px; border:1px solid #E5E7EB;">Ready</div>
+                        <button onclick="removeFile(${index})" style="background:none; border:none; color:#EF4444; cursor:pointer;">
+                            <i class="fas fa-times"></i>
                         </button>
                     </div>
                 `;
@@ -423,103 +474,82 @@
             });
         }
 
-        function removeFile(index) {
+        window.removeFile = function(index) {
             filesData.splice(index, 1);
             renderFileList();
             if(filesData.length === 0) resetTool();
         }
 
-        // Main Processor
+        // Process Logic
         processBtn.addEventListener('click', async () => {
             if (filesData.length === 0) return;
             
             processBtn.disabled = true;
-            processBtn.textContent = "Processing...";
+            processBtn.innerHTML = '<i class="fas fa-circle-notch fa-spin"></i> Processing...';
             const zip = new JSZip();
             let processed = 0;
 
-            // Get Settings
             const quality = document.getElementById('qualityRange').value / 100;
-            const targetVal = parseFloat(document.getElementById('targetInput').value);
-            const targetUnit = document.getElementById('unitSelect').value;
-            const targetBytes = targetVal ? targetVal * (targetUnit === 'MB' ? 1024 * 1024 : 1024) : 0;
 
             for (let i = 0; i < filesData.length; i++) {
                 const file = filesData[i];
                 const resEl = document.getElementById(`res-${i}`);
-                resEl.innerHTML = '<span style="color:var(--primary)">Working...</span>';
+                resEl.textContent = 'Processing...';
+                resEl.style.color = 'var(--primary)';
+                resEl.style.borderColor = 'var(--primary)';
                 
                 try {
                     let resultBlob;
 
                     if (currentEngine === 'lossless') {
-                        // --- LOSSLESS ENGINE (Structure Cleanup) ---
+                        // Lossless: Repack structure
                         const arrayBuffer = await file.arrayBuffer();
                         const pdfDoc = await PDFLib.PDFDocument.load(arrayBuffer);
-                        const newPdf = await PDFLib.PDFDocument.create();
-                        const pages = await newPdf.copyPages(pdfDoc, pdfDoc.getPageIndices());
-                        pages.forEach(page => newPdf.addPage(page));
-                        // Save without object streams can sometimes help compatibility, but standard save cleans garbage
-                        const pdfBytes = await newPdf.save();
+                        // Save to flatten and optimize XRef
+                        const pdfBytes = await pdfDoc.save();
                         resultBlob = new Blob([pdfBytes], { type: 'application/pdf' });
 
                     } else {
-                        // --- STRONG ENGINE (Rasterization) ---
+                        // Strong: Rasterize pages
                         const arrayBuffer = await file.arrayBuffer();
                         const pdf = await pdfjsLib.getDocument(arrayBuffer).promise;
                         const { jsPDF } = window.jspdf;
                         
-                        const newPdf = new jsPDF();
-                        const pdfWidth = newPdf.internal.pageSize.getWidth();
-                        const pdfHeight = newPdf.internal.pageSize.getHeight();
-
-                        // Target Budget Logic
-                        let pageBudget = 0;
-                        if (targetBytes > 0) pageBudget = (targetBytes * 0.9) / pdf.numPages;
+                        // Create new PDF (A4 default or dynamic size)
+                        const newPdf = new jsPDF(); 
+                        const pdfW = newPdf.internal.pageSize.getWidth();
+                        const pdfH = newPdf.internal.pageSize.getHeight();
 
                         for (let pageNum = 1; pageNum <= pdf.numPages; pageNum++) {
                             const page = await pdf.getPage(pageNum);
+                            // Render at scale 1.5 for decent quality but small size
+                            const viewport = page.getViewport({ scale: 1.5 });
+                            const canvas = document.createElement('canvas');
+                            const context = canvas.getContext('2d');
+                            canvas.height = viewport.height;
+                            canvas.width = viewport.width;
                             
-                            // Adaptive Quality Logic
-                            let currentQ = quality;
-                            let currentScale = 1.5; // Default "Good" scale for text readability
+                            await page.render({ canvasContext: context, viewport: viewport }).promise;
+                            const imgData = canvas.toDataURL('image/jpeg', quality); // Use Quality Slider
 
-                            const renderPage = async (q, s) => {
-                                const viewport = page.getViewport({ scale: s });
-                                const canvas = document.createElement('canvas');
-                                const context = canvas.getContext('2d');
-                                canvas.height = viewport.height;
-                                canvas.width = viewport.width;
-                                await page.render({ canvasContext: context, viewport: viewport }).promise;
-                                return canvas.toDataURL('image/jpeg', q);
-                            };
-
-                            let imgData = await renderPage(currentQ, currentScale);
-
-                            // Shrink loop if target set
-                            if (targetBytes > 0) {
-                                while (imgData.length * 0.75 > pageBudget && currentQ > 0.2) {
-                                    currentQ -= 0.1;
-                                    if(currentQ < 0.4) currentScale = 1.0; // Reduce res if desperate
-                                    imgData = await renderPage(currentQ, currentScale);
-                                }
-                            }
-                            
                             if (pageNum > 1) newPdf.addPage();
-                            newPdf.addImage(imgData, 'JPEG', 0, 0, pdfWidth, pdfHeight);
+                            newPdf.addImage(imgData, 'JPEG', 0, 0, pdfW, pdfH);
                         }
                         resultBlob = newPdf.output('blob');
                     }
 
-                    // Result Check
+                    // Calc Savings
                     const sizeDiff = file.size - resultBlob.size;
                     if(sizeDiff > 0) {
                         const saved = (sizeDiff / file.size * 100).toFixed(0);
-                        resEl.innerHTML = `<span style="color:#10B981">-${saved}%</span>`;
-                        zip.file(`compressed_${file.name}`, resultBlob);
+                        resEl.innerHTML = `<span style="color:#059669">-${saved}%</span>`;
+                        resEl.style.borderColor = '#059669';
+                        resEl.style.background = '#ECFDF5';
+                        zip.file(`min_${file.name}`, resultBlob);
                     } else {
-                        // If file grew (common in lossless for already optimized files), retain original
-                        resEl.innerHTML = `<span style="color:orange">No Change</span>`;
+                        resEl.innerHTML = `<span style="color:#D97706">No change</span>`;
+                        resEl.style.borderColor = '#D97706';
+                        resEl.style.background = '#FFFBEB';
                         zip.file(file.name, file);
                     }
                     processed++;
@@ -531,18 +561,19 @@
             }
 
             // Download
-            statusMsg.textContent = "Generating Download...";
+            statusMsg.textContent = "Packaging files...";
             if (processed === 1) {
                 const content = await zip.file(Object.keys(zip.files)[0]).async("blob");
                 saveAs(content, Object.keys(zip.files)[0]);
             } else if (processed > 1) {
                 const content = await zip.generateAsync({type:"blob"});
-                saveAs(content, "TheImageToolkit_compressed.zip");
+                saveAs(content, "compressed_pdfs.zip");
             }
 
             processBtn.disabled = false;
-            processBtn.textContent = "Compress Again";
+            processBtn.innerHTML = '<i class="fas fa-compress-arrows-alt"></i> Compress Again';
             statusMsg.textContent = "Download Started!";
+            setTimeout(() => statusMsg.textContent = "", 3000);
         });
     </script>
 </body>
